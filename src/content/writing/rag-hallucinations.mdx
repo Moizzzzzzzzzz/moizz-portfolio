@@ -1,0 +1,39 @@
+---
+title: "Why Your RAG System Still Hallucinates (and How to Fix It)"
+description: "The three real causes of RAG hallucinations — and the retrieval, prompting, and evaluation fixes that actually work in production."
+date: "2024-03-15"
+tags: ["RAG", "LLMs", "Production AI"]
+readingTime: "8 min read"
+---
+
+Most RAG failures aren't LLM failures. They're retrieval failures the LLM then faithfully narrates.
+
+## The Three Root Causes
+
+### 1. Chunk boundaries break context
+
+When you chunk at 512 tokens and a sentence spans chunk 4 and chunk 5, retrieval returns half a thought. The LLM fills in the rest from weights.
+
+**Fix:** Overlap chunks by 20%, and use semantic chunking — split on paragraph/section boundaries, not token counts.
+
+### 2. Top-k returns irrelevant neighbors
+
+Cosine similarity at k=5 often returns documents that are *topic-adjacent* but not *answer-relevant*. The LLM doesn't know the difference between a retrieved document that's 0.78 similar and one that's 0.61 similar.
+
+**Fix:** Add a cross-encoder re-ranker (e.g., `ms-marco-MiniLM`) as a second pass. Latency cost: ~80ms. Accuracy gain: significant.
+
+### 3. No-answer cases are handled poorly
+
+If the answer isn't in the corpus, a well-prompted LLM will still try to answer. It just reaches into parametric memory.
+
+**Fix:** Teach the model to say "I couldn't find this in the provided documents" — and evaluate it on that behavior explicitly.
+
+## The Evaluation Framework That Catches All Three
+
+Build an eval set of 50–100 questions with known answers. For each:
+
+- Score retrieval separately from generation (NDCG, recall@k)
+- Score generation with an LLM judge on groundedness
+- Track the gap between the two
+
+When retrieval score is high but generation score is low, you have a prompting problem. When both are low, fix retrieval first.

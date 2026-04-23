@@ -1,0 +1,32 @@
+---
+title: "LangGraph vs LangChain: When to Use Which"
+description: "A practical breakdown of when LangChain chains are enough and when you need LangGraph's stateful graph execution."
+date: "2024-02-08"
+tags: ["LangGraph", "LangChain", "Agents"]
+readingTime: "6 min read"
+---
+
+LangGraph is not a replacement for LangChain. It's an extension for when your agent needs state.
+
+## Use LangChain When
+
+- Your flow is linear: input → retrieval → prompt → output
+- You don't need cycles or conditional branching
+- You want quick iteration on prompt logic
+
+LangChain's LCEL is excellent for composing retrieval chains, tool-augmented completions, and single-turn agents.
+
+## Use LangGraph When
+
+- Your agent needs to loop: plan → act → observe → replan
+- You have multiple agents that need to hand off work
+- You need deterministic control over which node fires next
+- You need human-in-the-loop checkpoints
+
+LangGraph's `StateGraph` gives you explicit state that persists across node executions — which is exactly what multi-step agents need.
+
+## The Pattern I Use
+
+Start every agent project with LangChain. If I find myself writing `while not done:` loops around chain invocations, that's the signal to migrate to LangGraph.
+
+The migration is usually ~2 hours: extract your chain nodes into graph nodes, define state schema, wire edges. The observability you gain (LangSmith traces the full graph) is worth the refactor.

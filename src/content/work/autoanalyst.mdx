@@ -1,0 +1,19 @@
+---
+title: "AutoAnalyst"
+description: "LLM agent that writes and executes Python data analysis code from natural language queries."
+tags: ["Agents", "LangGraph", "Python", "OpenAI", "Pandas"]
+cover: "/images/work/autoanalyst.png"
+year: 2024
+featured: true
+problem: "Data analysts spend 60% of their time writing boilerplate ETL and visualization code rather than interpreting results."
+approach: "Designed a stateful LangGraph agent with a code-writer node, sandboxed executor, and self-healing loop — the agent reflects on errors and rewrites until the output is correct."
+stack: ["LangGraph", "OpenAI GPT-4o", "Python", "Pandas", "Plotly", "FastAPI", "Next.js"]
+metrics:
+  - { label: "Task success rate", value: "87%" }
+  - { label: "Avg. time to insight", value: "< 30s" }
+  - { label: "Lines of code replaced", value: "~200/query" }
+---
+
+## Overview
+
+AutoAnalyst gives any analyst a code-writing agent that handles the repetitive parts...

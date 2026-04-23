@@ -1,0 +1,21 @@
+---
+title: "DocuMind"
+description: "Production RAG system for enterprise document Q&A with sub-second retrieval at scale."
+tags: ["RAG", "LangChain", "Pinecone", "Next.js", "FastAPI"]
+cover: "/images/work/documind.png"
+year: 2024
+featured: true
+liveUrl: "https://documind.app"
+problem: "Enterprise teams spend hours manually searching through thousands of PDFs, contracts, and reports. Keyword search misses semantic intent; LLMs hallucinate without grounding."
+approach: "Built a hybrid retrieval pipeline combining dense vector search (Pinecone) with BM25 sparse retrieval, re-ranked by a cross-encoder. Citations are pinned to exact page/paragraph spans, making every answer auditable."
+stack: ["Next.js 14", "FastAPI", "LangChain", "Pinecone", "PostgreSQL", "OpenAI", "Docker", "AWS ECS"]
+metrics:
+  - { label: "Retrieval latency (p95)", value: "< 800ms" }
+  - { label: "Citation accuracy", value: "94%" }
+  - { label: "Documents indexed", value: "50K+" }
+demoUrl: "https://demo.documind.app"
+---
+
+## Overview
+
+DocuMind replaces manual document search with a grounded Q&A interface backed by hybrid RAG...

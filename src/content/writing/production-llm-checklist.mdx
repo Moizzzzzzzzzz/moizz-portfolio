@@ -1,0 +1,43 @@
+---
+title: "The Production LLM Checklist"
+description: "Everything I check before shipping an LLM feature — from rate limits to cost monitoring to prompt injection guards."
+date: "2024-01-22"
+tags: ["Production AI", "LLMs", "DevOps"]
+readingTime: "5 min read"
+---
+
+A checklist I run through before any LLM feature goes to production.
+
+## Reliability
+
+- [ ] Retry logic with exponential backoff on 429/503
+- [ ] Timeout set (I use 30s for streaming, 15s for non-streaming)
+- [ ] Fallback model configured (e.g., GPT-4o → GPT-4o-mini on degraded service)
+- [ ] Circuit breaker if error rate exceeds threshold
+
+## Cost
+
+- [ ] Token usage logged per request with user/session ID
+- [ ] Budget alert at 80% of monthly cap
+- [ ] Output length capped (`max_tokens`) — unbounded outputs are expensive
+- [ ] Prompt caching enabled where supported (Anthropic, OpenAI)
+
+## Security
+
+- [ ] System prompt not leaked in streaming chunks
+- [ ] Input sanitized for prompt injection patterns
+- [ ] PII stripped before logging (names, emails, SSNs)
+- [ ] Rate limited per user, not just globally
+
+## Observability
+
+- [ ] Latency tracked (time-to-first-token + completion time)
+- [ ] LLM-as-judge eval running on 5% of production traffic
+- [ ] Thumbs up/down in UI, results piped to a dataset
+- [ ] Alerts on P95 latency regression > 20%
+
+## UX
+
+- [ ] Streaming enabled — don't make users stare at a spinner
+- [ ] Optimistic UI for common queries
+- [ ] Graceful error messages ("Something went wrong, try again" — not stack traces)
