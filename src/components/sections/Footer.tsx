@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/10 mt-24">
-      <div className="max-w-6xl mx-auto px-6 lg:px-10 py-16">
+    <footer className="border-t border-white/10 mt-24 pt-16 pb-12">
+      <div className="max-w-6xl mx-auto px-8">
 
         {/* Top row — 2-col at md: brand left, nav right */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 mb-10">
@@ -74,7 +74,7 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="mt-10 pt-6 border-t border-white/10 flex justify-between text-xs text-white/30">
           <p className="text-white/30 text-xs">
             © {new Date().getFullYear()} Abdul Moizz. All rights reserved.
           </p>

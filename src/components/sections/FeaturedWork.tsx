@@ -48,7 +48,7 @@ export function FeaturedWork() {
           <ScrollReveal key={project.slug} delay={i * 0.1} direction="up">
             <Link
               href={project.href}
-              className="group block bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-violet-500/50 transition-all duration-300"
+              className="block bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-violet-500 transition-colors"
             >
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.tags.map((tag) => (

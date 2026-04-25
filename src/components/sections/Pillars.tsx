@@ -29,7 +29,7 @@ export function Pillars() {
         <h2 className="mb-12 text-3xl font-bold tracking-tight">What I build</h2>
       </ScrollReveal>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
         {pillars.map((pillar, i) => {
           const Icon = pillar.icon;
           return (
