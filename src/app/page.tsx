@@ -15,7 +15,7 @@ export default function Home() {
   };
 
   return (
-    <div className="content-wrapper">
+    <div className="content-wrapper" style={{ paddingTop: "calc(var(--navbar-height) + 3rem)" }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}

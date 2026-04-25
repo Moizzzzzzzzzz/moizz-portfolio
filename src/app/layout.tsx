@@ -94,7 +94,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <PageTransition>
             <main
               id="main-content"
-              className="pt-32 min-h-screen"
+              className="min-h-screen"
             >
               {children}
             </main>

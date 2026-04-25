@@ -25,7 +25,7 @@ export default function ContactPage() {
 
   return (
     <section
-      style={{ paddingTop: "6rem", paddingBottom: "6rem" }}
+      style={{ paddingTop: "calc(var(--navbar-height) + 3rem)", paddingBottom: "6rem" }}
       className="content-wrapper mx-auto max-w-6xl px-6"
     >
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">

@@ -29,6 +29,7 @@ body {
 @import "tailwindcss";
 
 :root {
+  --navbar-height: 64px;
   --color-bg: #0A0A0B;
   --color-surface: #111113;
   --color-border: #1F1F22;

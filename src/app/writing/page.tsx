@@ -23,7 +23,7 @@ export default function WritingPage() {
   const posts = getAllPosts();
 
   return (
-    <div className="content-wrapper mx-auto max-w-2xl px-4 pt-28 pb-24 md:px-8">
+    <div className="content-wrapper mx-auto max-w-2xl px-4 pb-24 md:px-8" style={{ paddingTop: "calc(var(--navbar-height) + 3rem)" }}>
       <header className="mb-16">
         <SplitReveal
           as="h1"
