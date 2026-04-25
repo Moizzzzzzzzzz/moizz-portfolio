@@ -1,17 +1,21 @@
 import type { Metadata } from "next";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://moizz.dev";
+const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  process.env.NEXT_PUBLIC_BASE_URL ??
+  "https://moizzz.dev";
 
 export const siteConfig = {
-  name: "Moizz",
-  title: "Moizz — AI Engineer & Full-Stack Developer",
+  name: "Moizz K",
+  title: "Moizz K — AI Engineer",
   description:
-    "Building production-grade AI systems — RAG pipelines, LLM agents, and developer tools that ship.",
+    "Full-stack AI engineer building production RAG systems, AI agents, and LLM products. Based in Pakistan, working globally.",
   url: baseUrl,
-  ogImage: `${baseUrl}/og.png`,
+  ogImage: `${baseUrl}/opengraph-image`,
+  twitter: "@moizzzzzzzzzz",
   links: {
-    github: "https://github.com/moizzz",
-    twitter: "https://twitter.com/moizzz",
+    github: "https://github.com/Moizzzzzzzzzz",
+    twitter: "https://twitter.com/moizzzzzzzzzz",
   },
 };
 
@@ -20,20 +24,25 @@ export function constructMetadata({
   description = siteConfig.description,
   image = siteConfig.ogImage,
   noIndex = false,
+  url = siteConfig.url,
 }: {
   title?: string;
   description?: string;
   image?: string;
   noIndex?: boolean;
+  url?: string;
 } = {}): Metadata {
   return {
     title,
     description,
+    alternates: {
+      canonical: url,
+    },
     openGraph: {
       title,
       description,
       images: [{ url: image }],
-      url: siteConfig.url,
+      url,
       siteName: siteConfig.name,
       type: "website",
     },
@@ -42,9 +51,34 @@ export function constructMetadata({
       title,
       description,
       images: [image],
-      creator: "@moizzz",
+      creator: siteConfig.twitter,
     },
     metadataBase: new URL(baseUrl),
     ...(noIndex && { robots: { index: false, follow: false } }),
+  };
+}
+
+export function buildMetadata(overrides: Partial<Metadata>): Metadata {
+  return {
+    metadataBase: new URL(siteConfig.url),
+    title: {
+      default: `${siteConfig.name} — AI Engineer`,
+      template: `%s — ${siteConfig.name}`,
+    },
+    description: siteConfig.description,
+    openGraph: {
+      type: "website",
+      siteName: siteConfig.name,
+      url: siteConfig.url,
+    },
+    twitter: {
+      card: "summary_large_image",
+      creator: siteConfig.twitter,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    ...overrides,
   };
 }

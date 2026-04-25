@@ -1,19 +1,60 @@
 ---
 title: "LexAI"
-description: "AI-powered legal contract analysis tool for early-stage startups."
-tags: ["RAG", "Next.js", "TypeScript", "Anthropic", "Supabase"]
-cover: "/images/work/lexai.png"
-year: 2024
-featured: true
-problem: "Founders sign contracts they don't fully understand. Legal review costs $300–600/hr, which is prohibitive for pre-seed companies."
-approach: "Built a clause-level extraction pipeline using Claude with structured output, cross-referenced against a vector store of 1,200 standard contract clauses to flag anomalies."
-stack: ["Next.js", "Anthropic Claude", "Supabase", "pgvector", "TypeScript", "Vercel"]
-metrics:
-  - { label: "Clauses extracted/contract", value: "avg. 140" }
-  - { label: "Review time saved", value: "~3 hours" }
-  - { label: "Contracts analyzed", value: "2,000+" }
+slug: "lexai"
+tagline: "Upload any contract, get full risk assessment in seconds"
+order: 11
+featured: false
+date: "2026-04-01"
+status: "case-study"
+client: "Personal product"
+role: "Full-stack AI engineer"
+duration: ""
+liveUrl: ""
+githubUrl: ""
+cover: "/images/work/lexai/cover.webp"
+thumbnail: "/images/work/lexai/thumb.webp"
+stack:
+  - LangChain
+  - FastAPI
+  - RAG
+  - Document Analysis
+  - AI Agents
+problem: "Reviewing legal contracts requires expensive lawyers or hours of careful reading. Small businesses and freelancers sign contracts without truly understanding clause-level risks."
+results:
+  - metric: "Contract review time"
+    value: "Hours → seconds"
+  - metric: "Output"
+    value: "3 deliverables"
+    note: "Risk flags, plain-English explanations, revision suggestions"
+seo:
+  description: "RAG pipeline for legal document analysis — uploads any contract and returns risk flags, plain-English clause explanations, and revision suggestions in seconds."
+  ogImage: "/images/work/lexai/og.png"
 ---
 
-## Overview
+## Problem
 
-LexAI helps founders understand what they're signing before pen hits paper...
+Reviewing legal contracts requires expensive lawyers or hours of careful reading. Small businesses and freelancers sign contracts without truly understanding clause-level risks — NDAs with overreaching IP ownership clauses, liability caps buried in boilerplate, one-sided termination rights, and non-compete language that outlasts the relationship. Getting a lawyer to review even a simple contract costs hundreds of dollars and takes days. Most people sign anyway and hope for the best.
+
+## Approach
+
+Built a RAG pipeline specifically optimized for legal documents. When a contract is uploaded, it is chunked at clause boundaries rather than arbitrary token counts — preserving the semantic unit that actually matters for legal analysis. Each clause chunk is embedded and stored for context-aware retrieval.
+
+A LangChain agent then runs three sequential passes over the document. The first pass extracts risk flags by querying clauses against risk patterns — identifying problematic language around IP ownership, indemnification, limitation of liability, and termination. The second pass rewrites each flagged clause in plain English, stripping legal jargon and surfacing what the clause actually requires of each party. The third pass generates concrete revision suggestions for each flagged clause — specific language changes the user could propose to a counterparty. Output is structured into three discrete deliverables, not a wall of generated text.
+
+## Stack
+
+- **LangChain** — agent orchestration for the 3-pass analysis pipeline, coordinating retrieval and generation across sequential reasoning steps.
+- **FastAPI** — async backend for file upload handling and response streaming, keeping the UI responsive while the agent runs multi-step analysis.
+- **RAG** — retrieval layer to query specific contract clauses by semantic context, ensuring each analysis pass operates on the most relevant document segments.
+- **Document Analysis** — clause boundary detection for precise chunking, so the embedding and retrieval layer operates on complete legal units rather than arbitrary splits.
+- **AI Agents** — multi-step reasoning for risk flag extraction and revision suggestion workflows, enabling the pipeline to reason across multiple clauses and cross-reference risk patterns.
+
+## Results
+
+<MetricCard metric="Contract review time" value="Hours → seconds" />
+<MetricCard metric="Output" value="3 deliverables" note="Risk flags, plain-English explanations, revision suggestions" />
+
+## Screenshots
+
+<Screenshot src="/images/work/lexai/risk-assessment.webp" alt="LexAI risk assessment output" />
+<Screenshot src="/images/work/lexai/clause-explanation.webp" alt="Plain English clause explanation" />

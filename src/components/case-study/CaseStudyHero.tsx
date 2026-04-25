@@ -4,11 +4,15 @@ import { ScrollReveal } from "@/components/animation/ScrollReveal";
 import type { CaseStudyFrontmatter } from "@/types";
 
 export function CaseStudyHero({ frontmatter }: { frontmatter: CaseStudyFrontmatter }) {
+  const subtitle = frontmatter.tagline ?? frontmatter.description ?? "";
+  const tags = frontmatter.tags ?? frontmatter.stack ?? [];
+  const displayDate = frontmatter.year?.toString() ?? frontmatter.date?.slice(0, 7) ?? "";
+
   return (
     <section className="mx-auto max-w-6xl px-4 pt-28 pb-16 md:px-8">
       <ScrollReveal direction="none">
         <div className="mb-4 flex flex-wrap gap-2">
-          {frontmatter.tags.map((tag) => (
+          {tags.map((tag) => (
             <Tag key={tag}>{tag}</Tag>
           ))}
         </div>
@@ -23,12 +27,12 @@ export function CaseStudyHero({ frontmatter }: { frontmatter: CaseStudyFrontmatt
       </SplitReveal>
 
       <ScrollReveal direction="up" delay={0.3}>
-        <p className="max-w-2xl text-xl text-foreground/60">{frontmatter.description}</p>
+        <p className="max-w-2xl text-xl text-foreground/60">{subtitle}</p>
       </ScrollReveal>
 
       <ScrollReveal direction="up" delay={0.4}>
         <div className="mt-8 flex flex-wrap gap-6 text-sm text-foreground/40">
-          <span>{frontmatter.year}</span>
+          {displayDate && <span>{displayDate}</span>}
           {frontmatter.liveUrl && (
             <a href={frontmatter.liveUrl} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
               Live →

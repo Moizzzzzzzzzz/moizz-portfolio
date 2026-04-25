@@ -1,0 +1,69 @@
+---
+title: "TechCurator"
+slug: "techcurator"
+tagline: "AI chatbot that knows your entire product catalog and guides customers to checkout"
+order: 14
+featured: false
+date: "2026-04-01"
+status: "case-study"
+client: "Personal product"
+role: "Full-stack AI engineer"
+duration: ""
+liveUrl: ""
+githubUrl: ""
+cover: "/images/work/techcurator/cover.webp"
+thumbnail: "/images/work/techcurator/thumb.webp"
+stack:
+  - LangChain
+  - FastAPI
+  - Python
+  - Chatbot Development
+  - API Integration
+problem: "E-commerce stores lose customers who cannot quickly find product information, check stock, or get buying guidance. Live chat requires human agents. Static FAQs do not handle specific product questions."
+results:
+  - metric: "Coverage"
+    value: "Full product catalog"
+  - metric: "Capabilities"
+    value: "3"
+    note: "Stock check, product details, checkout guidance"
+  - metric: "Human agents required"
+    value: "Zero for common queries"
+seo:
+  description: "LangChain-powered e-commerce chatbot with full product catalog knowledge — handles stock checks, product comparisons, and checkout guidance with zero human agents."
+  ogImage: "/images/work/techcurator/og.png"
+---
+
+## Problem
+
+E-commerce stores bleed revenue at the consideration stage. A customer lands on a product page, has a specific question about stock availability, sizing, or how two variants compare, and finds nothing useful. Static FAQ pages are generic by design. Live chat requires scheduling human agents around the clock. Most stores have neither the budget nor the staffing to cover every question in real time, so the customer leaves.
+
+The gap is not a content problem — the product data already exists inside the catalog. The gap is access. Customers need a way to query that data conversationally, instantly, without waiting for a human.
+
+## Approach
+
+TechCurator solves this with a floating chat widget backed by a LangChain agent that is grounded entirely in the store's product catalog. At setup, the catalog is ingested, chunked, and embedded into a vector store. From that point forward, every customer question — stock availability, product specs, size guides, cross-product comparisons — is answered by retrieving the relevant catalog data and generating a response in real time.
+
+Checkout guidance uses structured response templates that mirror the store's purchase flow, so the agent does not just answer questions but actively moves customers toward a decision. The entire widget embeds in any storefront via a single script tag, requiring no framework-specific integration work on the merchant's side.
+
+The agent is stateful within a session, so follow-up questions resolve correctly without the customer repeating context. When a question falls outside catalog scope, the agent acknowledges this cleanly rather than hallucinating an answer.
+
+## Stack
+
+- **LangChain** — agent framework for catalog-grounded question answering with retrieval-augmented generation.
+- **FastAPI** — async backend that handles catalog ingestion endpoints and streams chat responses to the widget.
+- **Python** — core runtime powering the catalog processing pipeline, chunking logic, and embedding generation.
+- **Chatbot Development** — floating widget UI built with streaming response support so answers appear token by token.
+- **API Integration** — product catalog sync layer and storefront embed delivered via a single script tag drop-in.
+
+## Results
+
+<MetricCard metric="Coverage" value="Full product catalog" />
+<MetricCard metric="Capabilities" value="3" note="Stock check, product details, checkout guidance" />
+<MetricCard metric="Human agents required" value="Zero for common queries" />
+
+The agent handles the full breadth of common pre-purchase questions without escalation. Stock checks, specification lookups, and checkout guidance all resolve within the same conversational thread, reducing the friction that causes customers to abandon before converting.
+
+## Screenshots
+
+<Screenshot src="/images/work/techcurator/chat-widget.webp" alt="TechCurator floating chat widget" />
+<Screenshot src="/images/work/techcurator/product-query.webp" alt="Product query with stock check response" />

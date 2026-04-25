@@ -6,22 +6,27 @@ import * as THREE from "three";
 
 const COUNT = 2000;
 
+// Generated once at module load — Math.random() outside render is fine.
+function buildParticleData() {
+  const pos = new Float32Array(COUNT * 3);
+  const col = new Float32Array(COUNT * 3);
+  for (let i = 0; i < COUNT; i++) {
+    pos[i * 3] = (Math.random() - 0.5) * 20;
+    pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
+    pos[i * 3 + 2] = (Math.random() - 0.5) * 20;
+    col[i * 3] = 0.8 + Math.random() * 0.2;
+    col[i * 3 + 1] = 0.8 + Math.random() * 0.2;
+    col[i * 3 + 2] = 1;
+  }
+  return [pos, col] as const;
+}
+
+const [PARTICLE_POSITIONS, PARTICLE_COLORS] = buildParticleData();
+
 export function ParticleField() {
   const ref = useRef<THREE.Points>(null);
 
-  const [positions, colors] = useMemo(() => {
-    const pos = new Float32Array(COUNT * 3);
-    const col = new Float32Array(COUNT * 3);
-    for (let i = 0; i < COUNT; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 20;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 20;
-      col[i * 3] = 0.8 + Math.random() * 0.2;
-      col[i * 3 + 1] = 0.8 + Math.random() * 0.2;
-      col[i * 3 + 2] = 1;
-    }
-    return [pos, col];
-  }, []);
+  const [positions, colors] = useMemo(() => [PARTICLE_POSITIONS, PARTICLE_COLORS], []);
 
   useFrame((_, delta) => {
     if (ref.current) ref.current.rotation.y += delta * 0.03;

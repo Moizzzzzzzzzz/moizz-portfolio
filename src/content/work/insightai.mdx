@@ -1,18 +1,64 @@
 ---
 title: "InsightAI"
-description: "Real-time customer feedback aggregation and sentiment analysis dashboard."
-tags: ["NLP", "Python", "FastAPI", "React", "PostgreSQL"]
-cover: "/images/work/insightai.png"
-year: 2023
-problem: "Support teams were drowning in unstructured feedback across Intercom, Zendesk, and G2 with no way to spot trends in real time."
-approach: "Aggregated sources via webhooks, ran zero-shot classification and aspect-based sentiment with fine-tuned distilBERT, and surfaced actionable clusters in a live dashboard."
-stack: ["FastAPI", "React", "PostgreSQL", "Redis", "Hugging Face", "Docker", "Celery"]
-metrics:
-  - { label: "Feedback processed/day", value: "10K+" }
-  - { label: "Categorization accuracy", value: "91%" }
-  - { label: "Time to insight", value: "< 5 min" }
+slug: "insightai"
+tagline: "Query your business data in plain English, get charts instantly"
+order: 12
+featured: false
+date: "2026-04-01"
+status: "case-study"
+client: "Personal product"
+role: "Full-stack AI engineer"
+duration: ""
+liveUrl: ""
+githubUrl: ""
+cover: "/images/work/insightai/cover.webp"
+thumbnail: "/images/work/insightai/thumb.webp"
+stack:
+  - LangChain
+  - FastAPI
+  - RAG
+  - Data Analysis
+  - API Integration
+problem: "Business teams sit on top of valuable data in spreadsheets and reports but cannot query it without SQL knowledge or a data analyst."
+results:
+  - metric: "Query method"
+    value: "Plain English"
+  - metric: "Output"
+    value: "Auto-generated charts + answers"
+  - metric: "Data sources"
+    value: "CSV, Excel, reports"
+seo:
+  description: "Conversational BI interface — upload a spreadsheet, ask questions in plain English, get auto-generated charts and data answers instantly."
+  ogImage: "/images/work/insightai/og.png"
 ---
 
-## Overview
+## Problem
 
-InsightAI turns raw customer noise into structured signal...
+Business teams sit on top of valuable data locked inside spreadsheets, CSVs, and quarterly reports — but extracting insight from that data requires either SQL knowledge or a dedicated data analyst. A question as simple as "What was our best performing product last quarter?" becomes a multi-step process: find the right file, open it, write a formula or query, format the result, and build a chart. Most teams skip the analysis entirely and make decisions on gut feel instead. InsightAI was built to close that gap and put meaningful data answers directly in the hands of non-technical users.
+
+## Approach
+
+The core of InsightAI is a conversational BI interface backed by a LangChain agent pipeline. A user uploads a CSV or Excel file through the React frontend. The backend ingests the file, parses the schema, and builds a schema-aware RAG index so the agent understands column names, data types, and relationships before any question is asked.
+
+When the user types a question in plain English, the LangChain agent translates it into a Pandas query, executes that query against the uploaded data, and returns two things simultaneously: a concise text answer and an auto-generated chart tailored to the result. If the question asks for a trend, a line chart renders. If it asks for a comparison, a bar chart appears. The chart type is inferred from the shape of the result, not hardcoded.
+
+The FastAPI backend handles file upload, query execution, and streaming the response back to the frontend. The React frontend renders the chat interface and the chart side by side, keeping the experience conversational rather than dashboard-like.
+
+## Stack
+
+- **LangChain** — agent framework that handles natural language to query translation with tool-calling and reasoning steps.
+- **FastAPI** — async Python backend that manages file uploads, query execution, and streaming responses with low latency.
+- **RAG** — schema-aware indexing pipeline that gives the agent accurate context about the uploaded spreadsheet before answering any question.
+- **Pandas** — query execution and data transformation layer that runs the agent-generated queries against the raw file data.
+- **API Integration** — connects the React frontend chart renderer to the FastAPI data pipeline, streaming both text answers and chart payloads in a single response.
+
+## Results
+
+<MetricCard metric="Query method" value="Plain English" />
+<MetricCard metric="Output" value="Auto-generated charts + answers" />
+<MetricCard metric="Data sources" value="CSV, Excel, reports" />
+
+## Screenshots
+
+<Screenshot src="/images/work/insightai/chat-interface.webp" alt="InsightAI conversational interface" />
+<Screenshot src="/images/work/insightai/chart-output.webp" alt="Auto-generated chart from natural language query" />

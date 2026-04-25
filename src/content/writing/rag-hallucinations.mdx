@@ -1,39 +1,91 @@
 ---
-title: "Why Your RAG System Still Hallucinates (and How to Fix It)"
-description: "The three real causes of RAG hallucinations — and the retrieval, prompting, and evaluation fixes that actually work in production."
-date: "2024-03-15"
-tags: ["RAG", "LLMs", "Production AI"]
-readingTime: "8 min read"
+title: "Why 90% of RAG Systems Hallucinate"
+slug: "rag-hallucinations"
+description: "Most RAG failures come from three predictable places. Here's what they are and how to fix each one."
+date: "2026-04-10"
+tags: ["RAG", "LLM", "Production"]
+readingTime: "6 min"
+draft: false
 ---
 
-Most RAG failures aren't LLM failures. They're retrieval failures the LLM then faithfully narrates.
+Most developers blame hallucinations on the model. The model is usually the last
+thing at fault. In 90% of the RAG systems I've reviewed or built, the failure
+lives in one of three places — and none of them are the LLM.
 
-## The Three Root Causes
+## Failure 1 — Chunking by token count, not by meaning
 
-### 1. Chunk boundaries break context
+The default advice is to chunk your documents into 512-token windows with 50-token
+overlap. It's a reasonable starting point and a terrible production strategy.
 
-When you chunk at 512 tokens and a sentence spans chunk 4 and chunk 5, retrieval returns half a thought. The LLM fills in the rest from weights.
+Token-based chunking splits mid-sentence, mid-table, and mid-argument. When the
+retriever pulls a chunk that starts at "...therefore the liability cap applies" with
+no context for what "liability cap" refers to, the LLM fills that gap — with
+something plausible. That's hallucination by design.
 
-**Fix:** Overlap chunks by 20%, and use semantic chunking — split on paragraph/section boundaries, not token counts.
+Fix: chunk by semantic boundary. For structured documents, chunk by section heading.
+For contracts, chunk by clause. For research papers, chunk by paragraph. The rule is:
+every chunk should be independently answerable — if it needs the chunk before or after
+it to make sense, the split is in the wrong place.
 
-### 2. Top-k returns irrelevant neighbors
+```python
+# Bad: arbitrary token window
+text_splitter = CharacterTextSplitter(chunk_size=512, chunk_overlap=50)
 
-Cosine similarity at k=5 often returns documents that are *topic-adjacent* but not *answer-relevant*. The LLM doesn't know the difference between a retrieved document that's 0.78 similar and one that's 0.61 similar.
+# Better: split by meaningful boundary
+text_splitter = MarkdownHeaderTextSplitter(
+    headers_to_split_on=[("##", "Section"), ("###", "Subsection")]
+)
+```
 
-**Fix:** Add a cross-encoder re-ranker (e.g., `ms-marco-MiniLM`) as a second pass. Latency cost: ~80ms. Accuracy gain: significant.
+## Failure 2 — No reranking step
 
-### 3. No-answer cases are handled poorly
+Embedding models optimize for approximate similarity — they're fast and good enough
+for retrieval, not for ranking. The top-k chunks returned by cosine similarity are
+not necessarily the most relevant chunks for your specific query. They're the
+closest in vector space, which is a different thing.
 
-If the answer isn't in the corpus, a well-prompted LLM will still try to answer. It just reaches into parametric memory.
+Without a reranker, you're sending the 5 most geometrically similar chunks into the
+prompt. With a reranker, you're sending the 5 most contextually relevant ones.
 
-**Fix:** Teach the model to say "I couldn't find this in the provided documents" — and evaluate it on that behavior explicitly.
+The fix is a two-stage pipeline: retrieve 20 candidates with the embedding model,
+rerank with a cross-encoder, pass the top 5 to the LLM.
 
-## The Evaluation Framework That Catches All Three
+```python
+from langchain.retrievers import ContextualCompressionRetriever
+from langchain.retrievers.document_compressors import CrossEncoderReranker
+from langchain_community.cross_encoders import HuggingFaceCrossEncoder
 
-Build an eval set of 50–100 questions with known answers. For each:
+model = HuggingFaceCrossEncoder(model_name="BAAI/bge-reranker-base")
+compressor = CrossEncoderReranker(model=model, top_n=5)
 
-- Score retrieval separately from generation (NDCG, recall@k)
-- Score generation with an LLM judge on groundedness
-- Track the gap between the two
+retriever = ContextualCompressionRetriever(
+    base_compressor=compressor,
+    base_retriever=vector_store.as_retriever(search_kwargs={"k": 20})
+)
+```
 
-When retrieval score is high but generation score is low, you have a prompting problem. When both are low, fix retrieval first.
+This single change typically improves answer faithfulness more than switching
+embedding models.
+
+## Failure 3 — The prompt doesn't instruct refusal
+
+If your system prompt doesn't explicitly tell the model what to do when the
+retrieved context doesn't contain the answer, it will guess. Every time.
+
+LLMs default to helpfulness. Without a refusal instruction, the model interprets
+"I don't have this in context" as "I should synthesize an answer from my training
+data." That's not RAG — that's a hallucination pipeline with extra retrieval steps.
+
+```python
+SYSTEM_PROMPT = """
+You are a research assistant. Answer the user's question using ONLY the context
+provided below. If the context does not contain sufficient information to answer
+the question, respond with: "I don't have enough information in the provided
+documents to answer this."
+
+Do not use prior knowledge. Do not speculate. Cite the source for every claim.
+"""
+```
+
+That's it. Three fixes. They're not glamorous, but they're the reason production
+RAG systems fail and tutorial RAG systems pass demos.

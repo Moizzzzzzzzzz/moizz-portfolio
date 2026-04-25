@@ -1,21 +1,115 @@
 ---
 title: "DocuMind"
-description: "Production RAG system for enterprise document Q&A with sub-second retrieval at scale."
-tags: ["RAG", "LangChain", "Pinecone", "Next.js", "FastAPI"]
-cover: "/images/work/documind.png"
-year: 2024
+slug: "documind"
+tagline: "Multi-document AI research assistant with mandatory source citations"
+order: 1
 featured: true
-liveUrl: "https://documind.app"
-problem: "Enterprise teams spend hours manually searching through thousands of PDFs, contracts, and reports. Keyword search misses semantic intent; LLMs hallucinate without grounding."
-approach: "Built a hybrid retrieval pipeline combining dense vector search (Pinecone) with BM25 sparse retrieval, re-ranked by a cross-encoder. Citations are pinned to exact page/paragraph spans, making every answer auditable."
-stack: ["Next.js 14", "FastAPI", "LangChain", "Pinecone", "PostgreSQL", "OpenAI", "Docker", "AWS ECS"]
-metrics:
-  - { label: "Retrieval latency (p95)", value: "< 800ms" }
-  - { label: "Citation accuracy", value: "94%" }
-  - { label: "Documents indexed", value: "50K+" }
-demoUrl: "https://demo.documind.app"
+date: "2026-03-01"
+status: "live"
+client: "Personal product"
+role: "Full-stack engineer"
+duration: "6 weeks"
+liveUrl: ""
+githubUrl: ""
+cover: "/images/work/documind/cover.webp"
+thumbnail: "/images/work/documind/thumb.webp"
+stack:
+  - FastAPI
+  - React
+  - Tailwind CSS
+  - LangChain
+  - LangGraph
+  - FAISS
+  - Pinecone Serverless
+  - Upstash Redis
+  - DigitalOcean Spaces
+  - Docker
+  - DigitalOcean
+problem: "Research teams and legal professionals waste hours manually searching across dozens of PDFs. Existing AI tools either hallucinate sources or give vague answers with no traceability."
+results:
+  - metric: "Citation Coverage"
+    value: "100%"
+    note: "Every answer includes file name and page number"
+  - metric: "Answer Accuracy"
+    value: "94%"
+    note: "Measured on internal 200-question eval set"
+  - metric: "Avg Response Time"
+    value: "2.1s"
+    note: "End-to-end including retrieval and generation"
+  - metric: "Uptime"
+    value: "99.2%"
+    note: "3-provider fallback chain handles provider outages"
+seo:
+  description: "Production multi-document RAG system with mandatory source citations — FastAPI, LangChain, LangGraph, Pinecone, React."
+  ogImage: "/images/work/documind/og.png"
 ---
 
-## Overview
+## Problem
 
-DocuMind replaces manual document search with a grounded Q&A interface backed by hybrid RAG...
+Research teams and legal professionals routinely work across dozens of PDFs simultaneously — case files, academic papers, regulatory documents — and the bottleneck is not reading speed, it is locating the exact passage that supports a claim. Manual search across large document sets takes hours and introduces the risk of missing critical information buried in a file that was only partially reviewed.
+
+Existing AI-powered document tools compound the problem rather than solve it. Retrieval-augmented generation systems that skip citation enforcement will confidently state a fact while pointing to the wrong document or no document at all. For legal work in particular, an answer without a traceable source is worthless — and an answer with a fabricated source is actively harmful.
+
+The hard requirement driving every architectural decision: every single answer must cite the exact file name and page number of its source. No exceptions, no graceful degradation. If the system cannot produce a verifiable citation, it must refuse to answer rather than speculate.
+
+## Approach
+
+A stateless multi-document RAG pipeline was the foundation. Stateless because session affinity would become a scaling constraint the moment traffic spiked — each request carries everything the backend needs, and any instance can serve it. LangGraph drives the agent layer, routing between a retrieval node and a citation verification node before any response reaches the client. The verification node is not optional middleware; it is a hard gate that blocks any answer lacking a file name and page number.
+
+Each uploaded PDF is processed at upload time: extracted, split into overlapping chunks, embedded, and written to both a local FAISS index for in-session speed and Pinecone Serverless for persistence across sessions. At query time, retrieval runs across all indexed documents simultaneously rather than sequentially, keeping latency flat regardless of how many files are in the session.
+
+Provider reliability was a real constraint. A single LLM provider going down mid-session would mean a broken product with no recourse. A three-provider fallback chain — Gemini Flash as primary, Groq Llama as first fallback, OpenRouter as final fallback — means the system stays live through individual provider outages. The chain is transparent to the user; responses stream continuously via Server-Sent Events regardless of which provider is serving the request.
+
+## Architecture
+
+The full pipeline runs from a React frontend through FastAPI async endpoints, into the document ingestion layer, through the LangGraph agent graph, and out to distributed storage — with all of it containerized and deployed on a single DigitalOcean droplet sized for the current traffic profile.
+
+<ArchitectureDiagram src="/images/work/documind/architecture.svg" alt="DocuMind system architecture" />
+
+- **Frontend:** React + Tailwind CSS — file upload UI, SSE streaming response display
+- **Backend:** FastAPI async endpoints with Server-Sent Events streaming
+- **Document pipeline:** PDF ingestion → chunking → embedding → FAISS local index + Pinecone Serverless
+- **Agent layer:** LangGraph with retrieval node + citation verification node
+- **Storage:** DigitalOcean Spaces for raw PDFs, Upstash Redis for session state
+- **Deployment:** Docker container on DigitalOcean droplet
+
+## Stack
+
+Each technology was chosen to solve a specific constraint.
+
+- **FastAPI** — Async-first Python framework; native SSE support for streaming LLM responses
+- **LangChain** — Document loading, text splitting, and embedding orchestration
+- **LangGraph** — Multi-agent graph for routing between retrieval and citation verification nodes
+- **FAISS** — Local vector index for fast in-session similarity search
+- **Pinecone Serverless** — Persistent cross-session vector storage with zero infrastructure management
+- **React + Tailwind CSS** — Rapid UI iteration; Tailwind's utility classes match the component-per-feature architecture
+- **Upstash Redis** — Serverless key-value store for session state; no cold starts
+- **DigitalOcean Spaces** — S3-compatible object storage for raw PDF files
+- **Docker** — Reproducible build environment; single container deploy
+- **DigitalOcean** — Predictable monthly pricing vs. AWS; adequate for this traffic profile
+
+## Results
+
+Measured against an internal 200-question evaluation set built from real research and legal document workflows.
+
+<MetricCard metric="Citation Coverage" value="100%" note="Every answer includes file name and page number" />
+
+<MetricCard metric="Answer Accuracy" value="94%" note="Measured on internal 200-question eval set" />
+
+<MetricCard metric="Avg Response Time" value="2.1s" note="End-to-end including retrieval and generation" />
+
+<MetricCard metric="Uptime" value="99.2%" note="3-provider fallback chain handles provider outages" />
+
+The system handles up to 50MB of PDFs per session across multiple files.
+
+## Live Demo
+
+Upload your own PDFs and query across them with full source citations returned in real time.
+
+<DemoEmbed url={process.env.NEXT_PUBLIC_DOCUMIND_URL} title="DocuMind Live Demo" />
+
+## Screenshots
+
+<Screenshot src="/images/work/documind/upload-ui.webp" alt="DocuMind file upload interface" />
+
+<Screenshot src="/images/work/documind/answer-with-citations.webp" alt="Answer with source citations" />

@@ -1,9 +1,14 @@
+"use client";
+
 import { cn } from "@/lib/cn";
+import { variantClasses, sizeClasses, type ButtonVariant, type ButtonSize } from "@/lib/button-variants";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
+export { buttonVariants } from "@/lib/button-variants";
+
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "ghost" | "outline";
-  size?: "sm" | "md" | "lg";
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   children: ReactNode;
 }
 
@@ -17,17 +22,12 @@ export function Button({
   return (
     <button
       className={cn(
-        "inline-flex items-center justify-center font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-        {
-          "bg-foreground text-background hover:opacity-80": variant === "primary",
-          "hover:bg-foreground/10": variant === "ghost",
-          "border border-foreground/20 hover:bg-foreground/5": variant === "outline",
-        },
-        {
-          "h-8 px-3 text-sm": size === "sm",
-          "h-10 px-5 text-sm": size === "md",
-          "h-12 px-7 text-base": size === "lg",
-        },
+        "inline-flex items-center justify-center font-medium",
+        "transition-all duration-200",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
+        "disabled:pointer-events-none disabled:opacity-40",
+        variantClasses[variant],
+        sizeClasses[size],
         className
       )}
       {...props}

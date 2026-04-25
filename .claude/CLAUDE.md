@@ -1,62 +1,115 @@
-Moizz K — Portfolio
+# Moizz K — Portfolio
 Personal portfolio for Moizz K, Full-Stack AI Engineer. Animation-heavy, production-grade. Ships to Vercel.
-Stack
 
-Next.js 15 App Router, React 19, TypeScript strict
-Tailwind CSS v4 (CSS-first config via @theme in globals.css)
-GSAP 3.13+ (ScrollTrigger, SplitText, CustomEase) — 100% free as of April 2025
-Lenis smooth scroll, bridged to ScrollTrigger in src/app/providers.tsx
-Framer Motion for route transitions + UI micro-interactions
-React Three Fiber + Drei — lazy-loaded only, hero scene + max 1 accent
-MDX for src/content/work/ and src/content/writing/
-Resend for contact form, Cal.com embedded on /contact
-pnpm as package manager
+---
 
-Commands
+## Subagent Routing (READ THIS FIRST)
 
-pnpm dev — local dev
-pnpm build — production build
-pnpm lint — ESLint
-pnpm typecheck — tsc --noEmit
+Before doing ANY multi-step task, identify the type and spawn the correct subagent via the Task tool. Main agent plans + verifies. Subagents execute. This saves tokens and keeps context clean.
 
-Always run pnpm typecheck AND pnpm lint after a series of code changes. Do not mark a task complete until both pass.
-Conventions
+| Task type | Subagent instruction |
+|---|---|
+| New component | "You are a React/Next.js component builder. Read CLAUDE.md conventions and animation rules. Build only the requested component." |
+| MDX content | "You are a technical content writer. Read CLAUDE.md content rules for frontmatter schema. Write only the requested MDX file." |
+| Build error | "You are a Next.js debugger. Read the exact error below. Find root cause. Fix only the file causing it. Do not refactor anything else." |
+| Animation | "You are a GSAP + Framer Motion specialist. Read CLAUDE.md animation rules. Use useGSAP, never useEffect." |
+| SEO / metadata | "You are a Next.js SEO specialist. Use generateMetadata API. Add JSON-LD where specified." |
+| Config / tooling | "You are a Next.js config specialist. Touch only config files. Do not modify components." |
 
-Imports: use @/* alias, never relative paths that climb ../../
-Components: PascalCase file names, default export matching filename
-Hooks: use prefix, one hook per file in src/hooks/
-Styling: Tailwind utility classes only; custom CSS lives in src/app/globals.css under @layer components
-className merging: always use cn() from src/lib/cn.ts (clsx + tailwind-merge)
-Icons: Lucide React, imported individually (import { ArrowRight } from "lucide-react")
+**Token-saving rules for subagents:**
+- Pass only the files the subagent needs — not entire `src/`
+- One subagent = one responsibility
+- After subagent completes, main agent runs `pnpm build` to verify
 
-Animation rules (IMPORTANT)
+---
 
-Every GSAP animation MUST use @gsap/react's useGSAP hook, never raw useEffect. This guarantees cleanup on unmount + HMR.
-Every animation component MUST check useReducedMotion() and skip animation (render to final state) when the user prefers reduced motion.
-Three.js / R3F components MUST be loaded with next/dynamic + { ssr: false }. Never import three in a Server Component.
-GSAP plugins are registered once in src/lib/gsap.ts. Never call gsap.registerPlugin() inside components.
-ScrollTrigger reads scroll from Lenis, not window. Do not bypass the bridge in providers.tsx.
-Signature ease is CustomEase signature (defined in lib/gsap.ts, cubic-bezier 0.65,0,0.35,1). Use ease: "signature" as default, not power2.out etc.
+## Stack
 
-Content rules
+- Next.js 15 App Router, React 19, TypeScript strict
+- Tailwind CSS v4 (CSS-first `@theme` in `globals.css`)
+- GSAP 3.13+ — ScrollTrigger, SplitText, CustomEase (all free since April 2025)
+- Lenis smooth scroll, bridged to ScrollTrigger in `src/app/providers.tsx`
+- Framer Motion — route transitions + UI micro-interactions
+- React Three Fiber + Drei — lazy-loaded only, hero + max 1 accent
+- MDX — `src/content/work/` and `src/content/writing/`
+- Resend — contact form emails
+- Cal.com — embedded booking on `/contact`
+- **Package manager: pnpm**
 
-Case studies live at src/content/work/<slug>.mdx with full frontmatter (see any existing file as template).
-Blog posts live at src/content/writing/<slug>.mdx.
-When adding a case study, order: 1 is reserved for DocuMind. New case studies start at order: 10+.
-Images referenced in MDX go under public/images/work/<slug>/ and public/images/writing/<slug>/. Always WebP or AVIF, never JPG/PNG in production.
+---
 
-Performance budget
-First Load JS for / must stay under 120kB. If adding a dependency pushes it over, flag it and suggest alternatives.
-What not to do
+## Commands
 
-Do NOT install new animation libraries (Motion One, AutoAnimate, etc.). GSAP + Framer Motion cover everything.
-Do NOT add a CMS (Sanity, Contentful, Payload). Content stays as MDX files in git.
-Do NOT add authentication. This is a static portfolio.
-Do NOT use <img> — always next/image.
-Do NOT use Google Fonts. Variable fonts are self-hosted in public/fonts/.
-Do NOT add analytics beyond Vercel Analytics. No GA, no Segment, no PostHog in v1.
+- `pnpm dev` — local dev
+- `pnpm build` — production build
+- `pnpm lint` — ESLint
+- `pnpm typecheck` — tsc --noEmit
 
-References
+Always run `pnpm typecheck` AND `pnpm lint` after changes. Task is not done until both pass.
 
-Architecture + 7-day build plan: @ARCHITECTURE.md
-Deferred personal notes (gitignored): @CLAUDE.local.md
+---
+
+## Conventions
+
+- **Imports:** `@/*` alias only — never relative `../../`
+- **Components:** PascalCase filename, default export matching filename
+- **Hooks:** `use` prefix, one per file in `src/hooks/`
+- **Styling:** Tailwind utilities only; custom CSS in `globals.css` under `@layer components`
+- **className:** always `cn()` from `src/lib/cn.ts` (clsx + tailwind-merge)
+- **Icons:** Lucide React, imported individually
+
+---
+
+## Animation rules
+
+- GSAP: always `useGSAP` from `@gsap/react` — never raw `useEffect`
+- Every animation component: read `useReducedMotion()` — if true, render final state, skip animation
+- R3F / Three.js: always `next/dynamic` + `{ ssr: false }` — never in a Server Component
+- GSAP plugins: registered once in `src/lib/gsap.ts` — never `gsap.registerPlugin()` inside components
+- ScrollTrigger reads from Lenis — do not bypass bridge in `providers.tsx`
+- Default ease: `"signature"` (CustomEase, cubic-bezier 0.65,0,0.35,1) — never `power2.out`
+
+---
+
+## Content rules
+
+- Case studies: `src/content/work/<slug>.mdx` — see `documind.mdx` for frontmatter shape
+- Blog posts: `src/content/writing/<slug>.mdx`
+- DocuMind is always `order: 1` — new case studies start at `order: 10`
+- Images in MDX: `public/images/work/<slug>/` — WebP or AVIF only, never JPG/PNG
+
+---
+
+## Design tokens (brand)
+
+- Accent: `#7C3AED` (Electric Violet)
+- Background: `#0A0A0B`
+- Surface: `#111113`
+- Border: `#1F1F22`
+- Text: `#E6E6E9`
+- Text bright: `#FAFAFA`
+- Muted: `#6B6B72`
+
+---
+
+## Performance budget
+
+- First Load JS for `/`: under 120kB
+- If a new dependency pushes over budget, flag it and suggest alternative
+
+---
+
+## What NOT to do
+
+- No new animation libraries — GSAP + Framer Motion cover everything
+- No CMS — content stays MDX in git
+- No authentication
+- No `<img>` — always `next/image`
+- No Google Fonts — fonts self-hosted in `public/fonts/`
+- No analytics beyond Vercel Analytics in v1
+
+---
+
+## References
+
+- Full architecture + 7-day plan: @ARCHITECTURE.md

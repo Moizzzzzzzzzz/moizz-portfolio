@@ -1,19 +1,64 @@
 ---
 title: "AutoAnalyst"
-description: "LLM agent that writes and executes Python data analysis code from natural language queries."
-tags: ["Agents", "LangGraph", "Python", "OpenAI", "Pandas"]
-cover: "/images/work/autoanalyst.png"
-year: 2024
-featured: true
-problem: "Data analysts spend 60% of their time writing boilerplate ETL and visualization code rather than interpreting results."
-approach: "Designed a stateful LangGraph agent with a code-writer node, sandboxed executor, and self-healing loop — the agent reflects on errors and rewrites until the output is correct."
-stack: ["LangGraph", "OpenAI GPT-4o", "Python", "Pandas", "Plotly", "FastAPI", "Next.js"]
-metrics:
-  - { label: "Task success rate", value: "87%" }
-  - { label: "Avg. time to insight", value: "< 30s" }
-  - { label: "Lines of code replaced", value: "~200/query" }
+slug: "autoanalyst"
+tagline: "AI agent that automates full data analysis pipelines from a single sentence"
+order: 10
+featured: false
+date: "2026-04-01"
+status: "case-study"
+client: "Personal product"
+role: "Full-stack AI engineer"
+duration: ""
+liveUrl: ""
+githubUrl: ""
+cover: "/images/work/autoanalyst/cover.webp"
+thumbnail: "/images/work/autoanalyst/thumb.webp"
+stack:
+  - Python
+  - Pandas
+  - Scikit-learn
+  - LangChain
+  - AI Agents
+problem: "Data analysts spend 11+ hours on repetitive analysis work — loading data, running EDA, testing hypotheses, training baseline models, formatting reports."
+results:
+  - metric: "Manual time saved"
+    value: "11 hours → minutes"
+  - metric: "Pipeline steps automated"
+    value: "4"
+    note: "EDA, hypothesis testing, model training, report generation"
+seo:
+  description: "LangChain AI agent that automates full data analysis pipelines — EDA, hypothesis testing, model training, and report generation from a single natural language instruction."
+  ogImage: "/images/work/autoanalyst/og.png"
 ---
 
-## Overview
+## Problem
 
-AutoAnalyst gives any analyst a code-writing agent that handles the repetitive parts...
+Data analysts spend 11 or more hours on repetitive analysis work every time a new dataset lands. The workflow is always the same: load the data, inspect distributions, run statistical tests, train a baseline model, and write up findings. None of these steps require creative judgment — they follow a predictable pattern — yet every analyst does them by hand, every time. That is 11 hours of work that produces no novel insight, only boilerplate output.
+
+## Approach
+
+AutoAnalyst is a LangChain agent that accepts a single natural language instruction — for example, "Analyze this CSV for churn patterns" — and autonomously executes a 4-step pipeline without further input.
+
+The agent begins by inspecting the data shape and inferring the user's intent from the instruction. It then decides which steps to run and in what order. Step one is exploratory data analysis: the agent uses Pandas to load the dataset, compute summary statistics, identify missing values, and surface skewed distributions. Step two is hypothesis testing: the agent selects and runs the appropriate SciPy tests — t-tests for continuous variables, chi-squared for categorical relationships, and Pearson or Spearman correlation where relevant. Step three is model training: the agent fits a baseline Scikit-learn model, choosing classification or regression based on the target column type, and records accuracy, F1, or RMSE. Step four is report generation: the agent compiles all findings into a structured markdown report with section headers, tables, and a plain-language summary.
+
+The agent is not scripted. It reasons about the data at each step and adjusts its choices accordingly, so the same instruction on two different datasets produces two appropriately different pipelines.
+
+## Stack
+
+- **Python** — primary runtime for data science tooling, with broad library support for every step of the pipeline.
+- **LangChain** — agent orchestration and tool-calling framework that lets the agent reason, select tools, and chain steps in a dynamic order.
+- **Pandas** — data loading, EDA, and transformation, providing the structured DataFrame operations the agent relies on throughout.
+- **Scikit-learn** — baseline model training for both classification and regression tasks, with a consistent API the agent calls programmatically.
+- **SciPy** — hypothesis testing via t-tests, chi-squared tests, and correlation functions, giving the agent statistically rigorous outputs.
+
+## Results
+
+<MetricCard metric="Manual time saved" value="11 hours → minutes" />
+<MetricCard metric="Pipeline steps automated" value="4" note="EDA, hypothesis testing, model training, report generation" />
+
+The agent eliminates the most time-consuming and least intellectually rewarding parts of the analyst workflow. What previously required a full day of setup, scripting, and formatting now completes in minutes, letting analysts spend their time on interpretation rather than execution.
+
+## Screenshots
+
+<Screenshot src="/images/work/autoanalyst/pipeline-output.webp" alt="AutoAnalyst pipeline output" />
+<Screenshot src="/images/work/autoanalyst/report-generated.webp" alt="Generated analysis report" />

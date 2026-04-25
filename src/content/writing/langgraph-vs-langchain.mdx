@@ -1,32 +1,107 @@
 ---
-title: "LangGraph vs LangChain: When to Use Which"
-description: "A practical breakdown of when LangChain chains are enough and when you need LangGraph's stateful graph execution."
-date: "2024-02-08"
-tags: ["LangGraph", "LangChain", "Agents"]
-readingTime: "6 min read"
+title: "LangGraph vs Plain LangChain — When to Use Which"
+slug: "langgraph-vs-langchain"
+description: "LangChain and LangGraph solve different problems. Picking the wrong one doubles your debugging time."
+date: "2026-04-15"
+tags: ["LangChain", "LangGraph", "Agents"]
+readingTime: "7 min"
+draft: false
 ---
 
-LangGraph is not a replacement for LangChain. It's an extension for when your agent needs state.
+The most common mistake I see in AI engineering projects is using LangGraph when
+plain LangChain would have been enough — or using plain LangChain when the problem
+clearly needs LangGraph. Both choices cost time. Here's the decision framework I
+actually use.
 
-## Use LangChain When
+## What LangChain LCEL is
 
-- Your flow is linear: input → retrieval → prompt → output
-- You don't need cycles or conditional branching
-- You want quick iteration on prompt logic
+LangChain's core abstraction is a pipeline. You chain components together — a
+prompt, a model, an output parser — and data flows through them in one direction.
 
-LangChain's LCEL is excellent for composing retrieval chains, tool-augmented completions, and single-turn agents.
+```python
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_anthropic import ChatAnthropic
+from langchain_core.output_parsers import StrOutputParser
 
-## Use LangGraph When
+chain = (
+    ChatPromptTemplate.from_template("Summarize this: {text}")
+    | ChatAnthropic(model="claude-sonnet-4-20250514")
+    | StrOutputParser()
+)
 
-- Your agent needs to loop: plan → act → observe → replan
-- You have multiple agents that need to hand off work
-- You need deterministic control over which node fires next
-- You need human-in-the-loop checkpoints
+result = chain.invoke({"text": document})
+```
 
-LangGraph's `StateGraph` gives you explicit state that persists across node executions — which is exactly what multi-step agents need.
+This is excellent for: single-pass summarization, classification, extraction,
+straightforward RAG where you retrieve once and answer once. If your problem has
+a clear input and a clear output with no branching logic, LCEL is the right tool.
 
-## The Pattern I Use
+## What LangGraph is
 
-Start every agent project with LangChain. If I find myself writing `while not done:` loops around chain invocations, that's the signal to migrate to LangGraph.
+LangGraph is a state machine. You define nodes (functions that do work) and edges
+(transitions between nodes, which can be conditional). State persists across the
+entire execution and every node can read and write to it.
 
-The migration is usually ~2 hours: extract your chain nodes into graph nodes, define state schema, wire edges. The observability you gain (LangSmith traces the full graph) is worth the refactor.
+```python
+from langgraph.graph import StateGraph, END
+from typing import TypedDict
+
+class AgentState(TypedDict):
+    query: str
+    retrieved_docs: list
+    answer: str
+    needs_followup: bool
+
+def retrieve(state: AgentState) -> AgentState:
+    docs = retriever.invoke(state["query"])
+    return {"retrieved_docs": docs}
+
+def generate(state: AgentState) -> AgentState:
+    answer = chain.invoke({"docs": state["retrieved_docs"], "query": state["query"]})
+    return {"answer": answer}
+
+def route(state: AgentState) -> str:
+    return "followup" if state["needs_followup"] else END
+
+graph = StateGraph(AgentState)
+graph.add_node("retrieve", retrieve)
+graph.add_node("generate", generate)
+graph.add_conditional_edges("generate", route)
+```
+
+## Use LangChain LCEL when
+
+- The flow is linear: input → process → output
+- You don't need to branch based on intermediate results
+- There's no state to carry between steps
+- You want fast iteration — LCEL chains are easy to debug and modify
+
+## Use LangGraph when
+
+- You need **conditional routing** — different paths based on what the model returns
+- You're building a **multi-agent system** — different agents hand off to each other
+- You need **retry loops** — e.g., if quality check fails, re-retrieve and regenerate
+- You need **human-in-the-loop** — pause execution, wait for approval, resume
+- State needs to **persist across multiple LLM calls** in one session
+
+## The expensive mistake
+
+The pattern I see most often: a developer builds a simple RAG pipeline with LCEL,
+it works. They add features. Then more features. They start bolting conditional
+logic onto the chain with Python if-statements wrapping the chain invocation. Then
+they add a retry mechanism around the chain. Then a quality-check step. Now they
+have a 200-line function managing state in local variables, with branching logic
+that's impossible to visualize or test.
+
+That's LangGraph, written poorly. Refactoring it into a proper graph at this point
+is a week of work.
+
+The rule: if you've written more than one if-statement around your chain to handle
+different execution paths, it's time for LangGraph.
+
+## Practical starting point
+
+Default to LCEL. When you catch yourself managing state in a dictionary passed
+between functions, or writing retry logic that wraps the chain, stop and switch to
+LangGraph. The graph abstraction makes that complexity visible and testable. The
+plain chain abstraction hides it until it breaks in production.

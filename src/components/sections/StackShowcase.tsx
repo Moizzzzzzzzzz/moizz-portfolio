@@ -1,3 +1,5 @@
+"use client";
+
 import { MarqueeLoop } from "@/components/animation/MarqueeLoop";
 import { ScrollReveal } from "@/components/animation/ScrollReveal";
 
@@ -12,11 +14,11 @@ export function StackShowcase() {
     <section className="py-16 border-y border-foreground/5">
       <ScrollReveal>
         <p className="mb-8 text-center text-xs font-medium uppercase tracking-widest text-foreground/30">
-          Technologies I work with
+          My Stack
         </p>
       </ScrollReveal>
 
-      <MarqueeLoop speed={35}>
+      <MarqueeLoop speed={35} pauseOnHover>
         {stack.map((item) => (
           <span
             key={item}

@@ -5,7 +5,7 @@
   --color-bg: #0A0A0B;
   --color-surface: #111113;
   --color-border: #1F1F22;
-  --color-muted: #6B6B72;
+  --color-muted: #8A8A94;
   --color-text: #E6E6E9;
   --color-text-bright: #FAFAFA;
   --color-accent: #7C3AED;
@@ -59,8 +59,26 @@ body {
   background: var(--color-accent-soft);
 }
 
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
 @media (hover: hover) {
-  * {
+  body.cursor-active * {
     cursor: none !important;
   }
+}
+
+.contact-honeypot {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  pointer-events: none;
+  tab-index: -1;
 }

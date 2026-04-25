@@ -1,32 +1,92 @@
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
-const links = [
-  { href: "https://github.com/moizzz", label: "GitHub" },
-  { href: "https://twitter.com/moizzz", label: "Twitter" },
+const nav = [
+  { href: "/work", label: "Work" },
+  { href: "/writing", label: "Writing" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+];
+
+const social = [
+  { href: "https://github.com/moizzzzzzzzz", label: "GitHub" },
   { href: "https://linkedin.com/in/moizzz", label: "LinkedIn" },
+  { href: "https://twitter.com/moizzz", label: "Twitter" },
+  { href: "https://upwork.com/freelancers/moizzz", label: "Upwork" },
 ];
 
 export function Footer() {
   return (
-    <footer className="border-t border-foreground/5 py-8">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 md:flex-row md:px-8">
-        <p className="text-sm text-foreground/30">
-          © {new Date().getFullYear()} Moizz. All rights reserved.
-        </p>
-        <ul className="flex gap-6">
-          {links.map(({ href, label }) => (
-            <li key={href}>
-              <a
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-foreground/40 hover:text-foreground transition-colors"
-              >
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
+    <footer className="border-t border-border">
+      <div className="mx-auto max-w-6xl px-4 py-12 md:px-8 md:py-16">
+        {/* Main row */}
+        <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+          {/* Left — brand */}
+          <div className="flex flex-col gap-3 max-w-xs">
+            <Link
+              href="/"
+              className="text-sm font-semibold tracking-tight text-text-bright hover:opacity-75 transition-opacity duration-200"
+            >
+              moizz<span className="text-muted">.</span>dev
+            </Link>
+            <p className="text-sm text-muted leading-relaxed">
+              Full-stack AI engineer building RAG, agents,
+              and LLM products that ship.
+            </p>
+          </div>
+
+          {/* Right — nav columns */}
+          <div className="flex gap-12 sm:gap-16">
+            <div>
+              <p className="mb-3 text-xs font-medium uppercase tracking-widest text-muted/60">
+                Pages
+              </p>
+              <ul className="flex flex-col gap-2.5">
+                {nav.map(({ href, label }) => (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      className="text-sm text-muted hover:text-text transition-colors duration-200"
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="mb-3 text-xs font-medium uppercase tracking-widest text-muted/60">
+                Find me
+              </p>
+              <ul className="flex flex-col gap-2.5">
+                {social.map(({ href, label }) => (
+                  <li key={href}>
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-sm text-muted hover:text-text transition-colors duration-200"
+                    >
+                      {label}
+                      <ArrowUpRight size={11} className="opacity-50" aria-hidden="true" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-10 flex flex-col gap-1.5 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs text-muted/50">
+            © {new Date().getFullYear()} Abdul Moizz. All rights reserved.
+          </p>
+          <p className="text-xs text-muted/30">
+            Built with Next.js, GSAP &amp; lots of caffeine.
+          </p>
+        </div>
       </div>
     </footer>
   );

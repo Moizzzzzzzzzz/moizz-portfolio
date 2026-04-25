@@ -1,0 +1,52 @@
+# moizz-portfolio — Node.js dependencies
+# Install with: pnpm install
+# Add packages with: pnpm add <package>
+
+# ── Core Framework ──────────────────────────────────────────────
+next
+react
+react-dom
+
+# ── Animation ───────────────────────────────────────────────────
+gsap
+@gsap/react
+lenis
+framer-motion
+
+# ── 3D / WebGL ──────────────────────────────────────────────────
+three
+@react-three/fiber
+@react-three/drei
+
+# ── UI Utilities ────────────────────────────────────────────────
+lucide-react
+clsx
+tailwind-merge
+
+# ── MDX / Content ───────────────────────────────────────────────
+@next/mdx
+@mdx-js/loader
+@mdx-js/react
+@types/mdx
+gray-matter
+remark-gfm
+rehype-pretty-code
+shiki
+
+# ── Backend / API ───────────────────────────────────────────────
+resend
+zod
+
+# ── Analytics ───────────────────────────────────────────────────
+@vercel/analytics
+@vercel/speed-insights
+
+# ── Dev Dependencies (auto-installed by create-next-app) ────────
+@tailwindcss/postcss
+tailwindcss
+typescript
+@types/node
+@types/react
+@types/react-dom
+eslint
+eslint-config-next

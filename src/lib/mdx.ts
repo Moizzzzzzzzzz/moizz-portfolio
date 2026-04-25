@@ -30,15 +30,32 @@ export function getProject(slug: string) {
   return readMdx<CaseStudyFrontmatter>(WORK_DIR, slug);
 }
 
-export function getAllPosts(): (Post & { slug: string })[] {
+export function getAllPosts(): Post[] {
   return listSlugs(WRITING_DIR)
     .map((slug) => {
       const { frontmatter } = readMdx<Post>(WRITING_DIR, slug);
-      return { ...frontmatter, slug };
+      return {
+        ...frontmatter,
+        slug,
+        draft: frontmatter.draft ?? false,
+        readingTime: frontmatter.readingTime ?? "5 min",
+      };
     })
+    .filter((p) => !p.draft)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
 export function getPost(slug: string) {
   return readMdx<Post>(WRITING_DIR, slug);
+}
+
+export async function getPostBySlug(slug: string): Promise<Post & { content: string }> {
+  const { frontmatter, content } = readMdx<Post>(WRITING_DIR, slug);
+  return {
+    ...frontmatter,
+    slug,
+    draft: frontmatter.draft ?? false,
+    readingTime: frontmatter.readingTime ?? "5 min",
+    content,
+  };
 }
