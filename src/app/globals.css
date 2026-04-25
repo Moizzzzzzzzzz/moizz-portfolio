@@ -321,3 +321,30 @@ footer {
 section:first-of-type {
   padding-top: clamp(5rem, 12vw, 10rem);
 }
+
+/* ─── Card grid gaps ──────────────────────────────── */
+
+[class*="grid-cols"] {
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  [class*="grid-cols"] {
+    gap: 2rem;
+  }
+}
+
+.card,
+[class*="rounded-xl"],
+[class*="rounded-2xl"] {
+  margin-bottom: 0;
+}
+
+.flex.flex-wrap {
+  gap: 1rem;
+}
+
+h2 + *,
+h1 + * {
+  margin-top: 2rem;
+}

@@ -32,7 +32,7 @@ export function Navbar() {
           : "bg-transparent border-b border-transparent"
       )}
     >
-      <nav aria-label="Main navigation" className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 md:px-8">
+      <nav aria-label="Main navigation" className="max-w-[1200px] mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link
           href="/"
