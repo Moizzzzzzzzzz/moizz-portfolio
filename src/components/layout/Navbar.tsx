@@ -26,62 +26,53 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500",
+        "fixed top-0 left-0 right-0 z-50 border-b transition-all duration-500",
         scrolled
-          ? "bg-bg/85 backdrop-blur-xl border-b border-border/60"
-          : "bg-transparent border-b border-transparent"
+          ? "bg-black/90 backdrop-blur-md border-white/10"
+          : "bg-transparent border-transparent"
       )}
     >
-      <nav aria-label="Main navigation" className="max-w-[1200px] mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between gap-8">
+
         {/* Logo */}
-        <Link
-          href="/"
-          className="text-sm font-semibold tracking-tight text-text-bright hover:opacity-75 transition-opacity duration-200"
-        >
-          moizz<span className="text-muted">.</span>dev
+        <Link href="/" className="text-white font-semibold text-sm tracking-wide shrink-0">
+          moizz.dev
         </Link>
 
-        {/* Desktop nav links — centered */}
-        <ul className="hidden items-center gap-8 md:flex">
+        {/* Nav links — desktop */}
+        <nav aria-label="Main navigation" className="hidden md:flex items-center gap-8">
           {links.map(({ href, label }) => (
-            <li key={href}>
-              <Link
-                href={href}
-                className={cn(
-                  "relative py-1 text-sm transition-colors duration-200",
-                  pathname.startsWith(href)
-                    ? "text-text-bright"
-                    : "text-muted hover:text-text"
-                )}
-              >
-                {label}
-                {pathname.startsWith(href) && (
-                  <span className="absolute -bottom-px left-0 h-px w-full bg-accent" />
-                )}
-              </Link>
-            </li>
+            <Link
+              key={href}
+              href={href}
+              className={cn(
+                "relative py-1 text-sm transition-colors duration-200",
+                pathname.startsWith(href)
+                  ? "text-white"
+                  : "text-white/60 hover:text-white"
+              )}
+            >
+              {label}
+              {pathname.startsWith(href) && (
+                <span className="absolute -bottom-px left-0 h-px w-full bg-violet-600" />
+              )}
+            </Link>
           ))}
-        </ul>
+        </nav>
 
-        {/* Right side */}
+        {/* CTA button + mobile menu */}
         <div className="flex items-center gap-3">
           <Link
             href="/contact"
-            className={cn(
-              "hidden md:inline-flex items-center gap-1.5",
-              "h-8 px-4 rounded-lg text-xs font-medium",
-              "bg-accent text-white hover:bg-accent/85 active:bg-accent/70",
-              "transition-colors duration-200",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
-            )}
+            className="hidden md:inline-flex shrink-0 px-4 py-2 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
           >
-            Let&apos;s talk
-            <span aria-hidden="true">→</span>
+            Let&apos;s talk →
           </Link>
 
           <MobileMenu links={links} />
         </div>
-      </nav>
+
+      </div>
     </header>
   );
 }

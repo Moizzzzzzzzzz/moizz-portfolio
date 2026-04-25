@@ -1,10 +1,6 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { ScrollReveal } from "@/components/animation/ScrollReveal";
-import { Card } from "@/components/ui/Card";
-import { Tag } from "@/components/ui/Tag";
 import { Button } from "@/components/ui/Button";
-import { cn } from "@/lib/cn";
 
 const projects = [
   {
@@ -47,35 +43,28 @@ export function FeaturedWork() {
         </Link>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
         {projects.map((project, i) => (
           <ScrollReveal key={project.slug} delay={i * 0.1} direction="up">
-            <Link href={project.href} className="group block">
-              <Card
-                className={cn(
-                  "h-full transition-all duration-300",
-                  "group-hover:border-accent/40 group-hover:shadow-[0_0_20px_rgba(124,58,237,0.1)]"
-                )}
-              >
-                <div className="mb-3 flex flex-wrap gap-1.5">
-                  {project.tags.map((tag) => (
-                    <Tag key={tag}>{tag}</Tag>
-                  ))}
-                </div>
-                <h3 className="font-semibold text-base group-hover:text-accent/80 transition-colors">
-                  {project.title}
-                </h3>
-                <p className="mt-1.5 text-sm text-foreground/50 leading-relaxed">
-                  {project.tagline}
-                </p>
-                <div className="mt-4 flex items-center justify-end">
-                  <ArrowRight
-                    size={14}
-                    className="text-foreground/30 group-hover:text-accent transition-colors"
-                    aria-hidden="true"
-                  />
-                </div>
-              </Card>
+            <Link
+              href={project.href}
+              className="group block bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-violet-500/50 transition-all duration-300"
+            >
+              <div className="flex flex-wrap gap-2 mb-4">
+                {project.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-xs text-violet-400 bg-violet-400/10 px-2 py-0.5 rounded-full"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <h3 className="text-white font-semibold text-lg mb-2 group-hover:text-violet-400 transition-colors">
+                {project.title}
+              </h3>
+              <p className="text-white/50 text-sm leading-relaxed mb-4">{project.tagline}</p>
+              <span className="text-violet-400 text-sm">View case study →</span>
             </Link>
           </ScrollReveal>
         ))}

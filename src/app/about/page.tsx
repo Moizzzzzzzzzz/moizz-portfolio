@@ -44,31 +44,33 @@ export default function AboutPage() {
           }),
         }}
       />
-      <section className="py-24 md:py-40">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-        {/* Two-column grid — photo first in DOM (top on mobile), text left on desktop */}
+      <div className="pt-32 pb-24 max-w-6xl mx-auto px-6 lg:px-10">
+
+        {/* Two column grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
 
-          {/* Text — below on mobile, left column on desktop */}
-          <div className="lg:col-span-7 order-2 lg:order-1">
+          {/* LEFT — text content (7 cols) */}
+          <div className="lg:col-span-7 order-2 lg:order-1 space-y-8">
 
-            {/* Hero header */}
-            <SplitReveal
-              as="h1"
-              split="lines"
-              className="text-3xl font-bold text-text-bright"
-            >
-              Moizz K
-            </SplitReveal>
-            <p className="mt-4 mb-12 text-lg text-muted">
-              Full-stack AI engineer building production RAG systems, agents, and LLM products that ship.
-            </p>
+            {/* h1 */}
+            <div>
+              <SplitReveal
+                as="h1"
+                split="lines"
+                className="text-6xl lg:text-7xl font-bold text-white leading-none tracking-tight mb-4"
+              >
+                Moizz K
+              </SplitReveal>
+              <p className="text-lg text-white/60 leading-relaxed">
+                Full-stack AI engineer building production RAG systems, agents, and LLM products that ship.
+              </p>
+            </div>
 
-            {/* Story block */}
-            <div className="max-w-2xl space-y-6">
+            {/* Story paragraphs */}
+            <div className="space-y-5 text-white/70 leading-relaxed text-base max-w-2xl">
               <ScrollReveal>
-                <p className="text-base leading-relaxed text-text">
+                <p className="text-base leading-relaxed text-white/70">
                   I&#39;m a self-taught AI engineer based in Islamabad, Pakistan — currently completing a BSc
                   in Data Science, but I didn&#39;t wait for a degree to start building. I&#39;ve been
                   designing and shipping production AI systems since before the coursework caught up.
@@ -77,7 +79,7 @@ export default function AboutPage() {
               </ScrollReveal>
 
               <ScrollReveal delay={0.1}>
-                <p className="text-base leading-relaxed text-text">
+                <p className="text-base leading-relaxed text-white/70">
                   My flagship project, DocuMind, is a multi-document RAG research assistant built entirely
                   on my own — no team, no tutorial, no shortcuts. It handles real documents at scale,
                   enforces mandatory source citations on every response, and runs on production
@@ -88,7 +90,7 @@ export default function AboutPage() {
               </ScrollReveal>
 
               <ScrollReveal delay={0.2}>
-                <p className="text-base leading-relaxed text-text">
+                <p className="text-base leading-relaxed text-white/70">
                   Today I work globally as a full-stack AI engineer, building RAG pipelines, AI agents,
                   and production LLM systems for clients who need things that actually work — not just in
                   demos, but under real load, with real data, maintained by real teams. My stack centers
@@ -98,11 +100,81 @@ export default function AboutPage() {
                 </p>
               </ScrollReveal>
             </div>
+
+            {/* Philosophy section */}
+            <div>
+              <SplitReveal
+                as="h2"
+                split="lines"
+                className="text-2xl font-semibold text-white mb-6"
+              >
+                How I think about building AI
+              </SplitReveal>
+              <div className="space-y-4">
+                {MANIFESTO.map((statement, i) => (
+                  <ScrollReveal key={statement} delay={i * 0.1}>
+                    <p className="border-l-2 border-violet-600 pl-4 font-serif italic text-xl text-white/70">
+                      {statement}
+                    </p>
+                  </ScrollReveal>
+                ))}
+              </div>
+            </div>
+
+            {/* Currently grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
+              <div>
+                <h3 className="mb-4 text-xs uppercase tracking-widest text-white/30">
+                  Freelancing
+                </h3>
+                <ul className="space-y-2 text-base text-white/70">
+                  <li>Building RAG systems &amp; AI agents for clients on Upwork</li>
+                  <li>Open to long-term retainer engagements</li>
+                  <li>Async-first, global timezone coverage</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="mb-4 text-xs uppercase tracking-widest text-white/30">
+                  Daily tools
+                </h3>
+                <ul className="space-y-2 text-base text-white/70">
+                  <li>LangChain · LangGraph · FastAPI</li>
+                  <li>Claude API · Gemini Flash · Groq</li>
+                  <li>Pinecone · FAISS · ChromaDB</li>
+                  <li>React · Docker · DigitalOcean</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="mb-4 text-xs uppercase tracking-widest text-white/30">
+                  Availability
+                </h3>
+                <ul className="space-y-2 text-base text-white/70">
+                  <li>Available for new projects</li>
+                  <li>Response within 24 hours</li>
+                  <li>Starting point: 20-min scoping call</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="pt-4">
+              <MagneticButton>
+                <Link
+                  href="/contact"
+                  className={buttonVariants({ variant: "primary", size: "lg" })}
+                >
+                  Book a 20-min call
+                </Link>
+              </MagneticButton>
+            </div>
+
           </div>
 
-          {/* Photo — top on mobile, right column on desktop */}
+          {/* RIGHT — photo (5 cols) */}
           <div className="lg:col-span-5 order-1 lg:order-2 lg:sticky lg:top-24">
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-[var(--color-border)]">
+            <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden border border-white/10">
               <Image
                 src="/images/about/moizz.webp"
                 alt="Moizz K — Full-stack AI Engineer"
@@ -113,83 +185,9 @@ export default function AboutPage() {
               />
             </div>
           </div>
+
         </div>
-
-        {/* Philosophy / Manifesto */}
-        <div className="mt-24 md:mt-40 max-w-2xl">
-          <SplitReveal
-            as="h2"
-            split="lines"
-            className="mb-10 text-xl font-semibold text-text-bright"
-          >
-            How I think about building AI
-          </SplitReveal>
-
-          <div className="space-y-6">
-            {MANIFESTO.map((statement, i) => (
-              <ScrollReveal key={statement} delay={i * 0.1}>
-                <p className="border-l-2 border-accent pl-4 font-serif italic text-xl text-text">
-                  {statement}
-                </p>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-
-        {/* Currently — 3 columns */}
-        <div className="mt-24 md:mt-32">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-
-            <div>
-              <h3 className="mb-4 text-sm uppercase tracking-widest text-muted">
-                Freelancing
-              </h3>
-              <ul className="space-y-2 text-base text-text">
-                <li>Building RAG systems &amp; AI agents for clients on Upwork</li>
-                <li>Open to long-term retainer engagements</li>
-                <li>Async-first, global timezone coverage</li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="mb-4 text-sm uppercase tracking-widest text-muted">
-                Daily tools
-              </h3>
-              <ul className="space-y-2 text-base text-text">
-                <li>LangChain · LangGraph · FastAPI</li>
-                <li>Claude API · Gemini Flash · Groq</li>
-                <li>Pinecone · FAISS · ChromaDB</li>
-                <li>React · Docker · DigitalOcean</li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="mb-4 text-sm uppercase tracking-widest text-muted">
-                Availability
-              </h3>
-              <ul className="space-y-2 text-base text-text">
-                <li>Available for new projects</li>
-                <li>Response within 24 hours</li>
-                <li>Starting point: 20-min scoping call</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* CTA */}
-        <div className="mt-16 flex justify-center">
-          <MagneticButton>
-            <Link
-              href="/contact"
-              className={buttonVariants({ variant: "primary", size: "lg" })}
-            >
-              Book a 20-min call
-            </Link>
-          </MagneticButton>
-        </div>
-
       </div>
-      </section>
     </>
   );
 }

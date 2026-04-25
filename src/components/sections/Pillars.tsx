@@ -1,6 +1,5 @@
 import { Brain, Bot, Layers } from "lucide-react";
 import { ScrollReveal } from "@/components/animation/ScrollReveal";
-import { Card } from "@/components/ui/Card";
 
 const pillars = [
   {
@@ -30,16 +29,16 @@ export function Pillars() {
         <h2 className="mb-12 text-3xl font-bold tracking-tight">What I build</h2>
       </ScrollReveal>
 
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
         {pillars.map((pillar, i) => {
           const Icon = pillar.icon;
           return (
             <ScrollReveal key={pillar.title} delay={i * 0.1} direction="up">
-              <Card className="h-full">
-                <Icon className="mb-4 h-7 w-7 text-accent" />
-                <h3 className="mb-2 text-lg font-semibold">{pillar.title}</h3>
-                <p className="text-sm leading-relaxed text-foreground/60">{pillar.description}</p>
-              </Card>
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:border-violet-500/50 hover:bg-white/[0.08] transition-all duration-300">
+                <Icon className="mb-4 h-7 w-7 text-violet-400" />
+                <h3 className="mb-2 text-lg font-semibold text-white">{pillar.title}</h3>
+                <p className="text-sm leading-relaxed text-white/60">{pillar.description}</p>
+              </div>
             </ScrollReveal>
           );
         })}
