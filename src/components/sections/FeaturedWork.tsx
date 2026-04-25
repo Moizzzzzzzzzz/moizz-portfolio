@@ -30,7 +30,7 @@ const projects = [
 
 export function FeaturedWork() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-24 md:px-8">
+    <section className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
       <div className="mb-12 flex items-end justify-between">
         <ScrollReveal>
           <h2 className="text-3xl font-bold tracking-tight">Selected work</h2>

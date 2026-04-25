@@ -24,7 +24,7 @@ const pillars = [
 
 export function Pillars() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-24 md:px-8">
+    <section className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
       <ScrollReveal>
         <h2 className="mb-12 text-3xl font-bold tracking-tight">What I build</h2>
       </ScrollReveal>
