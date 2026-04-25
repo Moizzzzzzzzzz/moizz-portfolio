@@ -99,41 +99,41 @@ export default async function CaseStudyPage({ params }: Props) {
       />
 
       {/* Hero */}
-      <section className="pt-24 pb-12 border-b border-[var(--color-border)]">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="pt-28 pb-16 border-b border-white/10">
+        <div className="max-w-6xl mx-auto px-6 lg:px-10">
+
           <Link
             href="/work"
-            className="inline-flex items-center gap-2 text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors mb-8 text-sm"
+            className="inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors mb-10 text-sm"
           >
-            <ArrowLeft className="w-4 h-4" /> Back to Work
+            <ArrowLeft className="w-4 h-4" />
+            Back to Work
           </Link>
 
-          <div className="max-w-3xl mb-8">
-            <h1 className="text-[length:var(--text-3xl)] font-bold text-[var(--color-text-bright)] mb-4 leading-tight">
+          <div className="max-w-3xl mb-10">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-5 leading-tight tracking-tight">
               {frontmatter.title}
             </h1>
-            <p className="text-[length:var(--text-lg)] text-[var(--color-muted)] leading-relaxed">
+            <p className="text-lg md:text-xl text-white/60 leading-relaxed">
               {frontmatter.tagline ?? frontmatter.description}
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-6 text-sm text-[var(--color-muted)] mb-10">
+          {/* Meta row */}
+          <div className="flex flex-wrap gap-6 text-sm text-white/50 mb-8">
             {frontmatter.role && (
               <span>
-                Role:{" "}
-                <span className="text-[var(--color-text)]">{frontmatter.role}</span>
+                Role: <span className="text-white font-medium">{frontmatter.role}</span>
               </span>
             )}
             {frontmatter.client && (
               <span>
-                Client:{" "}
-                <span className="text-[var(--color-text)]">{frontmatter.client}</span>
+                Client: <span className="text-white font-medium">{frontmatter.client}</span>
               </span>
             )}
             {frontmatter.duration && (
               <span>
-                Duration:{" "}
-                <span className="text-[var(--color-text)]">{frontmatter.duration}</span>
+                Duration: <span className="text-white font-medium">{frontmatter.duration}</span>
               </span>
             )}
             {frontmatter.liveUrl && (
@@ -141,7 +141,7 @@ export default async function CaseStudyPage({ params }: Props) {
                 href={frontmatter.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[var(--color-accent)] hover:underline"
+                className="text-violet-400 hover:text-violet-300 transition-colors"
               >
                 Live demo ↗
               </a>
@@ -151,33 +151,35 @@ export default async function CaseStudyPage({ params }: Props) {
                 href={frontmatter.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[var(--color-accent)] hover:underline"
+                className="text-violet-400 hover:text-violet-300 transition-colors"
               >
                 GitHub ↗
               </a>
             )}
           </div>
 
+          {/* Stack tags */}
           <div className="flex flex-wrap gap-2 mb-10">
             {frontmatter.stack?.map((tech: string) => (
               <span
                 key={tech}
-                className="px-3 py-1 rounded-full text-xs border border-[var(--color-border)] text-[var(--color-muted)]"
+                className="px-3 py-1 rounded-full text-xs border border-white/10 text-white/50 bg-white/5"
               >
                 {tech}
               </span>
             ))}
           </div>
 
+          {/* Cover image */}
           {frontmatter.cover && (
-            <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden border border-[var(--color-border)]">
+            <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden border border-white/10">
               <Image
                 src={frontmatter.cover}
                 alt={frontmatter.title}
                 fill
                 className="object-cover"
                 priority
-                sizes="100vw"
+                sizes="(max-width: 1024px) 100vw, 72rem"
               />
             </div>
           )}
@@ -186,9 +188,9 @@ export default async function CaseStudyPage({ params }: Props) {
 
       {/* Metrics strip */}
       {metricItems.length > 0 && (
-        <section className="py-12 border-b border-[var(--color-border)]">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <section className="py-14 border-b border-white/10">
+          <div className="max-w-6xl mx-auto px-6 lg:px-10">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {metricItems.map((m, i) => (
                 <MetricCard key={m.metric} metric={m.metric} value={m.value} index={i} />
               ))}
@@ -199,7 +201,7 @@ export default async function CaseStudyPage({ params }: Props) {
 
       {/* MDX body */}
       <section className="py-16">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-6 lg:px-10">
           <div className="max-w-3xl mx-auto prose-styles">
             <MDXContent components={mdxComponents} />
           </div>
@@ -213,8 +215,8 @@ export default async function CaseStudyPage({ params }: Props) {
 
       {/* Live demo */}
       {frontmatter.demoUrl && (
-        <section className="max-w-7xl mx-auto px-6 py-8">
-          <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-[var(--color-border)]">
+        <section className="max-w-6xl mx-auto px-6 lg:px-10 py-8">
+          <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-white/10">
             <iframe
               src={frontmatter.demoUrl}
               title={`${frontmatter.title} demo`}
@@ -227,18 +229,18 @@ export default async function CaseStudyPage({ params }: Props) {
       )}
 
       {/* Prev / Next */}
-      <nav className="max-w-7xl mx-auto px-6 py-12">
+      <nav className="max-w-6xl mx-auto px-6 lg:px-10 py-12">
         <div className="flex justify-between gap-4">
           <div className="flex-1">
             {prevProject && (
               <Link
                 href={`/work/${prevProject.slug}`}
-                className="group flex flex-col gap-1 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-4 transition-colors hover:border-[var(--color-accent)]"
+                className="group flex flex-col gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-6 py-5 hover:border-violet-500/50 hover:bg-white/[0.07] transition-all duration-300"
               >
-                <span className="text-xs text-[var(--color-muted)] transition-colors group-hover:text-[var(--color-accent)]">
+                <span className="text-xs text-white/40 group-hover:text-violet-400 transition-colors">
                   ← Previous
                 </span>
-                <span className="font-medium text-[var(--color-text-bright)]">
+                <span className="font-semibold text-white">
                   {prevProject.title}
                 </span>
               </Link>
@@ -248,12 +250,12 @@ export default async function CaseStudyPage({ params }: Props) {
             {nextProject && (
               <Link
                 href={`/work/${nextProject.slug}`}
-                className="group flex flex-col items-end gap-1 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-4 transition-colors hover:border-[var(--color-accent)]"
+                className="group flex flex-col items-end gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-6 py-5 hover:border-violet-500/50 hover:bg-white/[0.07] transition-all duration-300"
               >
-                <span className="text-xs text-[var(--color-muted)] transition-colors group-hover:text-[var(--color-accent)]">
+                <span className="text-xs text-white/40 group-hover:text-violet-400 transition-colors">
                   Next →
                 </span>
-                <span className="font-medium text-[var(--color-text-bright)]">
+                <span className="font-semibold text-white">
                   {nextProject.title}
                 </span>
               </Link>
