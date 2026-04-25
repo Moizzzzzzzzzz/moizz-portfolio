@@ -15,7 +15,7 @@ export default function Home() {
   };
 
   return (
-    <>
+    <div className="content-wrapper">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
@@ -25,6 +25,6 @@ export default function Home() {
       <FeaturedWork />
       <StackShowcase />
       <CTASection />
-    </>
+    </div>
   );
 }

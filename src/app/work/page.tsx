@@ -21,7 +21,7 @@ export default function WorkPage() {
   });
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+    <div className="content-wrapper mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
       <ScrollReveal direction="up" delay={0}>
         <section className="mb-12 flex flex-col gap-3">
           <h1 className="text-4xl font-bold tracking-tight text-text sm:text-5xl">
