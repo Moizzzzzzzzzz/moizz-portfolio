@@ -26,7 +26,7 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 border-b transition-all duration-500",
+        "fixed top-0 left-0 right-0 z-50 border-b transition-all duration-500 px-6 lg:px-12",
         scrolled
           ? "bg-black/90 backdrop-blur-md border-white/10"
           : "bg-transparent border-transparent"
@@ -35,7 +35,7 @@ export function Navbar() {
       <div className="max-w-6xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between gap-8">
 
         {/* Logo */}
-        <Link href="/" className="text-white font-semibold text-sm tracking-wide shrink-0">
+        <Link href="/" className="text-white font-semibold text-base tracking-wide">
           moizz.dev
         </Link>
 
@@ -64,7 +64,7 @@ export function Navbar() {
         <div className="flex items-center gap-3">
           <Link
             href="/contact"
-            className="hidden md:inline-flex shrink-0 px-4 py-2 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+            className="px-5 py-2 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors"
           >
             Let&apos;s talk →
           </Link>
