@@ -170,3 +170,154 @@ body {
   border-color: var(--color-border);
   margin: 3rem 0;
 }
+
+/* ─── Global Layout Spacing ─────────────────────── */
+
+/* Page container — every page gets horizontal padding */
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: clamp(1.25rem, 5vw, 5rem);
+  padding-right: clamp(1.25rem, 5vw, 5rem);
+}
+
+/* Section vertical rhythm */
+.section {
+  padding-top: clamp(4rem, 8vw, 8rem);
+  padding-bottom: clamp(4rem, 8vw, 8rem);
+}
+
+.section-sm {
+  padding-top: clamp(2rem, 4vw, 4rem);
+  padding-bottom: clamp(2rem, 4vw, 4rem);
+}
+
+/* ─── Typography Spacing ─────────────────────────── */
+
+h1 {
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+h2 {
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.25rem;
+  margin-top: 3.5rem;
+}
+h3 {
+  line-height: 1.25;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+}
+p {
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+}
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* ─── Grid Gaps ──────────────────────────────────── */
+
+.grid { gap: clamp(1rem, 2.5vw, 2rem); }
+.grid-tight { gap: clamp(0.75rem, 1.5vw, 1.25rem); }
+.grid-loose { gap: clamp(2rem, 4vw, 4rem); }
+
+/* ─── Card Base ──────────────────────────────────── */
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+/* ─── Stat/Metric boxes ──────────────────────────── */
+
+.metric-box {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+}
+.metric-box .metric-value {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  color: var(--color-accent);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.metric-box .metric-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-bright);
+  margin-bottom: 0.25rem;
+}
+.metric-box .metric-note {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  line-height: 1.5;
+}
+
+/* ─── Section dividers ───────────────────────────── */
+
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: clamp(3rem, 6vw, 6rem) 0;
+}
+
+/* ─── Stack/tag pills ────────────────────────────── */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid var(--color-border);
+  color: var(--color-muted);
+  background: transparent;
+  transition: border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.tag:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* ─── Navigation spacing ─────────────────────────── */
+
+nav {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+/* ─── Footer spacing ─────────────────────────────── */
+
+footer {
+  padding-top: clamp(3rem, 6vw, 5rem);
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+  border-top: 1px solid var(--color-border);
+  margin-top: clamp(4rem, 8vw, 8rem);
+}
+
+/* ─── Flex stacks ────────────────────────────────── */
+
+.stack-sm { display: flex; flex-direction: column; gap: 0.5rem; }
+.stack-md { display: flex; flex-direction: column; gap: 1rem; }
+.stack-lg { display: flex; flex-direction: column; gap: 2rem; }
+
+/* ─── Home page hero fix ─────────────────────────── */
+
+/* Ensure hero section has breathing room */
+section:first-of-type {
+  padding-top: clamp(5rem, 12vw, 10rem);
+}

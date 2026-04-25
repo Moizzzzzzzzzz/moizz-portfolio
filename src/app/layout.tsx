@@ -92,7 +92,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <CursorFollower />
           <Navbar />
           <PageTransition>
-            <main id="main-content">{children}</main>
+            <main
+              id="main-content"
+              className="page-container pt-24 min-h-screen"
+            >
+              {children}
+            </main>
           </PageTransition>
           <Footer />
         </Providers>
