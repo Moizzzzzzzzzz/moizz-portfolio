@@ -102,13 +102,13 @@ export default function AboutPage() {
 
           {/* Photo — top on mobile, right column on desktop */}
           <div className="lg:col-span-5 order-1 lg:order-2 lg:sticky lg:top-24">
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl">
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-[var(--color-border)]">
               <Image
                 src="/images/about/moizz.webp"
                 alt="Moizz K — Full-stack AI Engineer"
                 fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 40vw"
+                className="object-cover object-top"
+                sizes="(max-width: 1024px) 100vw, 40vw"
                 priority
               />
             </div>

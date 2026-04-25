@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { Tag } from "@/components/ui/Tag";
 import type { CaseStudyFrontmatter } from "@/types";
@@ -21,107 +22,107 @@ function matchesFilter(project: Project, filter: FilterKey): boolean {
   return !tags.includes("RAG") && !tags.includes("Agents");
 }
 
-interface FeaturedCardProps {
-  project: Project;
-}
-
-function FeaturedCard({ project }: FeaturedCardProps) {
-  const tags = project.tags ?? project.stack ?? [];
-  const subtitle = project.tagline ?? project.description ?? "";
-  const displayDate = project.year?.toString() ?? project.date?.slice(0, 7) ?? "";
+function FeaturedCard({ project }: { project: Project }) {
   return (
-    <Link
-      href={`/work/${project.slug}`}
-      className={cn(
-        "group col-span-full lg:col-span-2 flex flex-col overflow-hidden rounded-xl",
-        "border border-border bg-surface",
-        "transition-all duration-300 hover:border-accent"
-      )}
-    >
-      <div className="relative aspect-video w-full overflow-hidden">
-        <Image
-          src={project.cover ?? ""}
-          alt={project.title}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 66vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-surface/80 via-transparent to-transparent" />
-        <span className="absolute left-4 top-4 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white">
-          Featured
-        </span>
-      </div>
-      <div className="flex flex-1 flex-col gap-3 p-6">
-        <div className="flex items-start justify-between gap-4">
-          <h3 className="text-xl font-semibold text-text-bright">{project.title}</h3>
-          {displayDate && <span className="shrink-0 text-sm text-muted">{displayDate}</span>}
+    <Link href={`/work/${project.slug}`}>
+      <article className="group relative rounded-2xl overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-all duration-300 bg-[var(--color-surface)]">
+        <div className="relative w-full aspect-[16/9] overflow-hidden">
+          {project.cover ? (
+            <Image
+              src={project.cover}
+              alt={project.title}
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+              sizes="100vw"
+              priority
+            />
+          ) : (
+            <div className="absolute inset-0 bg-[var(--color-border)]" />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+          <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium bg-[var(--color-accent)] text-white tracking-wide">
+            Featured
+          </span>
         </div>
-        <p className="line-clamp-2 text-sm leading-relaxed text-muted">{subtitle}</p>
-        <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
-          {tags.slice(0, 4).map((tag) => (
-            <Tag key={tag}>{tag}</Tag>
-          ))}
+        <div className="p-8">
+          <div className="flex items-start justify-between gap-4 mb-3">
+            <h3 className="text-2xl font-bold text-[var(--color-text-bright)] group-hover:text-[var(--color-accent)] transition-colors">
+              {project.title}
+            </h3>
+            <ArrowUpRight className="w-5 h-5 text-[var(--color-muted)] group-hover:text-[var(--color-accent)] transition-colors shrink-0 mt-1" />
+          </div>
+          <p className="text-[var(--color-muted)] leading-relaxed mb-5">
+            {project.tagline ?? project.description}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {project.stack?.slice(0, 4).map((tech) => (
+              <span
+                key={tech}
+                className="px-3 py-1 rounded-full text-xs border border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
+      </article>
     </Link>
   );
 }
 
-interface ProjectCardProps {
-  project: Project;
-}
-
-function ProjectCard({ project }: ProjectCardProps) {
-  const tags = project.tags ?? project.stack ?? [];
-  const subtitle = project.tagline ?? project.description ?? "";
-  const displayDate = project.year?.toString() ?? project.date?.slice(0, 7) ?? "";
+function RegularCard({ project }: { project: Project }) {
   return (
-    <Link
-      href={`/work/${project.slug}`}
-      className={cn(
-        "group flex flex-col overflow-hidden rounded-xl",
-        "border border-border bg-surface",
-        "transition-all duration-300 hover:border-accent"
-      )}
-    >
-      <div className="relative aspect-video w-full overflow-hidden">
-        <Image
-          src={project.cover ?? ""}
-          alt={project.title}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        />
-      </div>
-      <div className="flex flex-1 flex-col gap-2.5 p-5">
-        <div className="flex items-start justify-between gap-3">
-          <h3 className="text-base font-semibold text-text-bright">{project.title}</h3>
-          {displayDate && <span className="shrink-0 text-xs text-muted">{displayDate}</span>}
+    <Link href={`/work/${project.slug}`} className="flex">
+      <article className="group relative flex flex-col w-full rounded-2xl overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-all duration-300 bg-[var(--color-surface)]">
+        <div className="relative w-full aspect-[4/3] overflow-hidden">
+          {project.cover ? (
+            <Image
+              src={project.cover}
+              alt={project.title}
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
+          ) : (
+            <div className="absolute inset-0 bg-[var(--color-border)]" />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
         </div>
-        <p className="line-clamp-2 text-sm leading-relaxed text-muted">{subtitle}</p>
-        <div className="mt-auto flex flex-wrap gap-1.5 pt-1">
-          {tags.slice(0, 2).map((tag) => (
-            <Tag key={tag}>{tag}</Tag>
-          ))}
+        <div className="p-6 flex flex-col flex-1">
+          <div className="flex items-start justify-between gap-4 mb-3">
+            <h3 className="text-xl font-bold text-[var(--color-text-bright)] group-hover:text-[var(--color-accent)] transition-colors">
+              {project.title}
+            </h3>
+            <ArrowUpRight className="w-4 h-4 text-[var(--color-muted)] group-hover:text-[var(--color-accent)] transition-colors shrink-0 mt-1" />
+          </div>
+          <p className="text-sm text-[var(--color-muted)] leading-relaxed mb-4 line-clamp-2">
+            {project.tagline ?? project.description}
+          </p>
+          <div className="mt-auto flex flex-wrap gap-2">
+            {project.stack?.slice(0, 3).map((tech) => (
+              <span
+                key={tech}
+                className="px-2 py-1 rounded-full text-xs border border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
+      </article>
     </Link>
   );
 }
 
-interface WorkGridProps {
-  projects: Project[];
-}
-
-export function WorkGrid({ projects }: WorkGridProps) {
+export function WorkGrid({ projects }: { projects: Project[] }) {
   const [activeFilter, setActiveFilter] = useState<FilterKey>("All");
 
   const filtered = projects.filter((p) => matchesFilter(p, activeFilter));
-  const featured = filtered.find((p) => p.featured);
-  const rest = filtered.filter((p) => !p.featured);
+  const featuredProject = filtered.find((p) => p.featured);
+  const regularProjects = filtered.filter((p) => !p.featured);
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className={cn("flex flex-col gap-8")}>
       <div className="flex flex-wrap gap-2">
         {FILTERS.map((filter) => (
           <Tag
@@ -134,20 +135,15 @@ export function WorkGrid({ projects }: WorkGridProps) {
         ))}
       </div>
 
-      <div
-        className={cn(
-          "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3",
-          "transition-opacity duration-300"
-        )}
-      >
-        {featured && <FeaturedCard project={featured} />}
-        {rest.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
-        ))}
+      <div className="space-y-6">
+        {featuredProject && <FeaturedCard project={featuredProject} />}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {regularProjects.map((project) => (
+            <RegularCard key={project.slug} project={project} />
+          ))}
+        </div>
         {filtered.length === 0 && (
-          <p className="col-span-full py-16 text-center text-muted">
-            No projects found.
-          </p>
+          <p className="py-16 text-center text-[var(--color-muted)]">No projects found.</p>
         )}
       </div>
     </div>

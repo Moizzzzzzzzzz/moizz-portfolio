@@ -1,3 +1,4 @@
+import path from "path";
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 import bundleAnalyzer from "@next/bundle-analyzer";
@@ -6,7 +7,16 @@ const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
-const withMDX = createMDX({});
+// String paths are resolved by @next/mdx's mdx-js-loader at compile time
+// (see mdx-js-loader.js → importPluginForPath). Plain strings are
+// serializable by Turbopack, unlike inline functions.
+const STRIP_FM = path.resolve("./src/lib/remark-strip-frontmatter.mjs");
+
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: [STRIP_FM, "remark-gfm"] as any,
+  },
+});
 
 const nextConfig: NextConfig = {
   compress: true,
@@ -18,9 +28,6 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "**.moizz.dev" },
     ],
     formats: ["image/avif", "image/webp"],
-  },
-  experimental: {
-    mdxRs: true,
   },
 };
 

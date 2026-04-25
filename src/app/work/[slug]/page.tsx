@@ -2,11 +2,12 @@ import type { ComponentType } from "react";
 import type { MDXComponents } from "mdx/types";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 import { getAllProjects, getProject } from "@/lib/mdx";
-import { CaseStudyHero } from "@/components/case-study/CaseStudyHero";
+import { MetricCard } from "@/components/case-study/MetricCard";
 import { CaseStudySection } from "@/components/case-study/CaseStudySection";
 import { StackList } from "@/components/case-study/StackList";
-import { MetricCard } from "@/components/case-study/MetricCard";
 import { CTASection } from "@/components/sections/CTASection";
 import { constructMetadata, siteConfig } from "@/lib/seo";
 import { mdxComponents } from "@/components/mdx/MDXComponents";
@@ -71,6 +72,11 @@ export default async function CaseStudyPage({ params }: Props) {
   const nextProject =
     currentIndex < allProjects.length - 1 ? allProjects[currentIndex + 1] : null;
 
+  const metricItems =
+    frontmatter.results ??
+    frontmatter.metrics?.map((m) => ({ metric: m.label, value: m.value })) ??
+    [];
+
   return (
     <>
       <script
@@ -81,49 +87,133 @@ export default async function CaseStudyPage({ params }: Props) {
             "@type": "BreadcrumbList",
             itemListElement: [
               { "@type": "ListItem", position: 1, name: "Work", item: "https://moizzz.dev/work" },
-              { "@type": "ListItem", position: 2, name: frontmatter.title, item: `https://moizzz.dev/work/${frontmatter.slug}` },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: frontmatter.title,
+                item: `https://moizzz.dev/work/${frontmatter.slug}`,
+              },
             ],
           }),
         }}
       />
-      <CaseStudyHero frontmatter={frontmatter} />
 
-      {(() => {
-        const items = frontmatter.results ?? frontmatter.metrics?.map((m) => ({ metric: m.label, value: m.value })) ?? [];
-        return items.length > 0 ? (
-          <section className="mx-auto max-w-6xl px-4 py-8 md:px-8">
-            <div className="flex flex-wrap gap-4">
-              {items.map((m, i) => (
+      {/* Hero */}
+      <section className="pt-24 pb-12 border-b border-[var(--color-border)]">
+        <div className="max-w-7xl mx-auto px-6">
+          <Link
+            href="/work"
+            className="inline-flex items-center gap-2 text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors mb-8 text-sm"
+          >
+            <ArrowLeft className="w-4 h-4" /> Back to Work
+          </Link>
+
+          <div className="max-w-3xl mb-8">
+            <h1 className="text-[length:var(--text-3xl)] font-bold text-[var(--color-text-bright)] mb-4 leading-tight">
+              {frontmatter.title}
+            </h1>
+            <p className="text-[length:var(--text-lg)] text-[var(--color-muted)] leading-relaxed">
+              {frontmatter.tagline ?? frontmatter.description}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-6 text-sm text-[var(--color-muted)] mb-10">
+            {frontmatter.role && (
+              <span>
+                Role:{" "}
+                <span className="text-[var(--color-text)]">{frontmatter.role}</span>
+              </span>
+            )}
+            {frontmatter.client && (
+              <span>
+                Client:{" "}
+                <span className="text-[var(--color-text)]">{frontmatter.client}</span>
+              </span>
+            )}
+            {frontmatter.duration && (
+              <span>
+                Duration:{" "}
+                <span className="text-[var(--color-text)]">{frontmatter.duration}</span>
+              </span>
+            )}
+            {frontmatter.liveUrl && (
+              <a
+                href={frontmatter.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[var(--color-accent)] hover:underline"
+              >
+                Live demo ↗
+              </a>
+            )}
+            {frontmatter.githubUrl && (
+              <a
+                href={frontmatter.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[var(--color-accent)] hover:underline"
+              >
+                GitHub ↗
+              </a>
+            )}
+          </div>
+
+          <div className="flex flex-wrap gap-2 mb-10">
+            {frontmatter.stack?.map((tech: string) => (
+              <span
+                key={tech}
+                className="px-3 py-1 rounded-full text-xs border border-[var(--color-border)] text-[var(--color-muted)]"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+
+          {frontmatter.cover && (
+            <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden border border-[var(--color-border)]">
+              <Image
+                src={frontmatter.cover}
+                alt={frontmatter.title}
+                fill
+                className="object-cover"
+                priority
+                sizes="100vw"
+              />
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Metrics strip */}
+      {metricItems.length > 0 && (
+        <section className="py-12 border-b border-[var(--color-border)]">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {metricItems.map((m, i) => (
                 <MetricCard key={m.metric} metric={m.metric} value={m.value} index={i} />
               ))}
             </div>
-          </section>
-        ) : null;
-      })()}
+          </div>
+        </section>
+      )}
 
-      <article className="prose-section mx-auto max-w-3xl px-4 py-12 md:px-8 md:py-16">
-        <MDXContent components={mdxComponents} />
-      </article>
+      {/* MDX body */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="max-w-3xl mx-auto prose-styles">
+            <MDXContent components={mdxComponents} />
+          </div>
+        </div>
+      </section>
 
+      {/* Stack */}
       <CaseStudySection title="Stack">
         <StackList stack={frontmatter.stack} />
       </CaseStudySection>
 
-      {(() => {
-        const items = frontmatter.results ?? frontmatter.metrics?.map((m) => ({ metric: m.label, value: m.value })) ?? [];
-        return items.length > 0 ? (
-          <CaseStudySection title="Results">
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {items.map((m, i) => (
-                <MetricCard key={m.metric} metric={m.metric} value={m.value} index={i} />
-              ))}
-            </div>
-          </CaseStudySection>
-        ) : null;
-      })()}
-
+      {/* Live demo */}
       {frontmatter.demoUrl && (
-        <section className="mx-auto max-w-6xl px-4 py-8 md:px-8">
+        <section className="max-w-7xl mx-auto px-6 py-8">
           <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-[var(--color-border)]">
             <iframe
               src={frontmatter.demoUrl}
@@ -136,7 +226,8 @@ export default async function CaseStudyPage({ params }: Props) {
         </section>
       )}
 
-      <nav className="mx-auto max-w-6xl px-4 py-12 md:px-8 md:py-16">
+      {/* Prev / Next */}
+      <nav className="max-w-7xl mx-auto px-6 py-12">
         <div className="flex justify-between gap-4">
           <div className="flex-1">
             {prevProject && (
