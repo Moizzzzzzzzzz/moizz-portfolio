@@ -35,12 +35,12 @@ function FeaturedCard({ project }: FeaturedCardProps) {
       className={cn(
         "group col-span-full lg:col-span-2 flex flex-col overflow-hidden rounded-xl",
         "border border-border bg-surface",
-        "transition-all duration-300 hover:border-accent/30"
+        "transition-all duration-300 hover:border-accent"
       )}
     >
       <div className="relative aspect-video w-full overflow-hidden">
         <Image
-          src={project.cover}
+          src={project.cover ?? ""}
           alt={project.title}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -53,7 +53,7 @@ function FeaturedCard({ project }: FeaturedCardProps) {
       </div>
       <div className="flex flex-1 flex-col gap-3 p-6">
         <div className="flex items-start justify-between gap-4">
-          <h3 className="text-xl font-semibold text-text">{project.title}</h3>
+          <h3 className="text-xl font-semibold text-text-bright">{project.title}</h3>
           {displayDate && <span className="shrink-0 text-sm text-muted">{displayDate}</span>}
         </div>
         <p className="line-clamp-2 text-sm leading-relaxed text-muted">{subtitle}</p>
@@ -81,12 +81,12 @@ function ProjectCard({ project }: ProjectCardProps) {
       className={cn(
         "group flex flex-col overflow-hidden rounded-xl",
         "border border-border bg-surface",
-        "transition-all duration-300 hover:border-accent/30"
+        "transition-all duration-300 hover:border-accent"
       )}
     >
       <div className="relative aspect-video w-full overflow-hidden">
         <Image
-          src={project.cover}
+          src={project.cover ?? ""}
           alt={project.title}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -95,7 +95,7 @@ function ProjectCard({ project }: ProjectCardProps) {
       </div>
       <div className="flex flex-1 flex-col gap-2.5 p-5">
         <div className="flex items-start justify-between gap-3">
-          <h3 className="text-base font-semibold text-text">{project.title}</h3>
+          <h3 className="text-base font-semibold text-text-bright">{project.title}</h3>
           {displayDate && <span className="shrink-0 text-xs text-muted">{displayDate}</span>}
         </div>
         <p className="line-clamp-2 text-sm leading-relaxed text-muted">{subtitle}</p>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Tag } from "@/components/ui/Tag";
 import { SplitReveal } from "@/components/animation/SplitReveal";
 import { ScrollReveal } from "@/components/animation/ScrollReveal";
@@ -45,6 +46,21 @@ export function CaseStudyHero({ frontmatter }: { frontmatter: CaseStudyFrontmatt
           )}
         </div>
       </ScrollReveal>
+
+      {frontmatter.cover && (
+        <ScrollReveal direction="up" delay={0.5}>
+          <div className="relative mt-12 w-full aspect-[16/9] overflow-hidden rounded-xl">
+            <Image
+              src={frontmatter.cover}
+              alt={frontmatter.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 75vw"
+              priority
+            />
+          </div>
+        </ScrollReveal>
+      )}
     </section>
   );
 }

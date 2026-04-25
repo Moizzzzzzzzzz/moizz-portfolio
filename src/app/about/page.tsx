@@ -48,24 +48,10 @@ export default function AboutPage() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Two-column grid — photo first in DOM (top on mobile), text left on desktop */}
-        <div className="grid grid-cols-1 md:grid-cols-12 items-start gap-y-12 md:gap-x-16">
-
-          {/* Photo — top on mobile, right column on desktop */}
-          <div className="md:col-start-8 md:col-span-5 md:row-start-1">
-            <div className="relative aspect-[3/4] md:aspect-[4/5] overflow-hidden rounded-2xl shadow-2xl shadow-black/30">
-              <Image
-                src="/images/about/moizz.webp"
-                alt="Moizz K — Full-stack AI Engineer"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 41.67vw"
-                priority
-              />
-            </div>
-          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
 
           {/* Text — below on mobile, left column on desktop */}
-          <div className="md:col-start-1 md:col-span-7 md:row-start-1">
+          <div className="lg:col-span-7 order-2 lg:order-1">
 
             {/* Hero header */}
             <SplitReveal
@@ -111,6 +97,20 @@ export default function AboutPage() {
                   don&#39;t disappear after handoff.
                 </p>
               </ScrollReveal>
+            </div>
+          </div>
+
+          {/* Photo — top on mobile, right column on desktop */}
+          <div className="lg:col-span-5 order-1 lg:order-2 lg:sticky lg:top-24">
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl">
+              <Image
+                src="/images/about/moizz.webp"
+                alt="Moizz K — Full-stack AI Engineer"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 40vw"
+                priority
+              />
             </div>
           </div>
         </div>

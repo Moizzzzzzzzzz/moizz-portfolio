@@ -26,27 +26,62 @@ export default function ContactPage() {
   return (
     <section
       style={{ paddingTop: "6rem", paddingBottom: "6rem" }}
-      className="mx-auto max-w-2xl px-6"
+      className="mx-auto max-w-6xl px-6"
     >
-      <h1
-        style={{
-          color: "var(--color-text-bright)",
-          fontSize: "var(--text-2xl)",
-          fontFamily: "var(--font-serif)",
-          marginBottom: "0.5rem",
-        }}
-      >
-        Get in touch
-      </h1>
-      <p
-        style={{
-          color: "var(--color-muted)",
-          fontSize: "var(--text-base)",
-          marginBottom: "2.5rem",
-        }}
-      >
-        Have a project in mind or want to work together? Send a message.
-      </p>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+        {/* Cal.com — left */}
+        <div className="lg:col-span-5">
+          <h2
+            style={{
+              color: "var(--color-text-bright)",
+              fontSize: "var(--text-xl)",
+              fontWeight: 600,
+              marginBottom: "0.5rem",
+            }}
+          >
+            Book a 20-min scoping call
+          </h2>
+          <p
+            style={{
+              color: "var(--color-muted)",
+              fontSize: "var(--text-sm)",
+              marginBottom: "1.5rem",
+            }}
+          >
+            Free call. No pitch. We figure out if there&apos;s a fit.
+          </p>
+          <iframe
+            src={`https://cal.com/${process.env.NEXT_PUBLIC_CAL_USERNAME}?embed=true&theme=dark`}
+            className="w-full rounded-2xl"
+            style={{
+              height: "600px",
+              border: "1px solid var(--color-border)",
+            }}
+            title="Book a scoping call"
+          />
+        </div>
+
+        {/* Form — right */}
+        <div className="lg:col-span-7">
+          <h1
+            style={{
+              color: "var(--color-text-bright)",
+              fontSize: "var(--text-2xl)",
+              fontFamily: "var(--font-serif)",
+              marginBottom: "0.5rem",
+            }}
+          >
+            Get in touch
+          </h1>
+          <p
+            style={{
+              color: "var(--color-muted)",
+              fontSize: "var(--text-base)",
+              marginBottom: "2.5rem",
+            }}
+          >
+            Have a project in mind or want to work together? Send a message.
+          </p>
 
       <form ref={formRef} onSubmit={handleSubmit} noValidate>
         {/* Honeypot — hidden via CSS only, never type="hidden" */}
@@ -183,6 +218,8 @@ export default function ContactPage() {
           </button>
         </div>
       </form>
+        </div>
+      </div>
     </section>
   );
 }
