@@ -113,7 +113,7 @@ export default function AboutPage() {
               <div className="space-y-4">
                 {MANIFESTO.map((statement, i) => (
                   <ScrollReveal key={statement} delay={i * 0.1}>
-                    <p className="border-l-2 border-violet-600 pl-4 font-serif italic text-xl text-white/70">
+                    <p className="border-l-2 border-violet-600 pl-4 font-serif italic text-xl text-white/70 py-3">
                       {statement}
                     </p>
                   </ScrollReveal>
@@ -123,7 +123,7 @@ export default function AboutPage() {
 
             {/* Currently grid */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
-              <div>
+              <div className="p-6 space-y-2 bg-white/5 rounded-xl border border-white/10">
                 <h3 className="mb-4 text-xs uppercase tracking-widest text-white/30">
                   Freelancing
                 </h3>
@@ -134,7 +134,7 @@ export default function AboutPage() {
                 </ul>
               </div>
 
-              <div>
+              <div className="p-6 space-y-2 bg-white/5 rounded-xl border border-white/10">
                 <h3 className="mb-4 text-xs uppercase tracking-widest text-white/30">
                   Daily tools
                 </h3>
@@ -146,7 +146,7 @@ export default function AboutPage() {
                 </ul>
               </div>
 
-              <div>
+              <div className="p-6 space-y-2 bg-white/5 rounded-xl border border-white/10">
                 <h3 className="mb-4 text-xs uppercase tracking-widest text-white/30">
                   Availability
                 </h3>
@@ -163,7 +163,7 @@ export default function AboutPage() {
               <MagneticButton>
                 <Link
                   href="/contact"
-                  className={buttonVariants({ variant: "primary", size: "lg" })}
+                  className={`${buttonVariants({ variant: "primary", size: "lg" })} px-6 py-3 rounded-full`}
                 >
                   Book a 20-min call
                 </Link>

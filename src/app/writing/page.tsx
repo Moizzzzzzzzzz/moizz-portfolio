@@ -37,10 +37,10 @@ export default function WritingPage() {
         </p>
       </header>
 
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 divide-y divide-white/10">
         {posts.map((post, i) => (
           <ScrollReveal key={post.slug} delay={i * 0.08}>
-            <article>
+            <article className="py-8 space-y-2">
               <Link
                 href={`/writing/${post.slug}`}
                 className="group mb-2 block"

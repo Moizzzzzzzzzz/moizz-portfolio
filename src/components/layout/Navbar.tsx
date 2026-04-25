@@ -46,7 +46,7 @@ export function Navbar() {
               key={href}
               href={href}
               className={cn(
-                "relative py-1 text-sm transition-colors duration-200",
+                "relative py-1 px-3 text-sm transition-colors duration-200",
                 pathname.startsWith(href)
                   ? "text-white"
                   : "text-white/60 hover:text-white"
@@ -64,7 +64,7 @@ export function Navbar() {
         <div className="flex items-center gap-3">
           <Link
             href="/contact"
-            className="px-6 py-2 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors"
+            className="px-6 py-2 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors"
           >
             Let&apos;s talk →
           </Link>

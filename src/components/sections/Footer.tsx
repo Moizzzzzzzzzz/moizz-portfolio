@@ -9,7 +9,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 mb-10">
 
           {/* Brand */}
-          <div>
+          <div className="space-y-3">
             <p className="text-white font-semibold text-sm mb-3">moizz.dev</p>
             <p className="text-white/50 text-sm leading-relaxed max-w-sm">
               Full-stack AI engineer building RAG, agents, and LLM products that ship.
@@ -18,14 +18,14 @@ export function Footer() {
 
           {/* Nav columns */}
           <div className="flex gap-16">
-            <div>
+            <div className="space-y-3">
               <p className="text-white/30 text-xs uppercase tracking-widest mb-5">Pages</p>
               <ul className="space-y-3">
                 {["Work", "Writing", "About", "Contact"].map((page) => (
                   <li key={page}>
                     <Link
                       href={`/${page.toLowerCase()}`}
-                      className="text-white/60 text-sm hover:text-white transition-colors"
+                      className="text-white/60 text-sm hover:text-white transition-colors py-1 block"
                     >
                       {page}
                     </Link>
@@ -34,7 +34,7 @@ export function Footer() {
               </ul>
             </div>
 
-            <div>
+            <div className="space-y-3">
               <p className="text-white/30 text-xs uppercase tracking-widest mb-5">Find me</p>
               <ul className="space-y-3">
                 <li>
@@ -42,7 +42,7 @@ export function Footer() {
                     href="https://github.com/Moizzzzzzzzzz"
                     target="_blank"
                     rel="noreferrer"
-                    className="text-white/60 text-sm hover:text-white transition-colors"
+                    className="text-white/60 text-sm hover:text-white transition-colors py-1 block"
                   >
                     GitHub ↗
                   </a>
@@ -52,7 +52,7 @@ export function Footer() {
                     href="https://linkedin.com/in/abdul-moizz-b21bb0322"
                     target="_blank"
                     rel="noreferrer"
-                    className="text-white/60 text-sm hover:text-white transition-colors"
+                    className="text-white/60 text-sm hover:text-white transition-colors py-1 block"
                   >
                     LinkedIn ↗
                   </a>
@@ -62,7 +62,7 @@ export function Footer() {
                     href="https://www.upwork.com/freelancers/abdulmoizz"
                     target="_blank"
                     rel="noreferrer"
-                    className="text-white/60 text-sm hover:text-white transition-colors"
+                    className="text-white/60 text-sm hover:text-white transition-colors py-1 block"
                   >
                     Upwork ↗
                   </a>

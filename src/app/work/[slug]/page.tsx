@@ -104,7 +104,7 @@ export default async function CaseStudyPage({ params }: Props) {
 
           <Link
             href="/work"
-            className="inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors mb-10 text-sm"
+            className="inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors mb-10 text-sm px-6 py-3 rounded-full"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Work
@@ -235,7 +235,7 @@ export default async function CaseStudyPage({ params }: Props) {
             {prevProject && (
               <Link
                 href={`/work/${prevProject.slug}`}
-                className="group flex flex-col gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-6 py-5 hover:border-violet-500/50 hover:bg-white/[0.07] transition-all duration-300"
+                className="group flex flex-col gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-6 py-5 hover:border-violet-500/50 hover:bg-white/[0.07] transition-all duration-300 space-y-2 p-6"
               >
                 <span className="text-xs text-white/40 group-hover:text-violet-400 transition-colors">
                   ← Previous
@@ -250,7 +250,7 @@ export default async function CaseStudyPage({ params }: Props) {
             {nextProject && (
               <Link
                 href={`/work/${nextProject.slug}`}
-                className="group flex flex-col items-end gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-6 py-5 hover:border-violet-500/50 hover:bg-white/[0.07] transition-all duration-300"
+                className="group flex flex-col items-end gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-6 py-5 hover:border-violet-500/50 hover:bg-white/[0.07] transition-all duration-300 space-y-2 p-6"
               >
                 <span className="text-xs text-white/40 group-hover:text-violet-400 transition-colors">
                   Next →

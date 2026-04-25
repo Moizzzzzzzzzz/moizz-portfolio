@@ -94,7 +94,7 @@ export default function ContactPage() {
         />
 
         <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+          <div className="space-y-2" style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
             <label
               htmlFor="name"
               style={{ color: "var(--color-text)", fontSize: "var(--text-sm)" }}
@@ -109,6 +109,7 @@ export default function ContactPage() {
               aria-required="true"
               autoComplete="name"
               disabled={isPending}
+              className="px-4 py-3 rounded-xl"
               style={{
                 background: "var(--color-surface)",
                 color: "var(--color-text-bright)",
@@ -128,7 +129,7 @@ export default function ContactPage() {
             />
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+          <div className="space-y-2" style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
             <label
               htmlFor="email"
               style={{ color: "var(--color-text)", fontSize: "var(--text-sm)" }}
@@ -143,6 +144,7 @@ export default function ContactPage() {
               aria-required="true"
               autoComplete="email"
               disabled={isPending}
+              className="px-4 py-3 rounded-xl"
               style={{
                 background: "var(--color-surface)",
                 color: "var(--color-text-bright)",
@@ -162,7 +164,7 @@ export default function ContactPage() {
             />
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+          <div className="space-y-2" style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
             <label
               htmlFor="message"
               style={{ color: "var(--color-text)", fontSize: "var(--text-sm)" }}
@@ -176,6 +178,7 @@ export default function ContactPage() {
               aria-required="true"
               rows={6}
               disabled={isPending}
+              className="px-4 py-3 rounded-xl"
               style={{
                 background: "var(--color-surface)",
                 color: "var(--color-text-bright)",
@@ -200,6 +203,7 @@ export default function ContactPage() {
           <button
             type="submit"
             disabled={isPending}
+            className="px-8 py-3 rounded-full"
             style={{
               background: isPending ? "var(--color-surface)" : "var(--color-accent)",
               color: "var(--color-text-bright)",
