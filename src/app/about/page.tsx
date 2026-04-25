@@ -45,7 +45,7 @@ export default function AboutPage() {
         }}
       />
 
-      <div className="content-wrapper pb-24 max-w-6xl mx-auto px-6 lg:px-10" style={{ paddingTop: "calc(var(--navbar-height) + 3rem)" }}>
+      <div className="content-wrapper pb-24 max-w-6xl mx-auto px-6 lg:px-10 px-8 md:px-16 lg:px-24" style={{ paddingTop: "calc(var(--navbar-height) + 3rem)" }}>
 
         {/* Two column grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
