@@ -83,7 +83,7 @@ export function Hero() {
 
         {/* Subtitle — starts just as the last headline word finishes */}
         <ScrollReveal direction="up" delay={1.25}>
-          <p className="mb-10 max-w-lg text-lg leading-relaxed text-muted">
+          <p className="mb-10 max-w-xl text-lg leading-relaxed text-muted">
             Full-stack AI engineer building RAG, agents, and LLM products that
             ship.
           </p>

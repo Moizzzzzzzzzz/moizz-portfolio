@@ -14,6 +14,7 @@ const STRIP_FM = path.resolve("./src/lib/remark-strip-frontmatter.mjs");
 
 const withMDX = createMDX({
   options: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     remarkPlugins: [STRIP_FM, "remark-gfm"] as any,
   },
 });
