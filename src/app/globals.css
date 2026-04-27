@@ -1200,3 +1200,7 @@ h1 em, h2 em, h3 em {
 
 /* ============ HOVER ACCENT ============ */
 .hover-accent:hover { color: var(--color-accent) !important; }
+
+/* ============ WRITING ARTICLE ============ */
+.writing-related-link:hover { background: var(--color-surface) !important; }
+.writing-related-link:hover > div:first-child { color: var(--color-accent) !important; }

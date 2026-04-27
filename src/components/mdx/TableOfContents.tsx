@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { cn } from "@/lib/cn";
 
 export interface TocHeading {
   id: string;
@@ -35,30 +34,41 @@ export function TableOfContents({ headings }: Props) {
     );
 
     headingEls.forEach((el) => observerRef.current?.observe(el));
-
-    return () => {
-      observerRef.current?.disconnect();
-    };
+    return () => observerRef.current?.disconnect();
   }, [headings]);
 
   if (headings.length === 0) return null;
 
   return (
-    <nav aria-label="Table of contents" className="sticky top-24">
-      <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-[var(--color-muted)]">
+    <nav aria-label="Table of contents" style={{ paddingLeft: 24, borderLeft: "1px solid var(--color-border)" }}>
+      <div style={{
+        fontFamily: "var(--font-mono)",
+        fontSize: "0.62rem",
+        letterSpacing: "0.14em",
+        textTransform: "uppercase",
+        color: "var(--color-muted)",
+        marginBottom: 20,
+      }}>
         On this page
-      </p>
-      <ul className="space-y-1.5">
+      </div>
+      <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 12 }}>
         {headings.map((h) => (
-          <li key={h.id} className={h.level === 3 ? "pl-3" : ""}>
+          <li key={h.id} style={{ paddingLeft: h.level === 3 ? 12 : 0 }}>
             <a
               href={`#${h.id}`}
-              className={cn(
-                "block text-sm leading-relaxed transition-colors duration-200",
-                activeId === h.id
-                  ? "text-[var(--color-accent)]"
-                  : "text-[var(--color-muted)] hover:text-[var(--color-text)]"
-              )}
+              style={{
+                display: "block",
+                fontFamily: h.level === 2 ? "var(--font-serif)" : "var(--font-mono)",
+                fontStyle: h.level === 2 ? "italic" : "normal",
+                fontSize: h.level === 2 ? "0.9rem" : "0.65rem",
+                letterSpacing: h.level === 3 ? "0.08em" : "0",
+                textTransform: h.level === 3 ? "uppercase" : "none",
+                fontWeight: 300,
+                lineHeight: 1.4,
+                textDecoration: "none",
+                color: activeId === h.id ? "var(--color-accent)" : "var(--color-muted)",
+                transition: "color 0.2s",
+              }}
             >
               {h.text}
             </a>

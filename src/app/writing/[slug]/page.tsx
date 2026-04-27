@@ -5,30 +5,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug } from "@/lib/mdx";
-import { SplitReveal } from "@/components/animation/SplitReveal";
-import { ScrollReveal } from "@/components/animation/ScrollReveal";
-import { Tag } from "@/components/ui/Tag";
 import { mdxComponents } from "@/components/mdx/MDXComponents";
 import { TableOfContents } from "@/components/mdx/TableOfContents";
 import type { TocHeading } from "@/components/mdx/TableOfContents";
 import { constructMetadata, siteConfig } from "@/lib/seo";
 
-// ---------------------------------------------------------------------------
-// MDX module map — static imports so Next.js can tree-shake and bundle correctly
-// ---------------------------------------------------------------------------
 type MDXModule = () => Promise<{
   default: ComponentType<{ components?: MDXComponents }>;
 }>;
 
 const MDX_MODULES: Record<string, MDXModule> = {
-  "rag-hallucinations": () => import("@/content/writing/rag-hallucinations.mdx"),
-  "langgraph-vs-langchain": () => import("@/content/writing/langgraph-vs-langchain.mdx"),
+  "rag-hallucinations":       () => import("@/content/writing/rag-hallucinations.mdx"),
+  "langgraph-vs-langchain":   () => import("@/content/writing/langgraph-vs-langchain.mdx"),
   "production-llm-checklist": () => import("@/content/writing/production-llm-checklist.mdx"),
 };
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
 function slugify(text: string): string {
   return text
     .toLowerCase()
@@ -72,9 +63,6 @@ function nodeToText(node: ReactNode): string {
   return "";
 }
 
-// ---------------------------------------------------------------------------
-// Route exports
-// ---------------------------------------------------------------------------
 interface Props {
   params: Promise<{ slug: string }>;
 }
@@ -105,9 +93,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// ---------------------------------------------------------------------------
-// Page
-// ---------------------------------------------------------------------------
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params;
 
@@ -120,7 +105,6 @@ export default async function ArticlePage({ params }: Props) {
   const headings = extractHeadings(post.content);
   const showToc = parseReadingMinutes(post.readingTime) > 5 && headings.length > 0;
 
-  // Related posts: prefer tag matches; fall back to 2 most recent
   const allPosts = getAllPosts();
   const related = (() => {
     const others = allPosts.filter((p) => p.slug !== slug);
@@ -128,18 +112,12 @@ export default async function ArticlePage({ params }: Props) {
     return (tagged.length >= 2 ? tagged : others).slice(0, 2);
   })();
 
-  // Custom heading components that inject IDs so TOC links resolve correctly.
-  // Defined per-render (SSR only) — no client-side remount concern.
   const articleComponents: MDXComponents = {
     ...mdxComponents,
     h2: ({ children, ...props }) => {
       const id = slugify(nodeToText(children));
       return (
-        <h2
-          id={id}
-          className="mt-8 mb-3 scroll-mt-24 text-2xl font-semibold text-[var(--color-text-bright)]"
-          {...props}
-        >
+        <h2 id={id} className="scroll-mt-24 cs-body-h2" {...props}>
           {children}
         </h2>
       );
@@ -147,11 +125,7 @@ export default async function ArticlePage({ params }: Props) {
     h3: ({ children, ...props }) => {
       const id = slugify(nodeToText(children));
       return (
-        <h3
-          id={id}
-          className="mt-6 mb-2 scroll-mt-24 text-xl font-semibold text-[var(--color-text-bright)]"
-          {...props}
-        >
+        <h3 id={id} className="scroll-mt-24 cs-body-h3" {...props}>
           {children}
         </h3>
       );
@@ -183,7 +157,8 @@ export default async function ArticlePage({ params }: Props) {
           }),
         }}
       />
-      {/* Reading progress bar — CSS scroll-driven animation, SSR-safe, no JS */}
+
+      {/* Reading progress bar */}
       <style>{`
         .reading-progress {
           display: none;
@@ -191,10 +166,10 @@ export default async function ArticlePage({ params }: Props) {
           top: 0;
           left: 0;
           right: 0;
-          height: 3px;
+          height: 2px;
           background: var(--color-accent);
           transform-origin: left;
-          z-index: 50;
+          z-index: 100;
         }
         @supports (animation-timeline: scroll()) {
           .reading-progress {
@@ -207,109 +182,136 @@ export default async function ArticlePage({ params }: Props) {
           from { transform: scaleX(0); }
           to   { transform: scaleX(1); }
         }
-        @media (prefers-reduced-motion: reduce) {
-          .reading-progress { display: none !important; }
-        }
+        @media (prefers-reduced-motion: reduce) { .reading-progress { display: none !important; } }
       `}</style>
       <div className="reading-progress" aria-hidden="true" />
 
-      <main className="mx-auto max-w-7xl px-4 pt-28 pb-24 md:px-8">
+      {/* ── Page header ─────────────────────────────────────────────── */}
+      <header className="page-header">
+        <div className="container" style={{ maxWidth: showToc ? "none" : 760 }}>
+
+          {/* Back */}
+          <Link
+            href="/writing"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.7rem",
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "var(--color-muted)",
+              marginBottom: 48,
+              textDecoration: "none",
+              transition: "color 0.2s",
+            }}
+            className="hover-accent"
+          >
+            ← Back to Writing
+          </Link>
+
+          {/* Eyebrow: date · reading time */}
+          <div className="page-eyebrow">
+            <span className="num">
+              <time dateTime={post.date}>{formatDate(post.date)}</time>
+            </span>
+            <span>{post.readingTime} read</span>
+          </div>
+
+          {/* Title */}
+          <h1 className="page-title" style={{ maxWidth: 760 }}>
+            <em>{post.title}</em>
+          </h1>
+
+          {/* Tags */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 28 }}>
+            {post.tags.map((tag) => (
+              <span key={tag} className="pillar-tag">{tag}</span>
+            ))}
+          </div>
+        </div>
+      </header>
+
+      {/* ── Body + optional TOC ──────────────────────────────────────── */}
+      <section className="section" style={{ paddingTop: 0 }}>
         <div
-          className={
-            showToc
-              ? "grid grid-cols-1 lg:grid-cols-12 lg:gap-12"
-              : undefined
+          className="container"
+          style={showToc
+            ? { display: "grid", gridTemplateColumns: "1fr 260px", gap: 64, alignItems: "start" }
+            : { maxWidth: 760 }
           }
         >
-          {/* ----------------------------------------------------------------
-              Article
-          ----------------------------------------------------------------- */}
-          <article className={showToc ? "lg:col-span-9" : "mx-auto max-w-3xl"}>
-            {/* Header */}
-            <header className="mb-12">
-              <div className="mb-4 flex flex-wrap items-center gap-3 text-sm text-[var(--color-muted)]">
-                <time dateTime={post.date}>{formatDate(post.date)}</time>
-                <span aria-hidden>·</span>
-                <span>{post.readingTime}</span>
-              </div>
-
-              <SplitReveal
-                as="h1"
-                split="lines"
-                className="mb-5 font-bold tracking-tight text-[var(--color-text-bright)] text-2xl md:text-3xl"
-              >
-                {post.title}
-              </SplitReveal>
-
-              <ScrollReveal delay={0.25}>
-                <div className="flex flex-wrap gap-2">
-                  {post.tags.map((tag) => (
-                    <Tag key={tag}>{tag}</Tag>
-                  ))}
-                </div>
-              </ScrollReveal>
-            </header>
-
-            {/* Body */}
-            <div className="max-w-none text-[var(--color-text)]">
+          {/* Article body */}
+          <article>
+            <div className="cs-body">
               <MDXContent components={articleComponents} />
             </div>
 
             {/* Author card */}
-            <ScrollReveal>
-              <footer className="mt-16 flex items-center gap-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-5">
-                <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full bg-[var(--color-border)]">
-                  <Image
-                    src="/images/about/moizz.webp"
-                    alt="Moizz K"
-                    fill
-                    sizes="48px"
-                    className="object-cover"
-                  />
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 20,
+              marginTop: 64,
+              padding: "28px 32px",
+              border: "1px solid var(--color-border)",
+              background: "var(--color-surface-2)",
+            }}>
+              <div style={{ position: "relative", width: 52, height: 52, flexShrink: 0, overflow: "hidden", borderRadius: "50%" }}>
+                <Image
+                  src="/images/about/moizz.webp"
+                  alt="Moizz K"
+                  fill
+                  sizes="52px"
+                  className="object-cover object-top"
+                />
+              </div>
+              <div>
+                <div style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: "1.1rem", color: "var(--color-text-bright)", fontWeight: 300 }}>
+                  Moizz K
                 </div>
-                <div>
-                  <p className="font-semibold text-[var(--color-text-bright)]">Moizz K</p>
-                  <p className="text-sm text-[var(--color-muted)]">
-                    Full-stack AI engineer — RAG, Agents, LLM products
-                  </p>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.68rem", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--color-muted)", marginTop: 4 }}>
+                  Full-stack AI engineer — RAG · Agents · LLM products
                 </div>
-              </footer>
-            </ScrollReveal>
+              </div>
+            </div>
 
             {/* Related posts */}
             {related.length > 0 && (
-              <section className="mt-16">
-                <h2 className="mb-6 text-lg font-semibold text-[var(--color-text-bright)]">
+              <div style={{ marginTop: 64 }}>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--color-muted)", marginBottom: 24 }}>
                   Related Articles
-                </h2>
-                <div className="grid gap-4 sm:grid-cols-2">
+                </div>
+                <div style={{ display: "grid", gap: 1, border: "1px solid var(--color-border)" }}>
                   {related.map((p) => (
                     <Link
                       key={p.slug}
                       href={`/writing/${p.slug}`}
-                      className="group rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-4 transition-colors duration-200 hover:border-[var(--color-accent)]"
+                      style={{ textDecoration: "none", display: "block", padding: "24px 28px", background: "var(--color-surface-2)", borderBottom: "1px solid var(--color-border)", transition: "background 0.2s" }}
+                      className="writing-related-link"
                     >
-                      <h3 className="mb-1 font-semibold text-[var(--color-text-bright)] transition-colors duration-200 group-hover:text-[var(--color-accent)]">
+                      <div style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: "1.1rem", color: "var(--color-text-bright)", fontWeight: 300, marginBottom: 6 }}>
                         {p.title}
-                      </h3>
-                      <p className="text-sm text-[var(--color-muted)]">{p.description}</p>
+                      </div>
+                      <div style={{ fontSize: "0.875rem", color: "var(--color-muted)", lineHeight: 1.5 }}>
+                        {p.description}
+                      </div>
                     </Link>
                   ))}
                 </div>
-              </section>
+              </div>
             )}
           </article>
 
-          {/* ----------------------------------------------------------------
-              TOC sidebar — desktop only, sticky
-          ----------------------------------------------------------------- */}
+          {/* TOC sidebar */}
           {showToc && (
-            <aside className="hidden lg:col-span-3 lg:block">
+            <aside style={{ position: "sticky", top: 100 }}>
               <TableOfContents headings={headings} />
             </aside>
           )}
         </div>
-      </main>
+      </section>
     </>
   );
 }
