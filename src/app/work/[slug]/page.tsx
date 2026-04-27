@@ -164,14 +164,36 @@ export default async function CaseStudyPage({ params }: Props) {
             ))}
           </div>
 
-          {/* Stack tags */}
-          {frontmatter.stack?.length > 0 && (
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 28 }}>
-              {frontmatter.stack.map((tech: string) => (
-                <span key={tech} className="pillar-tag">{tech}</span>
-              ))}
-            </div>
-          )}
+          {/* Stack tags + live link */}
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12, marginTop: 28 }}>
+            {frontmatter.stack?.map((tech: string) => (
+              <span key={tech} className="pillar-tag">{tech}</span>
+            ))}
+            {frontmatter.liveUrl && (
+              <a
+                href={frontmatter.liveUrl}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.7rem",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  color: "var(--color-bg)",
+                  background: "var(--color-accent)",
+                  padding: "6px 14px",
+                  textDecoration: "none",
+                  marginLeft: 4,
+                }}
+              >
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--color-bg)", display: "inline-block" }} />
+                Live Demo ↗
+              </a>
+            )}
+          </div>
         </div>
       </header>
 

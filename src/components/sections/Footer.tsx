@@ -8,10 +8,10 @@ const navLinks = [
 ];
 
 const elsewhere = [
-  { href: "https://github.com/Moizzzzzzzzzz",                    label: "GitHub ↗" },
-  { href: "https://linkedin.com/in/abdul-moizz-b21bb0322",       label: "LinkedIn ↗" },
-  { href: "https://www.upwork.com/freelancers/abdulmoizz",        label: "Upwork ↗" },
-  { href: "mailto:abdul2005moizzz@gmail.com",                     label: "Email ↗" },
+  { href: "https://github.com/Moizzzzzzzzzz",                          label: "GitHub ↗" },
+  { href: "https://www.linkedin.com/in/abdul-moizz-b21bb0322/",        label: "LinkedIn ↗" },
+  { href: "https://www.upwork.com/freelancers/abdulmoizz",              label: "Upwork ↗" },
+  { href: "mailto:abdulmoizzz2005@gmail.com",                           label: "Email ↗" },
 ];
 
 export function Footer() {
