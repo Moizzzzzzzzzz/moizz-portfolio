@@ -62,12 +62,12 @@ export function FeaturedWork() {
                       </span>
                     ))}
                   </div>
-                  <h3 className="text-lg font-semibold text-[#FAFAFA] mb-2.5">
+                  <h3 className='text-lg font-semibold text-[#FAFAFA] mb-2'>
                     {project.title}
                   </h3>
                   <p className="text-sm text-[#6B6B72] leading-relaxed flex-1">{project.tagline}</p>
                   <div className="mt-5 pt-4 border-t border-[#1F1F22]">
-                    <span className="text-sm text-[#7C3AED] font-medium inline-flex items-center gap-1.5 hover:gap-2.5 transition-all duration-200">View case study →</span>
+                    <a className='text-sm text-[#7C3AED] font-medium inline-flex items-center gap-1.5'>View case study →</a>
                   </div>
                 </div>
               </Link>

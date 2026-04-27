@@ -43,8 +43,8 @@ export function Pillars() {
                   )}
                 >
                   <div className="p-6 flex flex-col h-full">
-                    <div className="text-accent w-7 h-7 mb-3 flex-shrink-0">
-                      <Icon className="w-full h-full text-violet-400" />
+                    <div className='w-7 h-7 mb-3 text-[#7C3AED] flex-shrink-0'>
+                      <Icon className="w-full h-full" />
                     </div>
                     <h3 className="font-semibold text-[#FAFAFA] text-base leading-snug mb-2">{pillar.title}</h3>
                     <p className="text-sm text-[#6B6B72] leading-relaxed">{pillar.description}</p>

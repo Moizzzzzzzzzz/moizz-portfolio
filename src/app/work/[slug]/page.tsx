@@ -98,8 +98,8 @@ export default async function CaseStudyPage({ params }: Props) {
       />
 
       {/* Hero */}
-      <section className="pt-12 pb-16 border-b border-[#1F1F22]">
-        <div className="max-w-5xl mx-auto px-6 lg:px-10">
+      <section className='pt-16 pb-12 border-b border-[#1F1F22]'>
+        <div className='max-w-3xl mx-auto px-6'>
 
           <Link
             href="/work"
@@ -112,7 +112,7 @@ export default async function CaseStudyPage({ params }: Props) {
             {frontmatter.title}
           </h1>
 
-          <p className="text-lg md:text-xl text-[#6B6B72] leading-relaxed max-w-2xl mb-8">
+          <p className='text-xl text-[#6B6B72] leading-snug max-w-xl mt-3 mb-8'>
             {frontmatter.tagline ?? frontmatter.description}
           </p>
 
@@ -167,30 +167,30 @@ export default async function CaseStudyPage({ params }: Props) {
             ))}
           </div>
 
-        </div>
-
-        {/* Cover image — full width OUTSIDE container */}
-        {frontmatter.cover && (
-          <div className="mt-12 max-w-5xl mx-auto px-6 lg:px-10">
-            <div className="rounded-2xl overflow-hidden border border-[#1F1F22]">
-              <Image
-                src={frontmatter.cover}
-                alt={frontmatter.title}
-                width={1200}
-                height={630}
-                className="w-full object-cover"
-                priority
-              />
+          {/* Cover image */}
+          {frontmatter.cover && (
+            <div className="mt-12">
+              <div className="rounded-2xl overflow-hidden border border-[#1F1F22]">
+                <Image
+                  src={frontmatter.cover}
+                  alt={frontmatter.title}
+                  width={1200}
+                  height={630}
+                  className="w-full object-cover"
+                  priority
+                />
+              </div>
             </div>
-          </div>
-        )}
+          )}
+
+        </div>
       </section>
 
       {/* Metrics strip */}
       {metricItems.length > 0 && (
-        <section className="py-12 border-b border-[#1F1F22]">
-          <div className="max-w-5xl mx-auto px-6 lg:px-10">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <section className='py-12 border-b border-[#1F1F22]'>
+          <div className='max-w-3xl mx-auto px-6'>
+            <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
               {metricItems.map((m, i) => (
                 <MetricCard key={m.metric} metric={m.metric} value={m.value} index={i} />
               ))}
@@ -200,11 +200,8 @@ export default async function CaseStudyPage({ params }: Props) {
       )}
 
       {/* MDX body */}
-      <section className="py-16">
-        <div className="max-w-2xl mx-auto px-6 lg:px-10
-          [&>h2]:text-2xl [&>h2]:font-semibold [&>h2]:text-[#FAFAFA] [&>h2]:mt-12 [&>h2]:mb-4
-          [&>p]:text-[#6B6B72] [&>p]:leading-relaxed [&>p]:mb-5
-          [&>ul]:text-[#6B6B72] [&>ul]:leading-relaxed [&>ul]:mb-5 [&>ul]:pl-5">
+      <section className='py-16'>
+        <div className='max-w-3xl mx-auto px-6 [&>h2]:text-2xl [&>h2]:font-semibold [&>h2]:text-[#FAFAFA] [&>h2]:mt-14 [&>h2]:mb-5 [&>h3]:text-lg [&>h3]:font-semibold [&>h3]:text-[#FAFAFA] [&>h3]:mt-8 [&>h3]:mb-3 [&>p]:text-[#6B6B72] [&>p]:leading-relaxed [&>p]:mb-5 [&>p]:text-base [&>ul]:text-[#6B6B72] [&>ul]:leading-relaxed [&>ul]:mb-5 [&>ul]:pl-5 [&>ul]:space-y-2 [&>ul>li]:text-base'>
           <MDXContent components={mdxComponents} />
         </div>
       </section>
@@ -233,7 +230,7 @@ export default async function CaseStudyPage({ params }: Props) {
 
       {/* Prev / Next */}
       <nav className="py-12">
-        <div className="max-w-5xl mx-auto px-6 lg:px-10">
+        <div className='max-w-3xl mx-auto px-6'>
           <div className="flex justify-between gap-4">
             <div className="flex-1">
               {prevProject && (
@@ -269,7 +266,9 @@ export default async function CaseStudyPage({ params }: Props) {
         </div>
       </nav>
 
-      <CTASection />
+      <div className='max-w-3xl mx-auto px-6'>
+        <CTASection />
+      </div>
     </main>
   );
 }
