@@ -49,29 +49,31 @@ export function FeaturedWork() {
             <ScrollReveal key={project.slug} delay={i * 0.1} direction="up">
               <Link
                 href={project.href}
-                className="block bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-violet-500 transition-colors"
+                className="flex flex-col h-full bg-white/5 border border-white/10 rounded-2xl p-7 md:p-8 hover:border-violet-500 transition-colors"
               >
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs text-violet-400 bg-violet-400/10 px-2 py-0.5 rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                <div className="flex flex-col gap-4 h-full">
+                  <div className="flex flex-wrap gap-2">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-xs text-violet-400 bg-violet-400/10 px-2 py-1 rounded-full"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <h3 className="mt-1 text-white font-semibold text-lg group-hover:text-violet-400 transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="flex-grow text-white/50 text-sm leading-relaxed">{project.tagline}</p>
+                  <span className="mt-auto pt-6 inline-flex items-center gap-1 text-violet-400 text-sm">View case study →</span>
                 </div>
-                <h3 className="text-white font-semibold text-lg mb-2 group-hover:text-violet-400 transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-white/50 text-sm leading-relaxed mb-4">{project.tagline}</p>
-                <span className="text-violet-400 text-sm">View case study →</span>
               </Link>
             </ScrollReveal>
           ))}
         </div>
 
-        <div className="mt-12 text-center">
+        <div className="flex justify-center mt-14">
           <ScrollReveal delay={0.2}>
             <Link href="/work">
               <Button variant="secondary">View All Work</Button>
