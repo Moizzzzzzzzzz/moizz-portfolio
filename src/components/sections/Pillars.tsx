@@ -42,12 +42,12 @@ export function Pillars() {
                     "hover:border-violet-500/50 hover:bg-white/[0.08] transition-all duration-300"
                   )}
                 >
-                  <div className="flex flex-col h-full p-7 md:p-8">
-                    <div className="w-8 h-8 mb-4 flex-shrink-0">
+                  <div className="p-6 flex flex-col h-full">
+                    <div className="text-accent w-7 h-7 mb-3 flex-shrink-0">
                       <Icon className="w-full h-full text-violet-400" />
                     </div>
-                    <h3 className="text-lg font-semibold text-white mb-3">{pillar.title}</h3>
-                    <p className="text-sm leading-relaxed text-white/60">{pillar.description}</p>
+                    <h3 className="font-semibold text-[#FAFAFA] text-base leading-snug mb-2">{pillar.title}</h3>
+                    <p className="text-sm text-[#6B6B72] leading-relaxed">{pillar.description}</p>
                   </div>
                 </div>
               </ScrollReveal>

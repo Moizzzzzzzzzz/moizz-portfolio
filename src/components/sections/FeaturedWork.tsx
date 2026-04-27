@@ -51,23 +51,23 @@ export function FeaturedWork() {
                 href={project.href}
                 className="flex flex-col h-full bg-white/5 border border-white/10 rounded-2xl hover:border-violet-500 transition-colors"
               >
-                <div className="flex flex-col h-full p-7 md:p-8">
-                  <div className="flex flex-wrap gap-2 mb-5">
+                <div className="p-6 flex flex-col h-full">
+                  <div className="flex flex-wrap gap-1.5 mb-4">
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-xs text-violet-400 bg-violet-400/10 px-2 py-1 rounded-full"
+                        className="text-[11px] font-medium px-2 py-0.5 rounded border border-[#1F1F22] text-[#6B6B72] tracking-wide uppercase"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
-                  <h3 className="text-white font-semibold text-lg mb-3 group-hover:text-violet-400 transition-colors">
+                  <h3 className="text-lg font-semibold text-[#FAFAFA] mb-2.5">
                     {project.title}
                   </h3>
-                  <p className="flex-1 text-white/50 text-sm leading-relaxed">{project.tagline}</p>
-                  <div className="mt-6 pt-6 border-t border-[#1F1F22]">
-                    <span className="text-sm text-violet-400 inline-flex items-center gap-1 hover:gap-2 transition-all">View case study →</span>
+                  <p className="text-sm text-[#6B6B72] leading-relaxed flex-1">{project.tagline}</p>
+                  <div className="mt-5 pt-4 border-t border-[#1F1F22]">
+                    <span className="text-sm text-[#7C3AED] font-medium inline-flex items-center gap-1.5 hover:gap-2.5 transition-all duration-200">View case study →</span>
                   </div>
                 </div>
               </Link>
@@ -75,7 +75,7 @@ export function FeaturedWork() {
           ))}
         </div>
 
-        <div className="flex justify-center mt-12 mb-2">
+        <div className="flex justify-center mt-14 mb-0">
           <ScrollReveal delay={0.2}>
             <Link href="/work">
               <Button variant="secondary">View All Work</Button>
