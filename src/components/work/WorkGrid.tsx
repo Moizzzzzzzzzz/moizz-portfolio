@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { ProjectCover } from "./ProjectCover";
+import Image from "next/image";
 import type { CaseStudyFrontmatter } from "@/types";
 
 type Project = CaseStudyFrontmatter & { slug: string };
@@ -81,7 +81,13 @@ export function WorkGrid({ projects }: { projects: Project[] }) {
               <Link href={`/work/${project.slug}`} style={{ display: "contents" }}>
                 <div className="work-card-media">
                   <div className="work-card-media-inner">
-                    <ProjectCover slug={project.slug} />
+                    <Image
+                      src={project.cover ?? `/images/work/${project.slug}/cover.webp`}
+                      alt={project.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
                   </div>
                   <div className="work-card-meta">
                     <span className={`work-card-status${statusLive ? "" : " case"}`}>

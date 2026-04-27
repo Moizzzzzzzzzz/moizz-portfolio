@@ -63,7 +63,9 @@ export default async function CaseStudyPage({ params }: Props) {
   if (!loader) notFound();
   const { default: MDXContent } = await loader();
 
-  const allProjects = getAllProjects();
+  const allProjects = getAllProjects().filter(
+    (p) => p.slug !== "auracode" && p.slug !== "techcurator"
+  );
   const currentIndex = allProjects.findIndex((p) => p.slug === slug);
   const prevProject = currentIndex > 0 ? allProjects[currentIndex - 1] : null;
   const nextProject =
@@ -71,11 +73,13 @@ export default async function CaseStudyPage({ params }: Props) {
 
   const metricItems =
     frontmatter.results ??
-    frontmatter.metrics?.map((m) => ({ metric: m.label, value: m.value })) ??
+    frontmatter.metrics?.map((m: { label: string; value: string }) => ({ metric: m.label, value: m.value })) ??
     [];
 
+  const coverSrc = frontmatter.cover ?? `/images/work/${slug}/cover.webp`;
+
   return (
-    <main className="min-h-screen">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -95,117 +99,165 @@ export default async function CaseStudyPage({ params }: Props) {
         }}
       />
 
-      {/* ONE global centered column — wraps everything */}
-      <div className="w-full max-w-3xl mx-auto px-6 lg:px-8 py-12">
+      {/* ── Page header ──────────────────────────────────────────────── */}
+      <header className="page-header">
+        <div className="container">
+          {/* Back */}
+          <Link
+            href="/work"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.7rem",
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "var(--color-muted)",
+              marginBottom: 48,
+              transition: "color 0.2s",
+            }}
+            className="hover-accent"
+          >
+            ← Back to Work
+          </Link>
 
-        {/* Back link */}
-        <Link
-          href="/work"
-          className="inline-flex items-center gap-2 text-sm text-[#6B6B72] hover:text-[#FAFAFA] transition-colors mb-10"
-        >
-          ← Back to Work
-        </Link>
-
-        {/* Title */}
-        <h1 className="text-5xl md:text-6xl font-bold text-[#FAFAFA] tracking-tight leading-tight mb-4">
-          {frontmatter.title}
-        </h1>
-
-        {/* Tagline */}
-        <p className="text-lg text-[#6B6B72] leading-snug mb-8 max-w-xl">
-          {frontmatter.tagline ?? frontmatter.description}
-        </p>
-
-        {/* Meta: Role · Client · Duration */}
-        <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-[#6B6B72] pb-8 mb-8 border-b border-[#1F1F22]">
-          <span>Role: <strong className="text-[#FAFAFA]">{frontmatter.role}</strong></span>
-          <span>Client: <strong className="text-[#FAFAFA]">{frontmatter.client}</strong></span>
-          {frontmatter.duration && (
-            <span>Duration: <strong className="text-[#FAFAFA]">{frontmatter.duration}</strong></span>
-          )}
-        </div>
-
-        {/* Stack tags */}
-        <div className="flex flex-wrap gap-2 mb-12">
-          {frontmatter.stack?.map((tech: string) => (
-            <span
-              key={tech}
-              className="text-xs px-3 py-1 rounded-full border border-[#1F1F22] text-[#6B6B72] font-medium"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        {/* Cover image — if exists */}
-        {frontmatter.cover && (
-          <div className="rounded-2xl overflow-hidden border border-[#1F1F22] mb-16">
-            <Image
-              src={frontmatter.cover}
-              alt={frontmatter.title}
-              width={1200}
-              height={630}
-              className="w-full object-cover"
-              priority
-            />
+          {/* Eyebrow */}
+          <div className="page-eyebrow">
+            <span className="num">02</span>
+            <span>SELECTED WORK / {frontmatter.title?.toUpperCase()}</span>
           </div>
-        )}
 
-        {/* Metrics grid */}
-        {metricItems.length > 0 && (
-          <div className="grid grid-cols-2 gap-3 mb-16 pb-16 border-b border-[#1F1F22]">
-            {metricItems.map((r) => (
-              <MetricCard key={r.metric} {...r} />
+          {/* Title */}
+          <h1 className="page-title">
+            <em>{frontmatter.title}</em>
+          </h1>
+
+          {/* Tagline */}
+          <p className="page-sub" style={{ maxWidth: 640 }}>
+            {frontmatter.tagline ?? frontmatter.description}
+          </p>
+
+          {/* Meta row */}
+          <div style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "32px 48px",
+            marginTop: 40,
+            paddingTop: 40,
+            borderTop: "1px solid var(--color-border)",
+            fontFamily: "var(--font-mono)",
+            fontSize: "0.7rem",
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+          }}>
+            {[
+              { label: "Role", val: frontmatter.role },
+              { label: "Client", val: frontmatter.client },
+              frontmatter.duration ? { label: "Duration", val: frontmatter.duration } : null,
+              { label: "Status", val: frontmatter.status === "live" ? "● Live" : "Case Study" },
+            ].filter(Boolean).map((item) => item && (
+              <div key={item.label}>
+                <div style={{ color: "var(--color-muted)", marginBottom: 6 }}>{item.label}</div>
+                <div style={{ color: "var(--color-text-bright)" }}>{item.val}</div>
+              </div>
             ))}
           </div>
-        )}
 
-        {/* MDX Body */}
-        <div className="
-          [&>h2]:text-2xl [&>h2]:font-semibold
-          [&>h2]:text-[#FAFAFA] [&>h2]:mt-14 [&>h2]:mb-5
-          [&>h3]:text-lg [&>h3]:font-semibold
-          [&>h3]:text-[#FAFAFA] [&>h3]:mt-8 [&>h3]:mb-3
-          [&>p]:text-[#6B6B72] [&>p]:leading-relaxed
-          [&>p]:mb-5 [&>p]:text-base
-          [&>ul]:text-[#6B6B72] [&>ul]:leading-relaxed
-          [&>ul]:mb-5 [&>ul]:pl-5 [&>ul]:space-y-2
-          [&>ul>li]:marker:text-[#7C3AED]
-          [&>strong]:text-[#FAFAFA]">
-          <MDXContent components={mdxComponents} />
-        </div>
-
-        {/* Prev / Next nav */}
-        <div className="flex justify-between gap-4 mt-20 pt-10 border-t border-[#1F1F22]">
-          {prevProject && (
-            <Link
-              href={`/work/${prevProject.slug}`}
-              className="flex flex-col gap-1 group"
-            >
-              <span className="text-xs text-[#6B6B72] uppercase tracking-wider">← Previous</span>
-              <span className="text-sm font-medium text-[#FAFAFA] group-hover:text-[#7C3AED] transition-colors">
-                {prevProject.title}
-              </span>
-            </Link>
-          )}
-          {nextProject && (
-            <Link
-              href={`/work/${nextProject.slug}`}
-              className="flex flex-col gap-1 text-right ml-auto group"
-            >
-              <span className="text-xs text-[#6B6B72] uppercase tracking-wider">Next →</span>
-              <span className="text-sm font-medium text-[#FAFAFA] group-hover:text-[#7C3AED] transition-colors">
-                {nextProject.title}
-              </span>
-            </Link>
+          {/* Stack tags */}
+          {frontmatter.stack?.length > 0 && (
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 28 }}>
+              {frontmatter.stack.map((tech: string) => (
+                <span key={tech} className="pillar-tag">{tech}</span>
+              ))}
+            </div>
           )}
         </div>
+      </header>
 
-      </div>{/* end global container */}
+      {/* ── Cover image ──────────────────────────────────────────────── */}
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="container">
+          <div style={{
+            position: "relative",
+            width: "100%",
+            aspectRatio: "16 / 9",
+            overflow: "hidden",
+            border: "1px solid var(--color-border)",
+          }}>
+            <Image
+              src={coverSrc}
+              alt={frontmatter.title}
+              fill
+              className="object-cover object-top"
+              priority
+              sizes="(max-width: 1280px) 100vw, 1280px"
+            />
+          </div>
+        </div>
+      </section>
 
-      {/* CTA Section — full width, own padding */}
+      {/* ── Metrics ──────────────────────────────────────────────────── */}
+      {metricItems.length > 0 && (
+        <section className="section" style={{ paddingTop: 0 }}>
+          <div className="container">
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+              border: "1px solid var(--color-border)",
+            }}>
+              {metricItems.map((r: { metric: string; value: string; note?: string }, i: number) => (
+                <div
+                  key={r.metric}
+                  style={{ borderRight: i < metricItems.length - 1 ? "1px solid var(--color-border)" : "none" }}
+                >
+                  <MetricCard {...r} index={i} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── MDX Body ─────────────────────────────────────────────────── */}
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="container" style={{ maxWidth: 760 }}>
+          <div className="cs-body">
+            <MDXContent components={mdxComponents} />
+          </div>
+        </div>
+      </section>
+
+      {/* ── Prev / Next nav ──────────────────────────────────────────── */}
+      {(prevProject || nextProject) && (
+        <section className="section" style={{ paddingTop: 0 }}>
+          <div className="container">
+            <div style={{
+              display: "flex",
+              justifyContent: "space-between",
+              paddingTop: 40,
+              borderTop: "1px solid var(--color-border)",
+              gap: 24,
+            }}>
+              {prevProject ? (
+                <Link href={`/work/${prevProject.slug}`} style={{ textDecoration: "none" }}>
+                  <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--color-muted)", marginBottom: 8 }}>← Previous</div>
+                  <div style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: "1.25rem", color: "var(--color-text-bright)", fontWeight: 300 }}>{prevProject.title}</div>
+                </Link>
+              ) : <div />}
+              {nextProject && (
+                <Link href={`/work/${nextProject.slug}`} style={{ textDecoration: "none", textAlign: "right" }}>
+                  <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--color-muted)", marginBottom: 8 }}>Next →</div>
+                  <div style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: "1.25rem", color: "var(--color-text-bright)", fontWeight: 300 }}>{nextProject.title}</div>
+                </Link>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── CTA ──────────────────────────────────────────────────────── */}
       <CTASection />
-
-    </main>
+    </>
   );
 }

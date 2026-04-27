@@ -1,7 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ScrollReveal } from "@/components/animation/ScrollReveal";
 import { MagneticButton } from "@/components/animation/MagneticButton";
-import { ProjectCover } from "@/components/work/ProjectCover";
 
 const featured = [
   {
@@ -60,7 +60,13 @@ export function FeaturedWork() {
                 {/* Media */}
                 <div className="work-card-media">
                   <div className="work-card-media-inner">
-                    <ProjectCover slug={p.slug} />
+                    <Image
+                      src={`/images/work/${p.slug}/cover.webp`}
+                      alt={p.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
                   </div>
                   <div className="work-card-meta">
                     <span className={`work-card-status${p.status === "case" ? " case" : ""}`}>

@@ -1181,3 +1181,22 @@ h1 em, h2 em, h3 em {
 
 /* ============ LEGACY COMPAT ============ */
 .content-wrapper { max-width: 1280px; margin: 0 auto; }
+
+/* ============ CASE STUDY BODY ============ */
+.cs-body { font-size: 1.0625rem; line-height: 1.75; font-weight: 300; color: var(--color-muted-bright); }
+.cs-body h2 { font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: 1.75rem; color: var(--color-text-bright); margin-top: 64px; margin-bottom: 20px; }
+.cs-body h3 { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-muted); margin-top: 40px; margin-bottom: 12px; }
+.cs-body p { margin-bottom: 1.25em; }
+.cs-body ul, .cs-body ol { padding-left: 1.5em; margin-bottom: 1.25em; }
+.cs-body li { margin-bottom: 0.5em; }
+.cs-body li::marker { color: var(--color-accent); }
+.cs-body strong { color: var(--color-text-bright); font-weight: 500; }
+.cs-body em { font-family: var(--font-serif); font-style: italic; color: var(--color-accent); }
+.cs-body a { color: var(--color-accent); border-bottom: 1px solid var(--color-accent); text-decoration: none; }
+.cs-body code { font-family: var(--font-mono); font-size: 0.85em; background: var(--color-surface-2); padding: 2px 6px; border-radius: 2px; color: var(--color-accent); }
+.cs-body pre { background: var(--color-surface-2); border: 1px solid var(--color-border); padding: 24px; overflow-x: auto; margin-bottom: 1.5em; }
+.cs-body blockquote { border-left: 2px solid var(--color-accent); padding-left: 20px; margin: 32px 0; font-family: var(--font-serif); font-style: italic; font-size: 1.25rem; color: var(--color-text-bright); font-weight: 300; }
+.cs-body > div { margin-bottom: 12px; }
+
+/* ============ HOVER ACCENT ============ */
+.hover-accent:hover { color: var(--color-accent) !important; }
