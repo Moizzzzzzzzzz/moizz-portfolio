@@ -3,7 +3,6 @@ import type { MDXComponents } from "mdx/types";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft } from "lucide-react";
 import { getAllProjects, getProject } from "@/lib/mdx";
 import { MetricCard } from "@/components/case-study/MetricCard";
 import { CaseStudySection } from "@/components/case-study/CaseStudySection";
@@ -78,7 +77,7 @@ export default async function CaseStudyPage({ params }: Props) {
     [];
 
   return (
-    <main className="max-w-5xl mx-auto px-6 lg:px-12 py-16">
+    <main className="min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -99,41 +98,39 @@ export default async function CaseStudyPage({ params }: Props) {
       />
 
       {/* Hero */}
-      <section className="pt-28 pb-16 border-b border-white/10">
-        <div className="max-w-6xl mx-auto px-6 lg:px-10">
+      <section className="pt-12 pb-16 border-b border-[#1F1F22]">
+        <div className="max-w-5xl mx-auto px-6 lg:px-10">
 
           <Link
             href="/work"
-            className="inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors mb-10 text-sm px-6 py-3 rounded-full"
+            className="inline-flex items-center gap-2 text-sm text-[#6B6B72] hover:text-[#FAFAFA] transition-colors mb-8 group"
           >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Work
+            ← Back to Work
           </Link>
 
-          <div className="max-w-3xl mb-10">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-5 leading-tight tracking-tight">
-              {frontmatter.title}
-            </h1>
-            <p className="text-lg md:text-xl text-white/60 leading-relaxed">
-              {frontmatter.tagline ?? frontmatter.description}
-            </p>
-          </div>
+          <h1 className="text-5xl md:text-7xl font-bold text-[#FAFAFA] tracking-tight mb-4">
+            {frontmatter.title}
+          </h1>
+
+          <p className="text-lg md:text-xl text-[#6B6B72] leading-relaxed max-w-2xl mb-8">
+            {frontmatter.tagline ?? frontmatter.description}
+          </p>
 
           {/* Meta row */}
-          <div className="flex flex-wrap gap-6 text-sm text-white/50 mb-8">
+          <div className="flex flex-wrap gap-6 text-sm text-[#6B6B72] mb-10 pb-10 border-b border-[#1F1F22]">
             {frontmatter.role && (
               <span>
-                Role: <span className="text-white font-medium">{frontmatter.role}</span>
+                Role: <strong className="text-[#FAFAFA]">{frontmatter.role}</strong>
               </span>
             )}
             {frontmatter.client && (
               <span>
-                Client: <span className="text-white font-medium">{frontmatter.client}</span>
+                Client: <strong className="text-[#FAFAFA]">{frontmatter.client}</strong>
               </span>
             )}
             {frontmatter.duration && (
               <span>
-                Duration: <span className="text-white font-medium">{frontmatter.duration}</span>
+                Duration: <strong className="text-[#FAFAFA]">{frontmatter.duration}</strong>
               </span>
             )}
             {frontmatter.liveUrl && (
@@ -159,38 +156,41 @@ export default async function CaseStudyPage({ params }: Props) {
           </div>
 
           {/* Stack tags */}
-          <div className="flex flex-wrap gap-2 mb-10">
+          <div className="flex flex-wrap gap-2">
             {frontmatter.stack?.map((tech: string) => (
               <span
                 key={tech}
-                className="px-3 py-1 rounded-full text-xs border border-white/10 text-white/50 bg-white/5"
+                className="text-xs px-3 py-1 rounded-full border border-[#1F1F22] text-[#6B6B72] font-medium"
               >
                 {tech}
               </span>
             ))}
           </div>
 
-          {/* Cover image */}
-          {frontmatter.cover && (
-            <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden border border-white/10">
+        </div>
+
+        {/* Cover image — full width OUTSIDE container */}
+        {frontmatter.cover && (
+          <div className="mt-12 max-w-5xl mx-auto px-6 lg:px-10">
+            <div className="rounded-2xl overflow-hidden border border-[#1F1F22]">
               <Image
                 src={frontmatter.cover}
                 alt={frontmatter.title}
-                fill
-                className="object-cover"
+                width={1200}
+                height={630}
+                className="w-full object-cover"
                 priority
-                sizes="(max-width: 1024px) 100vw, 72rem"
               />
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </section>
 
       {/* Metrics strip */}
       {metricItems.length > 0 && (
-        <section className="py-14 border-b border-white/10">
-          <div className="max-w-6xl mx-auto px-6 lg:px-10">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <section className="py-12 border-b border-[#1F1F22]">
+          <div className="max-w-5xl mx-auto px-6 lg:px-10">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {metricItems.map((m, i) => (
                 <MetricCard key={m.metric} metric={m.metric} value={m.value} index={i} />
               ))}
@@ -201,13 +201,11 @@ export default async function CaseStudyPage({ params }: Props) {
 
       {/* MDX body */}
       <section className="py-16">
-        <div className="max-w-6xl mx-auto px-6 lg:px-10">
-          <div className="max-w-2xl mt-12
-            [&>h2]:text-2xl [&>h2]:font-semibold [&>h2]:text-[#FAFAFA] [&>h2]:mt-12 [&>h2]:mb-4
-            [&>p]:text-[#6B6B72] [&>p]:leading-relaxed [&>p]:mb-5
-            [&>ul]:text-[#6B6B72] [&>ul]:leading-relaxed [&>ul]:mb-5 [&>ul]:pl-5">
-            <MDXContent components={mdxComponents} />
-          </div>
+        <div className="max-w-2xl mx-auto px-6 lg:px-10
+          [&>h2]:text-2xl [&>h2]:font-semibold [&>h2]:text-[#FAFAFA] [&>h2]:mt-12 [&>h2]:mb-4
+          [&>p]:text-[#6B6B72] [&>p]:leading-relaxed [&>p]:mb-5
+          [&>ul]:text-[#6B6B72] [&>ul]:leading-relaxed [&>ul]:mb-5 [&>ul]:pl-5">
+          <MDXContent components={mdxComponents} />
         </div>
       </section>
 
@@ -218,51 +216,55 @@ export default async function CaseStudyPage({ params }: Props) {
 
       {/* Live demo */}
       {frontmatter.demoUrl && (
-        <section className="max-w-6xl mx-auto px-6 lg:px-10 py-8">
-          <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-white/10">
-            <iframe
-              src={frontmatter.demoUrl}
-              title={`${frontmatter.title} demo`}
-              className="h-full w-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+        <section className="py-8">
+          <div className="max-w-5xl mx-auto px-6 lg:px-10">
+            <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-white/10">
+              <iframe
+                src={frontmatter.demoUrl}
+                title={`${frontmatter.title} demo`}
+                className="h-full w-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
           </div>
         </section>
       )}
 
       {/* Prev / Next */}
-      <nav className="max-w-6xl mx-auto px-6 lg:px-10 py-12">
-        <div className="flex justify-between gap-4">
-          <div className="flex-1">
-            {prevProject && (
-              <Link
-                href={`/work/${prevProject.slug}`}
-                className="group flex flex-col gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-6 py-5 hover:border-violet-500/50 hover:bg-white/[0.07] transition-all duration-300 space-y-2 p-6"
-              >
-                <span className="text-xs text-white/40 group-hover:text-violet-400 transition-colors">
-                  ← Previous
-                </span>
-                <span className="font-semibold text-white">
-                  {prevProject.title}
-                </span>
-              </Link>
-            )}
-          </div>
-          <div className="flex-1 flex justify-end">
-            {nextProject && (
-              <Link
-                href={`/work/${nextProject.slug}`}
-                className="group flex flex-col items-end gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-6 py-5 hover:border-violet-500/50 hover:bg-white/[0.07] transition-all duration-300 space-y-2 p-6"
-              >
-                <span className="text-xs text-white/40 group-hover:text-violet-400 transition-colors">
-                  Next →
-                </span>
-                <span className="font-semibold text-white">
-                  {nextProject.title}
-                </span>
-              </Link>
-            )}
+      <nav className="py-12">
+        <div className="max-w-5xl mx-auto px-6 lg:px-10">
+          <div className="flex justify-between gap-4">
+            <div className="flex-1">
+              {prevProject && (
+                <Link
+                  href={`/work/${prevProject.slug}`}
+                  className="group flex flex-col gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-6 py-5 hover:border-violet-500/50 hover:bg-white/[0.07] transition-all duration-300 space-y-2 p-6"
+                >
+                  <span className="text-xs text-white/40 group-hover:text-violet-400 transition-colors">
+                    ← Previous
+                  </span>
+                  <span className="font-semibold text-white">
+                    {prevProject.title}
+                  </span>
+                </Link>
+              )}
+            </div>
+            <div className="flex-1 flex justify-end">
+              {nextProject && (
+                <Link
+                  href={`/work/${nextProject.slug}`}
+                  className="group flex flex-col items-end gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-6 py-5 hover:border-violet-500/50 hover:bg-white/[0.07] transition-all duration-300 space-y-2 p-6"
+                >
+                  <span className="text-xs text-white/40 group-hover:text-violet-400 transition-colors">
+                    Next →
+                  </span>
+                  <span className="font-semibold text-white">
+                    {nextProject.title}
+                  </span>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </nav>
