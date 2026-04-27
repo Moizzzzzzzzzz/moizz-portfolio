@@ -60,19 +60,6 @@ Each uploaded PDF is processed at upload time: extracted, split into overlapping
 
 Provider reliability was a real constraint. A single LLM provider going down mid-session would mean a broken product with no recourse. A three-provider fallback chain — Gemini Flash as primary, Groq Llama as first fallback, OpenRouter as final fallback — means the system stays live through individual provider outages. The chain is transparent to the user; responses stream continuously via Server-Sent Events regardless of which provider is serving the request.
 
-## Architecture
-
-The full pipeline runs from a React frontend through FastAPI async endpoints, into the document ingestion layer, through the LangGraph agent graph, and out to distributed storage — with all of it containerized and deployed on a single DigitalOcean droplet sized for the current traffic profile.
-
-<ArchitectureDiagram src="/images/work/documind/architecture.svg" alt="DocuMind system architecture" />
-
-- **Frontend:** React + Tailwind CSS — file upload UI, SSE streaming response display
-- **Backend:** FastAPI async endpoints with Server-Sent Events streaming
-- **Document pipeline:** PDF ingestion → chunking → embedding → FAISS local index + Pinecone Serverless
-- **Agent layer:** LangGraph with retrieval node + citation verification node
-- **Storage:** DigitalOcean Spaces for raw PDFs, Upstash Redis for session state
-- **Deployment:** Docker container on DigitalOcean droplet
-
 ## Stack
 
 Each technology was chosen to solve a specific constraint.

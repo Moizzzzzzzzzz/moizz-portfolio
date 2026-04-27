@@ -5,8 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { getAllProjects, getProject } from "@/lib/mdx";
 import { MetricCard } from "@/components/case-study/MetricCard";
-import { CaseStudySection } from "@/components/case-study/CaseStudySection";
-import { StackList } from "@/components/case-study/StackList";
 import { CTASection } from "@/components/sections/CTASection";
 import { constructMetadata, siteConfig } from "@/lib/seo";
 import { mdxComponents } from "@/components/mdx/MDXComponents";
@@ -97,178 +95,117 @@ export default async function CaseStudyPage({ params }: Props) {
         }}
       />
 
-      {/* Hero */}
-      <section className='pt-16 pb-12 border-b border-[#1F1F22]'>
-        <div className='max-w-3xl mx-auto px-6'>
+      {/* ONE global centered column — wraps everything */}
+      <div className="w-full max-w-3xl mx-auto px-6 lg:px-8 py-12">
 
-          <Link
-            href="/work"
-            className="inline-flex items-center gap-2 text-sm text-[#6B6B72] hover:text-[#FAFAFA] transition-colors mb-8 group"
-          >
-            ← Back to Work
-          </Link>
+        {/* Back link */}
+        <Link
+          href="/work"
+          className="inline-flex items-center gap-2 text-sm text-[#6B6B72] hover:text-[#FAFAFA] transition-colors mb-10"
+        >
+          ← Back to Work
+        </Link>
 
-          <h1 className="text-5xl md:text-7xl font-bold text-[#FAFAFA] tracking-tight mb-4">
-            {frontmatter.title}
-          </h1>
+        {/* Title */}
+        <h1 className="text-5xl md:text-6xl font-bold text-[#FAFAFA] tracking-tight leading-tight mb-4">
+          {frontmatter.title}
+        </h1>
 
-          <p className='text-xl text-[#6B6B72] leading-snug max-w-xl mt-3 mb-8'>
-            {frontmatter.tagline ?? frontmatter.description}
-          </p>
+        {/* Tagline */}
+        <p className="text-lg text-[#6B6B72] leading-snug mb-8 max-w-xl">
+          {frontmatter.tagline ?? frontmatter.description}
+        </p>
 
-          {/* Meta row */}
-          <div className="flex flex-wrap gap-6 text-sm text-[#6B6B72] mb-10 pb-10 border-b border-[#1F1F22]">
-            {frontmatter.role && (
-              <span>
-                Role: <strong className="text-[#FAFAFA]">{frontmatter.role}</strong>
-              </span>
-            )}
-            {frontmatter.client && (
-              <span>
-                Client: <strong className="text-[#FAFAFA]">{frontmatter.client}</strong>
-              </span>
-            )}
-            {frontmatter.duration && (
-              <span>
-                Duration: <strong className="text-[#FAFAFA]">{frontmatter.duration}</strong>
-              </span>
-            )}
-            {frontmatter.liveUrl && (
-              <a
-                href={frontmatter.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-violet-400 hover:text-violet-300 transition-colors"
-              >
-                Live demo ↗
-              </a>
-            )}
-            {frontmatter.githubUrl && (
-              <a
-                href={frontmatter.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-violet-400 hover:text-violet-300 transition-colors"
-              >
-                GitHub ↗
-              </a>
-            )}
+        {/* Meta: Role · Client · Duration */}
+        <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-[#6B6B72] pb-8 mb-8 border-b border-[#1F1F22]">
+          <span>Role: <strong className="text-[#FAFAFA]">{frontmatter.role}</strong></span>
+          <span>Client: <strong className="text-[#FAFAFA]">{frontmatter.client}</strong></span>
+          {frontmatter.duration && (
+            <span>Duration: <strong className="text-[#FAFAFA]">{frontmatter.duration}</strong></span>
+          )}
+        </div>
+
+        {/* Stack tags */}
+        <div className="flex flex-wrap gap-2 mb-12">
+          {frontmatter.stack?.map((tech: string) => (
+            <span
+              key={tech}
+              className="text-xs px-3 py-1 rounded-full border border-[#1F1F22] text-[#6B6B72] font-medium"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        {/* Cover image — if exists */}
+        {frontmatter.cover && (
+          <div className="rounded-2xl overflow-hidden border border-[#1F1F22] mb-16">
+            <Image
+              src={frontmatter.cover}
+              alt={frontmatter.title}
+              width={1200}
+              height={630}
+              className="w-full object-cover"
+              priority
+            />
           </div>
+        )}
 
-          {/* Stack tags */}
-          <div className="flex flex-wrap gap-2">
-            {frontmatter.stack?.map((tech: string) => (
-              <span
-                key={tech}
-                className="text-xs px-3 py-1 rounded-full border border-[#1F1F22] text-[#6B6B72] font-medium"
-              >
-                {tech}
-              </span>
+        {/* Metrics grid */}
+        {metricItems.length > 0 && (
+          <div className="grid grid-cols-2 gap-3 mb-16 pb-16 border-b border-[#1F1F22]">
+            {metricItems.map((r) => (
+              <MetricCard key={r.metric} {...r} />
             ))}
           </div>
+        )}
 
-          {/* Cover image */}
-          {frontmatter.cover && (
-            <div className="mt-12">
-              <div className="rounded-2xl overflow-hidden border border-[#1F1F22]">
-                <Image
-                  src={frontmatter.cover}
-                  alt={frontmatter.title}
-                  width={1200}
-                  height={630}
-                  className="w-full object-cover"
-                  priority
-                />
-              </div>
-            </div>
-          )}
-
-        </div>
-      </section>
-
-      {/* Metrics strip */}
-      {metricItems.length > 0 && (
-        <section className='py-12 border-b border-[#1F1F22]'>
-          <div className='max-w-3xl mx-auto px-6'>
-            <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
-              {metricItems.map((m, i) => (
-                <MetricCard key={m.metric} metric={m.metric} value={m.value} index={i} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* MDX body */}
-      <section className='py-16'>
-        <div className='max-w-3xl mx-auto px-6 [&>h2]:text-2xl [&>h2]:font-semibold [&>h2]:text-[#FAFAFA] [&>h2]:mt-14 [&>h2]:mb-5 [&>h3]:text-lg [&>h3]:font-semibold [&>h3]:text-[#FAFAFA] [&>h3]:mt-8 [&>h3]:mb-3 [&>p]:text-[#6B6B72] [&>p]:leading-relaxed [&>p]:mb-5 [&>p]:text-base [&>ul]:text-[#6B6B72] [&>ul]:leading-relaxed [&>ul]:mb-5 [&>ul]:pl-5 [&>ul]:space-y-2 [&>ul>li]:text-base'>
+        {/* MDX Body */}
+        <div className="
+          [&>h2]:text-2xl [&>h2]:font-semibold
+          [&>h2]:text-[#FAFAFA] [&>h2]:mt-14 [&>h2]:mb-5
+          [&>h3]:text-lg [&>h3]:font-semibold
+          [&>h3]:text-[#FAFAFA] [&>h3]:mt-8 [&>h3]:mb-3
+          [&>p]:text-[#6B6B72] [&>p]:leading-relaxed
+          [&>p]:mb-5 [&>p]:text-base
+          [&>ul]:text-[#6B6B72] [&>ul]:leading-relaxed
+          [&>ul]:mb-5 [&>ul]:pl-5 [&>ul]:space-y-2
+          [&>ul>li]:marker:text-[#7C3AED]
+          [&>strong]:text-[#FAFAFA]">
           <MDXContent components={mdxComponents} />
         </div>
-      </section>
 
-      {/* Stack */}
-      <CaseStudySection title="Stack">
-        <StackList stack={frontmatter.stack} />
-      </CaseStudySection>
-
-      {/* Live demo */}
-      {frontmatter.demoUrl && (
-        <section className="py-8">
-          <div className="max-w-5xl mx-auto px-6 lg:px-10">
-            <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-white/10">
-              <iframe
-                src={frontmatter.demoUrl}
-                title={`${frontmatter.title} demo`}
-                className="h-full w-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Prev / Next */}
-      <nav className="py-12">
-        <div className='max-w-3xl mx-auto px-6'>
-          <div className="flex justify-between gap-4">
-            <div className="flex-1">
-              {prevProject && (
-                <Link
-                  href={`/work/${prevProject.slug}`}
-                  className="group flex flex-col gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-6 py-5 hover:border-violet-500/50 hover:bg-white/[0.07] transition-all duration-300 space-y-2 p-6"
-                >
-                  <span className="text-xs text-white/40 group-hover:text-violet-400 transition-colors">
-                    ← Previous
-                  </span>
-                  <span className="font-semibold text-white">
-                    {prevProject.title}
-                  </span>
-                </Link>
-              )}
-            </div>
-            <div className="flex-1 flex justify-end">
-              {nextProject && (
-                <Link
-                  href={`/work/${nextProject.slug}`}
-                  className="group flex flex-col items-end gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-6 py-5 hover:border-violet-500/50 hover:bg-white/[0.07] transition-all duration-300 space-y-2 p-6"
-                >
-                  <span className="text-xs text-white/40 group-hover:text-violet-400 transition-colors">
-                    Next →
-                  </span>
-                  <span className="font-semibold text-white">
-                    {nextProject.title}
-                  </span>
-                </Link>
-              )}
-            </div>
-          </div>
+        {/* Prev / Next nav */}
+        <div className="flex justify-between gap-4 mt-20 pt-10 border-t border-[#1F1F22]">
+          {prevProject && (
+            <Link
+              href={`/work/${prevProject.slug}`}
+              className="flex flex-col gap-1 group"
+            >
+              <span className="text-xs text-[#6B6B72] uppercase tracking-wider">← Previous</span>
+              <span className="text-sm font-medium text-[#FAFAFA] group-hover:text-[#7C3AED] transition-colors">
+                {prevProject.title}
+              </span>
+            </Link>
+          )}
+          {nextProject && (
+            <Link
+              href={`/work/${nextProject.slug}`}
+              className="flex flex-col gap-1 text-right ml-auto group"
+            >
+              <span className="text-xs text-[#6B6B72] uppercase tracking-wider">Next →</span>
+              <span className="text-sm font-medium text-[#FAFAFA] group-hover:text-[#7C3AED] transition-colors">
+                {nextProject.title}
+              </span>
+            </Link>
+          )}
         </div>
-      </nav>
 
-      <div className='max-w-3xl mx-auto px-6'>
-        <CTASection />
-      </div>
+      </div>{/* end global container */}
+
+      {/* CTA Section — full width, own padding */}
+      <CTASection />
+
     </main>
   );
 }
