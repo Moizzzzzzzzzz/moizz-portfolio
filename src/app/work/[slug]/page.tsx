@@ -78,7 +78,7 @@ export default async function CaseStudyPage({ params }: Props) {
     [];
 
   return (
-    <>
+    <main className="max-w-5xl mx-auto px-6 lg:px-12 py-16">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -202,7 +202,10 @@ export default async function CaseStudyPage({ params }: Props) {
       {/* MDX body */}
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-6 lg:px-10">
-          <div className="max-w-3xl mx-auto prose-styles">
+          <div className="max-w-2xl mt-12
+            [&>h2]:text-2xl [&>h2]:font-semibold [&>h2]:text-[#FAFAFA] [&>h2]:mt-12 [&>h2]:mb-4
+            [&>p]:text-[#6B6B72] [&>p]:leading-relaxed [&>p]:mb-5
+            [&>ul]:text-[#6B6B72] [&>ul]:leading-relaxed [&>ul]:mb-5 [&>ul]:pl-5">
             <MDXContent components={mdxComponents} />
           </div>
         </div>
@@ -265,6 +268,6 @@ export default async function CaseStudyPage({ params }: Props) {
       </nav>
 
       <CTASection />
-    </>
+    </main>
   );
 }

@@ -10,15 +10,13 @@ interface MetricCardProps {
 export function MetricCard({ metric, value, note, index = 0 }: MetricCardProps) {
   return (
     <ScrollReveal direction="up" delay={index * 0.1}>
-      <div className="relative rounded-2xl bg-white/5 border border-white/10 p-8 overflow-hidden hover:border-violet-500/30 hover:bg-white/[0.07] transition-all duration-300">
-        {/* Top accent line */}
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500/60 to-transparent" />
-        <p className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-none mb-3">
+      <div className="p-5 md:p-6 rounded-xl bg-[#111113] border border-[#1F1F22]">
+        <p className="text-4xl md:text-5xl font-bold text-[#FAFAFA] mb-1">
           {value}
         </p>
-        <p className="text-xs font-medium text-white/50 uppercase tracking-widest">{metric}</p>
+        <p className="text-xs uppercase tracking-widest text-[#6B6B72] mb-1">{metric}</p>
         {note && (
-          <p className="mt-2 text-xs text-white/30 leading-relaxed">{note}</p>
+          <p className="text-xs text-[#6B6B72] mt-1 leading-snug">{note}</p>
         )}
       </div>
     </ScrollReveal>

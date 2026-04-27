@@ -28,7 +28,7 @@ export function CaseStudyHero({ frontmatter }: { frontmatter: CaseStudyFrontmatt
       </SplitReveal>
 
       <ScrollReveal direction="up" delay={0.3}>
-        <p className="max-w-2xl text-xl text-foreground/60">{subtitle}</p>
+        <p className="text-2xl md:text-3xl text-[#6B6B72] leading-tight max-w-2xl mt-4">{subtitle}</p>
       </ScrollReveal>
 
       <ScrollReveal direction="up" delay={0.4}>
