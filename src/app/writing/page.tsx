@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllPosts } from "@/lib/mdx";
-import { SplitReveal } from "@/components/animation/SplitReveal";
 import { ScrollReveal } from "@/components/animation/ScrollReveal";
-import { Tag } from "@/components/ui/Tag";
 
 export const metadata: Metadata = {
   title: "Writing — Moizz K",
@@ -14,7 +12,7 @@ export const metadata: Metadata = {
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", {
     year: "numeric",
-    month: "long",
+    month: "short",
     day: "numeric",
   });
 }
@@ -23,54 +21,55 @@ export default function WritingPage() {
   const posts = getAllPosts();
 
   return (
-    <div className="content-wrapper mx-auto max-w-2xl pb-24 px-8 md:px-16 lg:px-24" style={{ paddingTop: "calc(var(--navbar-height) + 3rem)" }}>
-      <header className="mb-16">
-        <SplitReveal
-          as="h1"
-          split="lines"
-          className="font-bold tracking-tight text-[var(--color-text-bright)] text-3xl"
-        >
-          Writing
-        </SplitReveal>
-        <p className="mt-4 text-lg text-[var(--color-muted)]">
-          Thoughts on RAG, agents, and shipping production LLM systems.
-        </p>
+    <>
+      <header className="page-header">
+        <div className="container">
+          <ScrollReveal>
+            <div className="page-eyebrow">
+              <span className="num">04</span>
+              <span>WRITING / FIELD NOTES</span>
+            </div>
+            <h1 className="page-title">
+              Notes from<br /><em>production AI.</em>
+            </h1>
+            <p className="page-sub">
+              Short technical writing on what breaks, what holds, and how to tell
+              the difference. {posts.length} articles. More on the way.
+            </p>
+          </ScrollReveal>
+        </div>
       </header>
 
-      <div className="flex flex-col gap-8 divide-y divide-white/10">
-        {posts.map((post, i) => (
-          <ScrollReveal key={post.slug} delay={i * 0.08}>
-            <article className="py-8 space-y-2">
-              <Link
-                href={`/writing/${post.slug}`}
-                className="group mb-2 block"
-              >
-                <h2 className="text-xl font-semibold text-[var(--color-text-bright)] underline-offset-4 decoration-[var(--color-accent)] transition-colors duration-200 group-hover:text-[var(--color-accent)] group-hover:underline">
-                  {post.title}
-                </h2>
-              </Link>
-              <p className="mb-3 text-base text-[var(--color-muted)]">
-                {post.description}
-              </p>
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-[var(--color-muted)]">
-                <time dateTime={post.date}>{formatDate(post.date)}</time>
-                <span aria-hidden>·</span>
-                <span>{post.readingTime}</span>
-                {post.tags.length > 0 && (
-                  <>
-                    <span aria-hidden>·</span>
-                    <div className="flex flex-wrap gap-2">
-                      {post.tags.map((tag) => (
-                        <Tag key={tag}>{tag}</Tag>
+      <section className="section">
+        <div className="container" style={{ maxWidth: 960 }}>
+          <div className="writing-list">
+            {posts.map((post, i) => (
+              <ScrollReveal key={post.slug} delay={i * 0.06}>
+                <Link href={`/writing/${post.slug}`} style={{ display: "contents" }}>
+                  <div className="writing-row">
+                    <div className="writing-row-num">
+                      {String(i + 1).padStart(2, "0")} / {String(posts.length).padStart(2, "0")}
+                    </div>
+                    <div>
+                      <div className="writing-row-title">{post.title}</div>
+                      <div className="writing-row-title-sub">{post.description}</div>
+                    </div>
+                    <div className="writing-row-tags">
+                      {post.tags.map((t) => (
+                        <span key={t} className="pillar-tag">{t}</span>
                       ))}
                     </div>
-                  </>
-                )}
-              </div>
-            </article>
-          </ScrollReveal>
-        ))}
-      </div>
-    </div>
+                    <div className="writing-row-meta">
+                      <div>{formatDate(post.date)}</div>
+                      <div style={{ marginTop: 6, color: "var(--color-text)" }}>{post.readingTime}</div>
+                    </div>
+                  </div>
+                </Link>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

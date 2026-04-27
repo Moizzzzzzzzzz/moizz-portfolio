@@ -163,7 +163,7 @@ export function MobileMenu({ links }: MobileMenuProps) {
                   className={cn(
                     "inline-flex items-center gap-2",
                     "h-12 px-7 rounded-xl text-base font-medium",
-                    "bg-accent text-white hover:bg-accent/85 active:bg-accent/70",
+                    "bg-accent text-bg hover:bg-accent/85 active:bg-accent/70",
                     "transition-colors duration-200",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                   )}

@@ -1,88 +1,56 @@
 import Link from "next/link";
 
+const navLinks = [
+  { href: "/work",    label: "Work" },
+  { href: "/writing", label: "Writing" },
+  { href: "/about",   label: "About" },
+  { href: "/contact", label: "Contact" },
+];
+
+const elsewhere = [
+  { href: "https://github.com/Moizzzzzzzzzz",                    label: "GitHub ↗" },
+  { href: "https://linkedin.com/in/abdul-moizz-b21bb0322",       label: "LinkedIn ↗" },
+  { href: "https://www.upwork.com/freelancers/abdulmoizz",        label: "Upwork ↗" },
+  { href: "mailto:abdul2005moizzz@gmail.com",                     label: "Email ↗" },
+];
+
 export function Footer() {
   return (
-    <footer className="border-t border-white/10 mt-24 pt-16 pb-12">
-      <div className="max-w-6xl mx-auto px-8">
-
-        {/* Top row — 2-col at md: brand left, nav right */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 mb-10">
-
-          {/* Brand */}
-          <div className="space-y-3">
-            <p className="text-white font-semibold text-sm mb-3">moizz.dev</p>
-            <p className="text-white/50 text-sm leading-relaxed max-w-sm">
-              Full-stack AI engineer building RAG, agents, and LLM products that ship.
-            </p>
+    <footer className="footer">
+      <div className="container">
+        <div className="footer-top">
+          {/* Brand statement */}
+          <div className="footer-brand">
+            Build the AI system
+            <br />
+            <em>that doesn&apos;t fall apart.</em>
           </div>
 
-          {/* Nav columns */}
-          <div className="flex gap-16">
-            <div className="space-y-3">
-              <p className="text-white/30 text-xs uppercase tracking-widest mb-5">Pages</p>
-              <ul className="space-y-3">
-                {["Work", "Writing", "About", "Contact"].map((page) => (
-                  <li key={page}>
-                    <Link
-                      href={`/${page.toLowerCase()}`}
-                      className="text-white/60 text-sm hover:text-white transition-colors py-1 block"
-                    >
-                      {page}
-                    </Link>
-                  </li>
+          {/* Meta links */}
+          <div className="footer-meta">
+            <div className="footer-meta-block">
+              <div className="label">Index</div>
+              <div className="val">
+                {navLinks.map(({ href, label }) => (
+                  <Link key={href} href={href}>{label}</Link>
                 ))}
-              </ul>
+              </div>
             </div>
-
-            <div className="space-y-3">
-              <p className="text-white/30 text-xs uppercase tracking-widest mb-5">Find me</p>
-              <ul className="space-y-3">
-                <li>
-                  <a
-                    href="https://github.com/Moizzzzzzzzzz"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-white/60 text-sm hover:text-white transition-colors py-1 block"
-                  >
-                    GitHub ↗
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://linkedin.com/in/abdul-moizz-b21bb0322"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-white/60 text-sm hover:text-white transition-colors py-1 block"
-                  >
-                    LinkedIn ↗
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://www.upwork.com/freelancers/abdulmoizz"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-white/60 text-sm hover:text-white transition-colors py-1 block"
-                  >
-                    Upwork ↗
-                  </a>
-                </li>
-              </ul>
+            <div className="footer-meta-block">
+              <div className="label">Elsewhere</div>
+              <div className="val">
+                {elsewhere.map(({ href, label }) => (
+                  <a key={href} href={href} target="_blank" rel="noreferrer">{label}</a>
+                ))}
+              </div>
             </div>
           </div>
-
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-10 pt-6 border-t border-white/10 flex justify-between text-xs text-white/30">
-          <p className="text-white/30 text-xs">
-            © {new Date().getFullYear()} Abdul Moizz. All rights reserved.
-          </p>
-          <p className="text-white/30 text-xs">
-            Built with Next.js, GSAP &amp; lots of caffeine.
-          </p>
+        <div className="footer-bottom">
+          <div>© 2026 Abdul Moizz Khan · Islamabad, PK</div>
+          <div>v1.0 · Built in Next.js / R3F / GSAP</div>
         </div>
-
       </div>
     </footer>
   );

@@ -1,58 +1,61 @@
-import { Brain, Bot, Layers } from "lucide-react";
-import { cn } from "@/lib/cn";
 import { ScrollReveal } from "@/components/animation/ScrollReveal";
 
 const pillars = [
   {
-    icon: Brain,
-    title: "RAG & Document Intelligence",
-    description:
-      "Production retrieval-augmented generation with hybrid search, re-ranking, and source-pinned citations.",
+    num: "01",
+    title: "RAG Systems",
+    body: "Retrieval pipelines with mandatory citations, semantic chunking, and sub-2s response times. Hybrid retrieval with cross-encoder reranking — not a top-k cosine match.",
+    tags: ["LangChain", "Pinecone", "FAISS", "Reranker"],
+    glyph: `> retrieve\n> rerank\n> cite ✓`,
   },
   {
-    icon: Bot,
-    title: "AI Agents & Automation",
-    description:
-      "Multi-step autonomous agents with tool use, memory, and guardrails — built on LangGraph and custom orchestration.",
+    num: "02",
+    title: "Agentic Workflows",
+    body: "LangGraph-based multi-agent systems with retry loops, conditional routing, and human-in-the-loop. Fault-tolerant by design.",
+    tags: ["LangGraph", "MCP", "Tool use"],
+    glyph: `orchestrator\n├ agent.a\n├ agent.b\n└ agent.c`,
   },
   {
-    icon: Layers,
-    title: "Full-Stack AI Products",
-    description:
-      "End-to-end AI-powered products with streaming UX, observable backends, and production-grade reliability.",
+    num: "03",
+    title: "AI Products",
+    body: "Full-stack LLM applications: FastAPI on the back, React on the front, observable, deployed, and metered against a hard cost ceiling.",
+    tags: ["FastAPI", "React", "Docker", "Vercel"],
+    glyph: `api/v1/*\nweb/*\ninfra/*`,
   },
 ] as const;
 
 export function Pillars() {
   return (
-    <section className="py-24 md:py-40">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section className="section">
+      <div className="container">
         <ScrollReveal>
-          <h2 className="mb-12 text-3xl font-bold tracking-tight">What I build</h2>
+          <div className="section-header">
+            <div className="section-label">
+              <span className="num">01</span>
+              <span>WHAT I BUILD</span>
+            </div>
+            <h2 className="section-title">
+              Three things, <em>built well</em> — not ten things, half-built.
+            </h2>
+          </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {pillars.map((pillar, i) => {
-            const Icon = pillar.icon;
-            return (
-              <ScrollReveal key={pillar.title} delay={i * 0.1} direction="up">
-                <div
-                  className={cn(
-                    "bg-white/5 border border-white/10 rounded-2xl",
-                    "hover:border-violet-500/50 hover:bg-white/[0.08] transition-all duration-300"
-                  )}
-                >
-                  <div className="p-6 flex flex-col h-full">
-                    <div className='w-7 h-7 mb-3 text-[#7C3AED] flex-shrink-0'>
-                      <Icon className="w-full h-full" />
-                    </div>
-                    <h3 className="font-semibold text-[#FAFAFA] text-base leading-snug mb-2">{pillar.title}</h3>
-                    <p className="text-sm text-[#6B6B72] leading-relaxed">{pillar.description}</p>
-                  </div>
-                </div>
-              </ScrollReveal>
-            );
-          })}
+        <div className="pillars">
+          {pillars.map((p, i) => (
+            <ScrollReveal key={p.num} delay={i * 0.08} className="pillar">
+              <div>
+                <div className="pillar-num">{p.num} / Pillar</div>
+                <div className="pillar-glyph">{p.glyph}</div>
+                <div className="pillar-title">{p.title}</div>
+                <div className="pillar-body">{p.body}</div>
+              </div>
+              <div className="pillar-stack">
+                {p.tags.map((t) => (
+                  <span key={t} className="pillar-tag">{t}</span>
+                ))}
+              </div>
+            </ScrollReveal>
+          ))}
         </div>
       </div>
     </section>

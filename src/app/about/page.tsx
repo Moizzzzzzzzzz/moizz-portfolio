@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { SplitReveal } from "@/components/animation/SplitReveal";
 import { ScrollReveal } from "@/components/animation/ScrollReveal";
 import { MagneticButton } from "@/components/animation/MagneticButton";
-import { buttonVariants } from "@/lib/button-variants";
 
 export const metadata: Metadata = {
   title: "About — Moizz K",
@@ -12,12 +10,18 @@ export const metadata: Metadata = {
     "Self-taught AI engineer from Pakistan building production RAG systems, AI agents, and LLM products. Available for freelance projects.",
 };
 
-const MANIFESTO = [
-  "A system that works 80% of the time is a liability, not a product.",
-  "Retrieval quality determines answer quality — everything else is secondary.",
-  "Every AI feature should be auditable. If you can't trace why it said that, you can't fix it when it's wrong.",
-  "Speed of iteration beats perfection of plan. Ship, measure, fix.",
-  "The best AI engineers are honest about failure modes before the client asks.",
+const philosophy = [
+  "RAG without citations is a liability.",
+  "Agents need fallbacks, not faith.",
+  "90% of the job is making it debuggable.",
+  "Ship boring infrastructure. Ship interesting products.",
+];
+
+const currently = [
+  { label: "Daily driver",  val: "Claude Sonnet · Cursor · Linear",         note: "" },
+  { label: "Reading",       val: "Designing Data-Intensive Applications",     note: "Kleppmann · re-read x3" },
+  { label: "Listening",     val: "Latent Space pod · The Pragmatic Engineer", note: "" },
+  { label: "Status",        val: "● 2 slots · May 2026",                      note: "freelance · contract", accent: true },
 ];
 
 export default function AboutPage() {
@@ -34,8 +38,6 @@ export default function AboutPage() {
             url: "https://moizzz.dev",
             image: "https://moizzz.dev/images/about/moizz.webp",
             jobTitle: "Full-Stack AI Engineer",
-            description:
-              "Self-taught AI engineer building production RAG systems and AI agents. Based in Pakistan, working globally.",
             sameAs: [
               "https://linkedin.com/in/abdul-moizz-b21bb0322",
               "https://github.com/Moizzzzzzzzzz",
@@ -45,149 +47,136 @@ export default function AboutPage() {
         }}
       />
 
-      <div className="content-wrapper pb-24 max-w-6xl mx-auto px-8 md:px-16 lg:px-24" style={{ paddingTop: "calc(var(--navbar-height) + 3rem)" }}>
-
-        {/* Two column grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-
-          {/* LEFT — text content (7 cols) */}
-          <div className="lg:col-span-7 order-2 lg:order-1 space-y-8">
-
-            {/* h1 */}
+      {/* ── Hero two-col ────────────────────────────────────────────── */}
+      <section>
+        <div className="container">
+          <div className="about-hero">
+            {/* Left — text */}
             <div>
-              <SplitReveal
-                as="h1"
-                split="lines"
-                className="text-6xl lg:text-7xl font-bold text-white leading-none tracking-tight mb-4"
-              >
-                Moizz K
-              </SplitReveal>
-              <p className="text-lg text-white/60 leading-relaxed">
-                Full-stack AI engineer building production RAG systems, agents, and LLM products that ship.
-              </p>
-            </div>
+              <div className="page-eyebrow">
+                <span className="num">03</span>
+                <span>ABOUT / MOIZZ KHAN</span>
+              </div>
+              <h1 className="page-title">
+                Self-taught,<br /><em>production-first.</em>
+              </h1>
 
-            {/* Story paragraphs */}
-            <div className="space-y-5 text-white/70 leading-relaxed text-base max-w-2xl">
-              <ScrollReveal>
-                <p className="text-base leading-relaxed text-white/70">
-                  I&#39;m a self-taught AI engineer based in Islamabad, Pakistan — currently completing a BSc
-                  in Data Science, but I didn&#39;t wait for a degree to start building. I&#39;ve been
-                  designing and shipping production AI systems since before the coursework caught up.
-                  That bias toward execution hasn&#39;t changed.
+              <div className="about-prose">
+                <p>
+                  I started building AI systems two years ago — not from tutorials, but from shipping
+                  things that needed to <em>work</em>. I&apos;m finishing my AI &amp; Data Science degree at
+                  Virtual University, but most of what I know came from debugging production failures at 2&nbsp;a.m.
                 </p>
-              </ScrollReveal>
-
-              <ScrollReveal delay={0.1}>
-                <p className="text-base leading-relaxed text-white/70">
-                  My flagship project, DocuMind, is a multi-document RAG research assistant built entirely
-                  on my own — no team, no tutorial, no shortcuts. It handles real documents at scale,
-                  enforces mandatory source citations on every response, and runs on production
-                  infrastructure with LangGraph multi-agent routing and Pinecone Serverless retrieval.
-                  It&#39;s the kind of system I&#39;d want to use myself: reliable, cited, and honest
-                  about what it doesn&#39;t know.
+                <p>
+                  My focus is the gap between <em>&ldquo;AI demo&rdquo;</em> and <em>&ldquo;AI system.&rdquo;</em> Most
+                  LLM applications look good in a notebook and fall apart in production. I build the version
+                  that doesn&apos;t: proper retrieval pipelines, fault-tolerant agent graphs, observable
+                  backends, deployed systems with real users.
                 </p>
-              </ScrollReveal>
-
-              <ScrollReveal delay={0.2}>
-                <p className="text-base leading-relaxed text-white/70">
-                  Today I work globally as a full-stack AI engineer, building RAG pipelines, AI agents,
-                  and production LLM systems for clients who need things that actually work — not just in
-                  demos, but under real load, with real data, maintained by real teams. My stack centers
-                  on LangChain, LangGraph, FastAPI, and React, with retrieval backends chosen per problem
-                  rather than per habit. I work async-first, communicate clearly, ship on time, and
-                  don&#39;t disappear after handoff.
+                <p>
+                  I&apos;m based in Islamabad, Pakistan — available for freelance engagements and remote
+                  contracts. If you&apos;re building an AI-powered product and need an engineer who treats
+                  your codebase like their own,{" "}
+                  <Link href="/contact" style={{ color: "var(--color-accent)", borderBottom: "1px solid var(--color-accent)" }}>
+                    let&apos;s talk
+                  </Link>.
                 </p>
-              </ScrollReveal>
-            </div>
-
-            {/* Philosophy section */}
-            <div>
-              <SplitReveal
-                as="h2"
-                split="lines"
-                className="text-2xl font-semibold text-white mb-6"
-              >
-                How I think about building AI
-              </SplitReveal>
-              <div className="space-y-4">
-                {MANIFESTO.map((statement, i) => (
-                  <ScrollReveal key={statement} delay={i * 0.1}>
-                    <p className="border-l-2 border-violet-600 pl-4 font-serif italic text-xl text-white/70 py-3">
-                      {statement}
-                    </p>
-                  </ScrollReveal>
-                ))}
               </div>
             </div>
 
-            {/* Currently grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
-              <div className="p-6 space-y-2 bg-white/5 rounded-xl border border-white/10">
-                <h3 className="mb-4 text-xs uppercase tracking-widest text-white/30">
-                  Freelancing
-                </h3>
-                <ul className="space-y-2 text-base text-white/70">
-                  <li>Building RAG systems &amp; AI agents for clients on Upwork</li>
-                  <li>Open to long-term retainer engagements</li>
-                  <li>Async-first, global timezone coverage</li>
-                </ul>
-              </div>
-
-              <div className="p-6 space-y-2 bg-white/5 rounded-xl border border-white/10">
-                <h3 className="mb-4 text-xs uppercase tracking-widest text-white/30">
-                  Daily tools
-                </h3>
-                <ul className="space-y-2 text-base text-white/70">
-                  <li>LangChain · LangGraph · FastAPI</li>
-                  <li>Claude API · Gemini Flash · Groq</li>
-                  <li>Pinecone · FAISS · ChromaDB</li>
-                  <li>React · Docker · DigitalOcean</li>
-                </ul>
-              </div>
-
-              <div className="p-6 space-y-2 bg-white/5 rounded-xl border border-white/10">
-                <h3 className="mb-4 text-xs uppercase tracking-widest text-white/30">
-                  Availability
-                </h3>
-                <ul className="space-y-2 text-base text-white/70">
-                  <li>Available for new projects</li>
-                  <li>Response within 24 hours</li>
-                  <li>Starting point: 20-min scoping call</li>
-                </ul>
-              </div>
-            </div>
-
-            {/* CTA */}
-            <div className="pt-4">
-              <MagneticButton>
-                <Link
-                  href="/contact"
-                  className={`${buttonVariants({ variant: "primary", size: "lg" })} px-6 py-3 rounded-full`}
-                >
-                  Book a 20-min call
-                </Link>
-              </MagneticButton>
-            </div>
-
-          </div>
-
-          {/* RIGHT — photo (5 cols) */}
-          <div className="lg:col-span-5 order-1 lg:order-2 lg:sticky lg:top-24">
-            <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden border border-white/10">
+            {/* Right — photo */}
+            <div className="about-photo" style={{ position: "sticky", top: "100px", alignSelf: "start" }}>
               <Image
                 src="/images/about/moizz.webp"
                 alt="Moizz K — Full-stack AI Engineer"
                 fill
                 className="object-cover object-top"
-                sizes="(max-width: 1024px) 100vw, 40vw"
+                sizes="(max-width: 1024px) 100vw, 480px"
                 priority
               />
+              {/* Mono label overlay */}
+              <div style={{ position: "absolute", top: 16, left: 16, right: 16, display: "flex", justifyContent: "space-between", fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "var(--color-muted)", letterSpacing: "0.12em", zIndex: 2 }}>
+                <span>MOIZZ.WEBP</span><span>Islamabad, PK</span>
+              </div>
             </div>
           </div>
-
         </div>
-      </div>
+      </section>
+
+      {/* ── Philosophy ──────────────────────────────────────────────── */}
+      <section className="section">
+        <div className="container">
+          <ScrollReveal>
+            <div className="section-header">
+              <div className="section-label">
+                <span className="num">04</span>
+                <span>PHILOSOPHY</span>
+              </div>
+              <h2 className="section-title">
+                Four <em>convictions</em> that shape every system I ship.
+              </h2>
+            </div>
+          </ScrollReveal>
+
+          <div className="philosophy-list">
+            {philosophy.map((text, i) => (
+              <ScrollReveal key={i} delay={i * 0.08} className="philosophy-item">
+                <span className="num">{String(i + 1).padStart(2, "0")}</span>
+                <span className="text">{text}</span>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Currently ───────────────────────────────────────────────── */}
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="container">
+          <ScrollReveal>
+            <div className="section-header">
+              <div className="section-label">
+                <span className="num">05</span>
+                <span>CURRENTLY</span>
+              </div>
+              <h2 className="section-title">Tools, <em>signals,</em> and what&apos;s open.</h2>
+            </div>
+          </ScrollReveal>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", border: "1px solid var(--color-border)" }}>
+            {currently.map((c, i) => (
+              <ScrollReveal key={i} delay={i * 0.06}>
+                <div style={{ padding: 32, borderRight: i < currently.length - 1 ? "1px solid var(--color-border)" : "none" }}>
+                  <div className="metric-label">{c.label}</div>
+                  <div style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: "1.5rem", lineHeight: 1.2, marginTop: 12, color: c.accent ? "var(--color-accent)" : "var(--color-text-bright)", fontWeight: 300 }}>
+                    {c.val}
+                  </div>
+                  {c.note && <div className="metric-note" style={{ marginTop: 8 }}>{c.note}</div>}
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Mini CTA ─────────────────────────────────────────────────── */}
+      <section className="cta-section" style={{ padding: "120px 0" }}>
+        <div className="cta-bg" aria-hidden />
+        <div className="container">
+          <div className="cta-eyebrow">[ NEXT STEP ]</div>
+          <h2 className="cta-headline">
+            Book a <em>20-minute call.</em>
+            <br />
+            I&apos;ll tell you if I can help.
+          </h2>
+          <div className="cta-actions">
+            <MagneticButton>
+              <Link href="/contact" className="btn btn-primary">
+                Book a call <span className="btn-arrow">→</span>
+              </Link>
+            </MagneticButton>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

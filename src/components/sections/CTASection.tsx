@@ -1,45 +1,36 @@
 import Link from "next/link";
-import { MagneticButton } from "@/components/animation/MagneticButton";
-import { buttonVariants } from "@/lib/button-variants";
 import { ScrollReveal } from "@/components/animation/ScrollReveal";
+import { MagneticButton } from "@/components/animation/MagneticButton";
 
 export function CTASection() {
   return (
-    <section className="border-t border-foreground/5 py-32 text-center">
-      <div className="mx-auto max-w-2xl px-4">
-        <div className="relative">
-          <div
-            className="pointer-events-none absolute inset-0 -z-10 mx-auto max-w-sm rounded-full bg-accent/10 blur-3xl"
-            aria-hidden="true"
-          />
-          <ScrollReveal>
-            <h2 className="mb-4 text-4xl font-bold tracking-tight">
-              Ready to build something that works?
-            </h2>
-            <p className="text-foreground/50">
-              I&apos;m available for contracts, freelance builds, and AI consulting.
-            </p>
-          </ScrollReveal>
-          <ScrollReveal delay={0.15}>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <MagneticButton>
-                <Link
-                  href="https://documind.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={buttonVariants({ variant: "primary", size: "lg" })}
-                >
-                  See DocuMind Live
-                </Link>
-              </MagneticButton>
-              <MagneticButton>
-                <Link href="/contact" className={buttonVariants({ variant: "secondary", size: "lg" })}>
-                  Book a Call
-                </Link>
-              </MagneticButton>
-            </div>
-          </ScrollReveal>
-        </div>
+    <section className="cta-section">
+      <div className="cta-bg" aria-hidden />
+      <div className="container">
+        <ScrollReveal>
+          <div className="cta-eyebrow">[ HIRE / COLLABORATE / TALK SHOP ]</div>
+          <h2 className="cta-headline">
+            If you&apos;re building an <em>AI product</em>
+            <br />
+            and need someone who&apos;ll
+            <br />
+            treat your codebase like their own —
+          </h2>
+        </ScrollReveal>
+        <ScrollReveal delay={0.15}>
+          <div className="cta-actions">
+            <MagneticButton>
+              <Link href="/contact" className="btn btn-primary">
+                Book a call <span className="btn-arrow">→</span>
+              </Link>
+            </MagneticButton>
+            <MagneticButton>
+              <Link href="/work/documind" className="btn btn-ghost">
+                See DocuMind live
+              </Link>
+            </MagneticButton>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );

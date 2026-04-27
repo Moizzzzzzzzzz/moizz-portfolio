@@ -6,37 +6,46 @@ import { WorkGrid } from "@/components/work/WorkGrid";
 
 export const metadata: Metadata = constructMetadata({
   title: `Work — ${siteConfig.name}`,
-  description:
-    "A collection of AI systems, RAG pipelines, and full-stack products I've built.",
+  description: "Production AI systems, RAG pipelines, and full-stack LLM products.",
   url: `${siteConfig.url}/work`,
 });
 
 export default function WorkPage() {
-  const projects = getAllProjects().sort((a, b) => {
-    if (a.featured && !b.featured) return -1;
-    if (!a.featured && b.featured) return 1;
-    const aOrder = a.order ?? a.year ?? 0;
-    const bOrder = b.order ?? b.year ?? 0;
-    return bOrder - aOrder;
-  });
+  const projects = getAllProjects()
+    .filter((p) => p.slug !== "auracode" && p.slug !== "techcurator")
+    .sort((a, b) => {
+      if (a.featured && !b.featured) return -1;
+      if (!a.featured && b.featured) return 1;
+      return (b.order ?? b.year ?? 0) - (a.order ?? a.year ?? 0);
+    });
 
   return (
-    <div className="content-wrapper mx-auto max-w-6xl pb-24 px-8 md:px-16 lg:px-24">
-      <ScrollReveal direction="up" delay={0}>
-        <section className="mb-12 flex flex-col gap-3">
-          <h1 className="text-4xl font-bold tracking-tight text-text sm:text-5xl">
-            Work
-          </h1>
-          <p className="max-w-xl text-base leading-relaxed text-muted">
-            Production AI systems, developer tools, and full-stack products
-            — built to solve real problems and ship fast.
-          </p>
-        </section>
-      </ScrollReveal>
+    <>
+      <header className="page-header">
+        <div className="container">
+          <ScrollReveal>
+            <div className="page-eyebrow">
+              <span className="num">02</span>
+              <span>SELECTED WORK / 2024 — 2026</span>
+            </div>
+            <h1 className="page-title">
+              Five shipped<br /><em>AI systems.</em>
+            </h1>
+            <p className="page-sub">
+              Each one in production or with a working demo. Filter by domain.
+              DocuMind is the deepest case study — start there.
+            </p>
+          </ScrollReveal>
+        </div>
+      </header>
 
-      <ScrollReveal direction="up" delay={0.1}>
-        <WorkGrid projects={projects} />
-      </ScrollReveal>
-    </div>
+      <section className="section">
+        <div className="container">
+          <ScrollReveal delay={0.1}>
+            <WorkGrid projects={projects} />
+          </ScrollReveal>
+        </div>
+      </section>
+    </>
   );
 }

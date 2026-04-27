@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Fraunces } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "sonner";
@@ -20,13 +21,14 @@ const inter = localFont({
   display: "swap",
 });
 
-const instrumentSerif = localFont({
-  src: [
-    { path: "../../public/fonts/InstrumentSerif-Regular.woff2", style: "normal", weight: "400" },
-    { path: "../../public/fonts/InstrumentSerif-Italic.woff2", style: "italic", weight: "400" },
-  ],
-  variable: "--font-instrument-serif",
+// Fraunces — primary serif display font. Variable, supports SOFT+opsz axes.
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-fraunces",
   display: "swap",
+  style: ["normal", "italic"],
+  axes: ["SOFT", "opsz"],
+  weight: "variable",
 });
 
 const jetbrainsMono = localFont({
@@ -54,7 +56,11 @@ export const metadata: Metadata = buildMetadata({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.variable} ${fraunces.variable} ${jetbrainsMono.variable}`}
+    >
       <head>
         <link
           rel="preload"
@@ -64,7 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           crossOrigin="anonymous"
         />
       </head>
-      <body className="antialiased bg-bg text-text">
+      <body className="antialiased" style={{ background: "var(--color-bg)", color: "var(--color-text)" }}>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-lg focus:bg-bg focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-text-bright focus:ring-2 focus:ring-accent"
@@ -92,10 +98,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <CursorFollower />
           <Navbar />
           <PageTransition>
-            <main
-              id="main-content"
-              className="min-h-screen pt-16"
-            >
+            {/* No pt-16 — each page/hero controls its own top spacing */}
+            <main id="main-content" className="min-h-screen">
               {children}
             </main>
           </PageTransition>

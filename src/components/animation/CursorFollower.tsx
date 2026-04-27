@@ -1,88 +1,87 @@
 "use client";
 
-import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "@/lib/gsap";
+import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
-/**
- * Renders a custom two-layer cursor (small dot + lagging ring) that follows the
- * mouse. The ring scales up when hovering any `<a>` or `<button>` in the page.
- *
- * Render this once in the root layout. It is automatically hidden on:
- * - Touch devices (`hover: none` media query)
- * - `prefers-reduced-motion` users
- *
- * @example
- * // In src/app/layout.tsx
- * <body>
- *   <CursorFollower />
- *   {children}
- * </body>
- */
+type CursorVariant = "default" | "hover" | "text" | "hidden";
+
 export function CursorFollower() {
-  const dotRef = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
+  const [variant, setVariant] = useState<CursorVariant>("hidden");
+  const pos = useRef({ x: -100, y: -100, tx: -100, ty: -100 });
+  const rafRef = useRef<number>(0);
+
   const isTouch = useMediaQuery("(hover: none)");
   const reduced = useReducedMotion();
 
-  useGSAP(
-    () => {
-      const dot = dotRef.current;
-      const ring = ringRef.current;
-      if (!dot || !ring || isTouch || reduced) return;
+  useEffect(() => {
+    if (isTouch || reduced) return;
 
-      let cursorActivated = false;
-      const onMove = (e: MouseEvent) => {
-        if (!cursorActivated) {
-          cursorActivated = true;
-          document.body.classList.add("cursor-active");
-        }
-        gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "none" });
-        gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.35, ease: "power2.out" });
-      };
+    const el = ref.current;
+    if (!el) return;
 
-      const onEnter = () => gsap.to(ring, { scale: 1.8, duration: 0.3 });
-      const onLeave = () => gsap.to(ring, { scale: 1, duration: 0.3 });
+    function move(e: MouseEvent) {
+      pos.current.tx = e.clientX;
+      pos.current.ty = e.clientY;
+      if (variant === "hidden") setVariant("default");
+      document.body.classList.add("cursor-active");
+    }
 
-      // Snapshot interactive elements at mount time.
-      const interactiveEls = Array.from(
-        document.querySelectorAll<Element>("a, button")
-      );
+    function leave() {
+      setVariant("hidden");
+    }
 
-      window.addEventListener("mousemove", onMove);
-      interactiveEls.forEach((el) => {
-        el.addEventListener("mouseenter", onEnter);
-        el.addEventListener("mouseleave", onLeave);
-      });
+    function over(e: MouseEvent) {
+      const t = e.target as Element | null;
+      if (!t?.closest) return;
+      if (t.closest("[data-cursor-text], input, textarea")) {
+        setVariant("text");
+      } else if (
+        t.closest(
+          "a, button, [data-cursor-hover], .work-card, .filter-pill, " +
+          ".writing-row, .pillar, .stack-row, .prevnext-cell, .nav-link, " +
+          ".logo, .menu-btn"
+        )
+      ) {
+        setVariant("hover");
+      } else {
+        setVariant("default");
+      }
+    }
 
-      return () => {
-        window.removeEventListener("mousemove", onMove);
-        document.body.classList.remove("cursor-active");
-        interactiveEls.forEach((el) => {
-          el.removeEventListener("mouseenter", onEnter);
-          el.removeEventListener("mouseleave", onLeave);
-        });
-      };
-    },
-    { dependencies: [isTouch, reduced] }
-  );
+    function loop() {
+      const lag = 0.22;
+      pos.current.x += (pos.current.tx - pos.current.x) * lag;
+      pos.current.y += (pos.current.ty - pos.current.y) * lag;
+      if (el) {
+        el.style.transform = `translate(${pos.current.x}px, ${pos.current.y}px) translate(-50%, -50%)`;
+      }
+      rafRef.current = requestAnimationFrame(loop);
+    }
+    rafRef.current = requestAnimationFrame(loop);
+
+    document.addEventListener("mousemove", move);
+    document.addEventListener("mouseleave", leave);
+    document.addEventListener("mouseover", over);
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      document.removeEventListener("mousemove", move);
+      document.removeEventListener("mouseleave", leave);
+      document.removeEventListener("mouseover", over);
+      document.body.classList.remove("cursor-active");
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isTouch, reduced]);
 
   if (isTouch || reduced) return null;
 
   return (
-    <>
-      <div
-        ref={dotRef}
-        aria-hidden="true"
-        className="pointer-events-none fixed left-0 top-0 z-[9999] h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/90"
-      />
-      <div
-        ref={ringRef}
-        aria-hidden="true"
-        className="pointer-events-none fixed left-0 top-0 z-[9998] h-8 w-8 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/40"
-      />
-    </>
+    <div
+      ref={ref}
+      aria-hidden="true"
+      className={`cursor ${variant}`}
+    />
   );
 }

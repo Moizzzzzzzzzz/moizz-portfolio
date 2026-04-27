@@ -1,73 +1,85 @@
 import Link from "next/link";
 import { ScrollReveal } from "@/components/animation/ScrollReveal";
-import { Button } from "@/components/ui/Button";
+import { MagneticButton } from "@/components/animation/MagneticButton";
+import { ProjectCover } from "@/components/work/ProjectCover";
 
-const projects = [
+const featured = [
   {
     slug: "documind",
     title: "DocuMind",
-    tagline:
-      "Production RAG system for enterprise document Q&A with sub-second retrieval at scale.",
-    tags: ["RAG", "LangChain", "Pinecone", "FastAPI"],
+    tagline: "Multi-document AI research assistant with mandatory source citations.",
+    tags: ["RAG", "Full-Stack"],
+    duration: "6 weeks",
+    status: "live" as const,
     href: "/work/documind",
   },
   {
     slug: "autoanalyst",
     title: "AutoAnalyst",
-    tagline:
-      "LLM agent that writes and executes Python data analysis code from natural language queries.",
-    tags: ["Agents", "LangGraph", "Python", "OpenAI"],
+    tagline: "Multi-agent autonomous data analysis. Upload a CSV, get a full exploratory report.",
+    tags: ["Agents", "Full-Stack"],
+    duration: "4 weeks",
+    status: "case" as const,
     href: "/work/autoanalyst",
   },
   {
     slug: "lexai",
     title: "LexAI",
-    tagline: "AI-powered legal contract analysis tool for early-stage startups.",
-    tags: ["RAG", "Next.js", "TypeScript", "Anthropic"],
+    tagline: "Legal contract review agent. Clause extraction, risk scoring, structured reports.",
+    tags: ["RAG", "Agents"],
+    duration: "3 weeks",
+    status: "case" as const,
     href: "/work/lexai",
   },
-] as const;
+];
 
 export function FeaturedWork() {
   return (
-    <section className="py-24 md:py-40">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-8">
-          <ScrollReveal>
-            <h2 className="text-3xl font-bold tracking-tight">Selected work</h2>
-          </ScrollReveal>
-          <Link
-            href="/work"
-            className="text-sm text-foreground/50 hover:text-foreground transition-colors"
-          >
-            All projects →
-          </Link>
-        </div>
+    <section className="section" style={{ paddingTop: 0 }}>
+      <div className="container">
+        <ScrollReveal>
+          <div className="section-header">
+            <div className="section-label">
+              <span className="num">02</span>
+              <span>SELECTED WORK</span>
+            </div>
+            <h2 className="section-title">
+              Five shipped systems. <em>Three featured.</em>
+            </h2>
+          </div>
+        </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-          {projects.map((project, i) => (
-            <ScrollReveal key={project.slug} delay={i * 0.1} direction="up">
-              <Link
-                href={project.href}
-                className="flex flex-col h-full bg-white/5 border border-white/10 rounded-2xl hover:border-violet-500 transition-colors"
-              >
-                <div className="p-6 flex flex-col h-full">
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[11px] font-medium px-2 py-0.5 rounded border border-[#1F1F22] text-[#6B6B72] tracking-wide uppercase"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+        <div className="work-grid">
+          {featured.map((p, i) => (
+            <ScrollReveal
+              key={p.slug}
+              delay={i * 0.1}
+              className={`work-card${i === 0 ? " featured" : ""}`}
+            >
+              <Link href={p.href} style={{ display: "contents" }}>
+                {/* Media */}
+                <div className="work-card-media">
+                  <div className="work-card-media-inner">
+                    <ProjectCover slug={p.slug} />
                   </div>
-                  <h3 className='text-lg font-semibold text-[#FAFAFA] mb-2'>
-                    {project.title}
-                  </h3>
-                  <p className="text-sm text-[#6B6B72] leading-relaxed flex-1">{project.tagline}</p>
-                  <div className="mt-5 pt-4 border-t border-[#1F1F22]">
-                    <a className='text-sm text-[#7C3AED] font-medium inline-flex items-center gap-1.5'>View case study →</a>
+                  <div className="work-card-meta">
+                    <span className={`work-card-status${p.status === "case" ? " case" : ""}`}>
+                      <span className="dot" />
+                      {p.status === "live" ? "LIVE · DEMO" : "CASE STUDY"}
+                    </span>
+                    {i === 0 && (
+                      <span className="work-featured-badge">FLAGSHIP</span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Body */}
+                <div className="work-card-body">
+                  <div className="work-card-title">{p.title}</div>
+                  <div className="work-card-tagline">{p.tagline}</div>
+                  <div className="work-card-bottom">
+                    <span>{p.tags.join(" · ")} / {p.duration}</span>
+                    <span className="arrow">READ <span>→</span></span>
                   </div>
                 </div>
               </Link>
@@ -75,12 +87,12 @@ export function FeaturedWork() {
           ))}
         </div>
 
-        <div className="flex justify-center mt-14 mb-0">
-          <ScrollReveal delay={0.2}>
-            <Link href="/work">
-              <Button variant="secondary">View All Work</Button>
+        <div style={{ textAlign: "center", marginTop: 64 }}>
+          <MagneticButton>
+            <Link href="/work" className="btn btn-ghost">
+              See all five projects <span className="btn-arrow">→</span>
             </Link>
-          </ScrollReveal>
+          </MagneticButton>
         </div>
       </div>
     </section>

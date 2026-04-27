@@ -12,8 +12,8 @@ const vertexShader = /* glsl */ `
   }
 `;
 
-// Noise-based gradient using brand accent #7C3AED (0.486, 0.227, 0.929).
-// Slow drift keeps it subtle and non-distracting behind text.
+// Voronoi-influenced noise field — bone-white accent #E6E6E9 (0.902, 0.902, 0.914).
+// Quieter blend (0.22) and dampened mouse parallax for a cinematic, restrained feel.
 const fragmentShader = /* glsl */ `
   precision highp float;
   uniform float uTime;
@@ -46,24 +46,25 @@ const fragmentShader = /* glsl */ `
   }
 
   void main() {
-    float t  = uTime * 0.05;
-    // uMouse is in 0→1 range; (uMouse - 0.5) * 0.3 gives a restrained ±0.15 offset.
-    vec2  mouseOffset = (uMouse - 0.5) * 0.3;
+    float t = uTime * 0.03;
+    // Dampened mouse offset (±0.08) for a subtle parallax
+    vec2 mouseOffset = (uMouse - 0.5) * 0.16;
     float n  = fbm(vUv * 2.5 + vec2(t, t * 0.7) + mouseOffset);
     float n2 = fbm(vUv * 4.0 - vec2(t * 0.5, t) + vec2(5.2, 1.3));
     float pattern = n * 0.65 + n2 * 0.35;
 
-    // Brand accent: #7C3AED
-    vec3 accent = vec3(0.486, 0.227, 0.929);
+    // Bone-white accent: #E6E6E9
+    vec3 accent = vec3(0.902, 0.902, 0.914);
     vec3 dark   = vec3(0.039, 0.039, 0.043); // #0A0A0B
 
-    // Vignette concentrated upper-left where hero text sits
-    vec2  c        = vUv - vec2(0.2, 0.55);
-    float vignette = 1.0 - clamp(length(c) * 1.6, 0.0, 1.0);
+    // Vignette concentrated upper-center
+    vec2  c        = vUv - vec2(0.5, 0.45);
+    float vignette = 1.0 - clamp(length(c) * 1.4, 0.0, 1.0);
     vignette = vignette * vignette;
 
-    vec3  color = mix(dark, accent, pattern * vignette * 0.38);
-    float alpha = pattern * vignette * 0.55;
+    // Quieter blend (0.22 vs old 0.38) for a subtler, more restrained look
+    vec3  color = mix(dark, accent, pattern * vignette * 0.22);
+    float alpha = pattern * vignette * 0.45;
 
     gl_FragColor = vec4(color, alpha);
   }
@@ -87,7 +88,6 @@ export function ShaderPlane({ active = true, mouse }: ShaderPlaneProps) {
 
   return (
     <mesh>
-      {/* Large enough to fill viewport regardless of aspect ratio */}
       <planeGeometry args={[22, 14, 1, 1]} />
       <shaderMaterial
         ref={matRef}
