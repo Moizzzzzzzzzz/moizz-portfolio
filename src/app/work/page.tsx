@@ -21,7 +21,7 @@ export default function WorkPage() {
   });
 
   return (
-    <div className="content-wrapper mx-auto max-w-6xl pb-24 px-8 md:px-16 lg:px-24" style={{ paddingTop: "calc(var(--navbar-height) + 3rem)" }}>
+    <div className="content-wrapper mx-auto max-w-6xl pb-24 px-8 md:px-16 lg:px-24">
       <ScrollReveal direction="up" delay={0}>
         <section className="mb-12 flex flex-col gap-3">
           <h1 className="text-4xl font-bold tracking-tight text-text sm:text-5xl">
