@@ -11,7 +11,7 @@ const stack = [
 
 export function StackShowcase() {
   return (
-    <section className="pb-16 pt-20 md:pt-28 border-y border-foreground/5">
+    <section className="py-16 md:py-20 border-t border-[#1F1F22]">
       <ScrollReveal>
         <p className="mb-8 text-center text-xs font-medium uppercase tracking-widest text-foreground/30">
           My Stack

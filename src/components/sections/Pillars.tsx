@@ -38,14 +38,16 @@ export function Pillars() {
               <ScrollReveal key={pillar.title} delay={i * 0.1} direction="up">
                 <div
                   className={cn(
-                    "bg-white/5 border border-white/10 rounded-2xl p-7 md:p-8",
+                    "bg-white/5 border border-white/10 rounded-2xl",
                     "hover:border-violet-500/50 hover:bg-white/[0.08] transition-all duration-300"
                   )}
                 >
-                  <div className="flex flex-col gap-5 h-full">
-                    <Icon className="h-8 w-8 text-violet-400" />
-                    <h3 className="text-lg font-semibold text-white">{pillar.title}</h3>
-                    <p className="flex-grow text-sm leading-relaxed text-white/60">{pillar.description}</p>
+                  <div className="flex flex-col h-full p-7 md:p-8">
+                    <div className="w-8 h-8 mb-4 flex-shrink-0">
+                      <Icon className="w-full h-full text-violet-400" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-3">{pillar.title}</h3>
+                    <p className="text-sm leading-relaxed text-white/60">{pillar.description}</p>
                   </div>
                 </div>
               </ScrollReveal>

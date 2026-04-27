@@ -49,10 +49,10 @@ export function FeaturedWork() {
             <ScrollReveal key={project.slug} delay={i * 0.1} direction="up">
               <Link
                 href={project.href}
-                className="flex flex-col h-full bg-white/5 border border-white/10 rounded-2xl p-7 md:p-8 hover:border-violet-500 transition-colors"
+                className="flex flex-col h-full bg-white/5 border border-white/10 rounded-2xl hover:border-violet-500 transition-colors"
               >
-                <div className="flex flex-col gap-4 h-full">
-                  <div className="flex flex-wrap gap-2">
+                <div className="flex flex-col h-full p-7 md:p-8">
+                  <div className="flex flex-wrap gap-2 mb-5">
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
@@ -62,18 +62,20 @@ export function FeaturedWork() {
                       </span>
                     ))}
                   </div>
-                  <h3 className="mt-1 text-white font-semibold text-lg group-hover:text-violet-400 transition-colors">
+                  <h3 className="text-white font-semibold text-lg mb-3 group-hover:text-violet-400 transition-colors">
                     {project.title}
                   </h3>
-                  <p className="flex-grow text-white/50 text-sm leading-relaxed">{project.tagline}</p>
-                  <span className="mt-auto pt-6 inline-flex items-center gap-1 text-violet-400 text-sm">View case study →</span>
+                  <p className="flex-1 text-white/50 text-sm leading-relaxed">{project.tagline}</p>
+                  <div className="mt-6 pt-6 border-t border-[#1F1F22]">
+                    <span className="text-sm text-violet-400 inline-flex items-center gap-1 hover:gap-2 transition-all">View case study →</span>
+                  </div>
                 </div>
               </Link>
             </ScrollReveal>
           ))}
         </div>
 
-        <div className="flex justify-center mt-14">
+        <div className="flex justify-center mt-12 mb-2">
           <ScrollReveal delay={0.2}>
             <Link href="/work">
               <Button variant="secondary">View All Work</Button>
