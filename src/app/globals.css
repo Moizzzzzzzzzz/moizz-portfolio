@@ -1103,8 +1103,6 @@ h1 em, h2 em, h3 em {
 .about-photo {
   position: relative;
   aspect-ratio: 4 / 5;
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
   overflow: hidden;
 }
 .philosophy-list { display: flex; flex-direction: column; }

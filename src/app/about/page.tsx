@@ -94,10 +94,6 @@ export default function AboutPage() {
                 sizes="(max-width: 1024px) 100vw, 480px"
                 priority
               />
-              {/* Mono label overlay */}
-              <div style={{ position: "absolute", top: 16, left: 16, right: 16, display: "flex", justifyContent: "space-between", fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "var(--color-muted)", letterSpacing: "0.12em", zIndex: 2 }}>
-                <span>MOIZZ.WEBP</span><span>Islamabad, PK</span>
-              </div>
             </div>
           </div>
         </div>
