@@ -36,7 +36,7 @@ export default function AboutPage() {
             name: "Abdul Moizz Khan",
             alternateName: "Moizz K",
             url: "https://moizzz.dev",
-            image: "https://moizzz.dev/images/about/moizz.webp",
+            image: "https://moizzz.dev/images/about/moizz.png",
             jobTitle: "Full-Stack AI Engineer",
             sameAs: [
               "https://linkedin.com/in/abdul-moizz-b21bb0322",
@@ -87,7 +87,7 @@ export default function AboutPage() {
             {/* Right — photo */}
             <div className="about-photo" style={{ position: "sticky", top: "100px", alignSelf: "start" }}>
               <Image
-                src="/images/about/moizz.webp"
+                src="/images/about/moizz.png"
                 alt="Moizz K — Full-stack AI Engineer"
                 fill
                 className="object-cover object-top"

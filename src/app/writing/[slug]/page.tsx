@@ -260,7 +260,7 @@ export default async function ArticlePage({ params }: Props) {
             }}>
               <div style={{ position: "relative", width: 52, height: 52, flexShrink: 0, overflow: "hidden", borderRadius: "50%" }}>
                 <Image
-                  src="/images/about/moizz.webp"
+                  src="/images/about/moizz.png"
                   alt="Moizz K"
                   fill
                   sizes="52px"
